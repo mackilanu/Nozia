@@ -1,0 +1,83 @@
+$(window).on('load', function() { 
+
+
+   //Puts all avaliable categories in the select country element.
+
+
+  var s = "";
+
+  for (var i = 0; i < kommun.CS.length; i++) {
+ // var optionn = document.createElement("option");
+ // optionn.text = kommun.CS[i].CityState;
+ // optionn.value = kommun.CS[i].ID;
+ s += "<option value='"+ kommun.CS[i].ID +"'";
+
+ if(kommun.CS[i].ID == CS){
+
+  s += "selected";
+ // optionn.selected = true;
+
+ // y.add(optionn);
+ }
+
+  s += '>'+ kommun.CS[i].CityState +'</option>';
+
+}
+
+document.getElementById("pick_CS").innerHTML = s;
+
+  
+
+   
+ });
+
+
+$( document ).ready(function() {
+
+ $('.selectpicker').selectpicker('refresh');
+	    var s = "";
+	      var y = document.getElementById("pick_CS").value;
+
+
+    for(var i = 0; i < Categories.Category.length; i++){
+
+       s += '<div class="col-md-4"><a href="/companies/?id='+ y +'&category='+ Categories.Category[i].CatgoryID +'">'+ Categories.Category[i].Caption +'</a></div>'
+
+       document.getElementById("CS").innerHTML = s;
+
+   }
+
+
+});
+
+ function fetch_categories(value){
+
+    var s = "";
+
+
+    for(var i = 0; i < Categories.Category.length; i++){
+
+ 	  // s += '<div class="col-lg-4 col-sm-4 col-xs-4 text-center">';
+    //   s +=  '<div class="square circle-format">';
+    //   s +=  '<a href="../companies?category=$rows[Caption]&id=$rows[CatgoryID]&CS=$CS">';
+    //   s +=   '<input type="hidden" id="company" value="$rows[Caption]" >';
+    //   s +=   '<img src="images/$rows[URL]" class="img-responsive circle-format" style="margin-bottom: 5px;" alt="Company Profile Picture"></a>';
+                    
+    //   s +=   '</div>';
+
+    //   s +=    '<a class="company-name "href="../companies?category=$rows[Caption]&id=$rows[CatgoryID]&CS=$CS"> $rows[Caption]</a>';
+    //    s +=   '<br>';
+
+       s += '<div class="col-md-4"><a href="/companies/?id='+ value +'&category='+ Categories.Category[i].CatgoryID +'">'+ Categories.Category[i].Caption +'</a></div>'
+
+       document.getElementById("CS").innerHTML = s;
+
+   }
+
+
+              
+                
+
+ }
+
+

@@ -1,0 +1,58 @@
+$( document ).ready(function() {
+    
+    document.getElementbyId("welcome-message").innerHTML = "Använd erbjudande";
+    var s = "";
+  
+   
+    if(MyOffer.offer[0].Used == 1){
+        s += '<button class="btn btn-lg btn-default pagination-centered" style="text-align: center;" id="btn_Used">Du har redan använt erbjudandet.</button>';
+	document.getElementById("btn-container").innerHTML = s
+	return;
+    }
+
+    if(Dagens < Offers.offer[0].StartDate){
+        s += '<button  class="btn btn-lg btn-danger pagination-centered" id="btn_NotStarted" style="text-align: center;">Erbjudandet har inte påbörjats</button>';
+	document.getElementById("btn-container").innerHTML = s
+	return;
+
+    }
+
+    if(Dagens > Offers.offer[0].DueDate){
+	s += '<button  class="btn btn-lg btn-danger pagination-centered" style="text-align: center;" id="btn_Due" style="text-align: center;">Erbjudandet har gått ut</button>';
+	document.getElementById("btn-container").innerHTML = s
+        return;
+    
+    }
+
+    
+
+    s += '<button class="btn btn-lg btn-success pagination-centered" style="text-align: center;" id="btn_Use">Använd erbjudandet</button>';
+
+    document.getElementById("btn-container").innerHTML = s;
+
+
+   
+
+    
+   
+});
+
+
+
+$( document ).ready(function() {
+
+    document.getElementById("p_StartDate").innerHTML += Offers.offer[0].StartDate;
+    document.getElementById("p_DueDate").innerHTML  += Offers.offer[0].DueDate;
+
+    if(MyOffer.offer[0].Used == 0){
+        
+       document.getElementById("p_Used").innerHTML += "Nej";
+    }else{
+	document.getElementById("p_Used").innerHTML += "Ja";
+	
+    }
+
+    document.getElementById("main_jumb").innerHTML  += "<h2>"+Offers.offer[0].Caption+"</h2>";
+    document.getElementById("main_jumb").innerHTML  += "<img style='text-align:center;' src='../images/"+ Offers.offer[0].Image +"'>";
+    
+});

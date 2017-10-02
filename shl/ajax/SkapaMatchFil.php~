@@ -1,0 +1,126 @@
+<?php
+
+header("Content-type: text/html; charset=utf-8");
+
+@session_start();
+
+if (!isset($_SESSION['JerseyNo'])){
+    header("Location: ../nosession.php");
+    exit();
+}
+
+date_default_timezone_set("Europe/Stockholm");
+
+require_once("../includes/config.php");
+require_once("../includes/io.php");
+require_once("../includes/opendb.php");
+
+$FromDate    = $_GET['FromDate'];
+$ToDate      = $_GET['ToDate'];
+$Season      = $_SESSION['Season'];
+
+echo hamta_matcher($Season, $FromDate, $ToDate);
+
+function hamta_matcher($Season, $FromDate, $ToDate){
+
+    $SQL = "CALL read_AllaUrvalsMatcher(". $Season .", '". $FromDate ."', '". $ToDate ."')";
+    $message = "SHL-error ajax/SkapaMatchFil.php function hamta_matcher($Season, $FromDate, $ToDate). SQL = $SQL";
+
+    list($num_rows, $result) = opendb($message, $SQL);
+
+    if($num_rows == 0 || !$result){
+        return '{"status": "Error"}';
+    }
+
+    $s = "Lag, Datum, HD, HD, LD, LD, Domarcoach;\n";
+
+while($row = $result->fetch_row()){
+    
+    //Kollar om fälten HD1, HD2, LD1, LD2 och domarcoach är tillsatta, och om någon har begärt återbud så registreras det som ej tillsatt.
+    if(!$row[10] || $row[10] < 0)
+        $HD1 = "Ingen";
+    else
+        $HD1   = get_name($row[10]);
+
+
+    if(!$row[11] || $row[11] < 0)
+        $HD2 = "Ingen";
+    else    
+        $HD2   = get_name($row[11]);
+    
+
+    if(!$row[12] || $row[12] < 0)
+        $LD1 = "Ingen";
+    else
+        $LD1   = get_name($row[12]);
+
+
+    if(!$row[13]|| $row[13] < 0)
+        $LD2 = "Ingen";
+    else
+        $LD2   = get_name($row[13]);
+
+    if(!$row[14] || $row[14] < 0)
+        $coach = "Ingen";
+    else
+        $coach = get_name($row[14]);
+     
+    //Kollar ifall någon av frågorna till databasen misslyckades
+    if($HD1 == "Error" or $HD2 == "Error" or $LD1 == "Error" or $LD2 == "Error"){
+
+        return '{"status": "Error"}';
+    }
+      
+
+    $s .= $row[1]  . "-". $row[4] . ",";
+    $s .= $row[7]  . ",";
+    $s .= $HD1 . ",";
+    $s .= $HD2 . ",";
+    $s .= $LD1 . ",";
+    $s .= $LD2 . ",";
+    $s .= $coach. ";\n";
+     
+    
+}
+
+//Tömmer filen innan den fylls på igen.
+$handle = fopen (TILLSATTNINGSFIL, "w+");
+//Kontrollerar om det gick bra
+if($handle == false)
+    return '{"status": "Error"}';
+
+fclose($handle);
+
+//Öppnar vederbörande fil
+$tillsattningsfil = fopen(TILLSATTNINGSFIL, "a");
+
+//Skriver hämtad information i filen
+$skriv = fwrite($tillsattningsfil, $s);
+
+//Kontrollerar om det gick bra att skriva till filen
+if($skriv == "")
+    return '{"status": "Error"}';
+
+fclose($tillsattningsfil);
+
+return '{"status": "OK"}';
+
+}
+
+//Denna funktion läser förnamnet och efternamnet från vederbörande tillsatt användare och returnerar dess namn.
+function get_name($JerseyNo){
+    
+    $SQL = 'CALL read_username("'. $JerseyNo .'")';
+    $message = "SHL-error ajax/SkapaMatchFil.php function hamta_matcher($Season, $FromDate, $ToDate). SQL = $SQLusernameHD1";
+
+    list($num_rows, $result) = opendb($message, $SQL);
+
+    if($num_rows == 0 || !$result)
+        return 'Error';
+
+    $row = $result->fetch_row();
+
+    return $row[0] . " "  .$row[1];
+}
+
+?>

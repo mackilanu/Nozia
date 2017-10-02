@@ -1,0 +1,119 @@
+/*!
+ * Start Bootstrap - Portfolio Item (http://startbootstrap.com/)
+ * Copyright 2013-2016 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
+ */
+
+body {
+    padding-top: 10px; /* Required padding for .navbar-fixed-top. Remove if using .navbar-static-top. Change if height of navigation changes. */
+}
+
+.portfolio-item {
+    margin-bottom: 25px;
+}
+
+footer {
+    margin: 50px 0;
+}
+
+.center{text-align: center;}
+
+.jumbotron-style{
+height: 200px;
+}
+
+.banner-responive{
+background-size: 100% 100%;
+}
+
+
+
+
+
+
+    /* Custom, iPhone Retina */ 
+    @media only screen and (min-width : 320px) 
+    {
+
+      
+    }
+
+    /* S5 */ 
+    @media only screen and (min-width : 360px) 
+    {        
+        
+    }
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (min-width : 480px) 
+    {        
+       
+	
+
+    }
+    
+
+    /* Small Devices, Tablets */
+    @media only screen and (min-width : 768px) 
+    {        
+       
+}
+    /* Medium Devices, Desktops */
+    @media only screen and (min-width : 992px) 
+    {        
+      
+    }
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (min-width : 1200px) 
+    {        
+    
+    }
+
+
+
+    /*==========  Non-Mobile First Method  ==========*/
+
+    /* Large Devices, Wide Screens */
+    @media only screen and (max-width : 1200px) 
+    {        
+       
+    }
+
+    /* Medium Devices, Desktops */
+    @media only screen and (max-width : 992px) 
+    {        
+        
+    }
+
+    /* Small Devices, Tablets */
+    @media only screen and (max-width : 768px) 
+    {        
+      .banner-responive{
+       background: url("http://placehold.it/600x200");
+       background-size: 100% 100%;
+}
+
+    .set-margin{
+	margin-bottom: 20px;
+   }
+  }
+    
+
+    /* Extra Small Devices, Phones */ 
+    @media only screen and (max-width : 480px) 
+    {        
+        
+    }
+    
+    /* Custom, S5 */ 
+    @media only screen and (max-width : 360px) 
+    {        
+       
+    }
+   
+    /* Custom, iPhone Retina */ 
+    @media only screen and (max-width : 320px) 
+    {        
+    
+    }
