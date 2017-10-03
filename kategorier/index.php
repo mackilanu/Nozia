@@ -1,19 +1,19 @@
 <?php
 
-  @session_start();
+@session_start();
 
 
 if(!isset($_SESSION['id'])){
 
     header("Location: ../");
 }
- require_once("../includes/config.php");
- require_once("../MySQL/DBconnect.php");
+require_once("../includes/config.php");
+require_once("../MySQL/DBconnect.php");
 
- echo HEAD . "<title>NOZIA - Kategorier</title>". CLOSE_HEAD;
+echo HEAD . "<title>NOZIA - Kategorier</title>". CLOSE_HEAD;
 
 if($_SESSION['type'] == 0){
- echo NAV;
+    echo NAV;
 
 }
 
@@ -22,35 +22,35 @@ if($_SESSION['type'] == 1){
     echo COMPANYNAV;
 }
 
- echo BODY;
+echo BODY;
 
- require_once("index_con.php");
+require_once("index_con.php");
  
 
-        echo '<link rel="stylesheet" href="../css/lab.css">';
-        echo '<script type="text/javascript" src="javascript/index.js"></script>';
+echo '<link rel="stylesheet" href="../css/lab.css">';
+echo '<script type="text/javascript" src="javascript/index.js"></script>';
 
- echo '<script type="text/javascript">';
- echo "var likes='';";
- echo "likes = JSON.parse( '" . test() . "' );";
- echo "var CS = ".$_SESSION['citystate'].";";
- echo "var kommun  = '';";
- echo "kommun = JSON.parse( '" . CityStates() . "' );";
+echo '<script type="text/javascript">';
+echo "var likes='';";
+echo "likes = JSON.parse( '" . test() . "' );";
+echo "var CS = ".$_SESSION['citystate'].";";
+echo "var kommun  = '';";
+echo "kommun = JSON.parse( '" . CityStates() . "' );";
 
- echo "userID =". $_SESSION['id']. ";";
- echo "var Categories  = '';";
- echo "Categories = JSON.parse( '" . Categories() . "' );";
+echo "user_id =". $_SESSION['id']. ";";
+echo "var Categories  = '';";
+echo "Categories = JSON.parse( '" . Categories() . "' );";
 
- echo "var Companies = '';";
- echo "Companies = JSON.parse('". Companies() ."')";
+echo "var Companies = '';";
+echo "Companies = JSON.parse('". Companies() ."')";
 
- echo '</script>';
+echo '</script>';
 
- echo CLOSEBODY;
+echo CLOSEBODY;
 
- echo END;
+echo END;
 
- function test(){
+function test(){
 
     $SQL     = "CALL read_checkIfLiked('". $_SESSION['id'] ."')";
 
@@ -61,7 +61,7 @@ if($_SESSION['type'] == 1){
         return '{"status": "Error"}';
     }
 
-      $CS = '{"status": "OK", "like": [';
+    $CS = '{"status": "OK", "like": [';
     for ($i = 0; $i < $affected_rows; ++$i){
         $row = $result->fetch_array(MYSQLI_ASSOC);
         if ($i > 0){
@@ -70,15 +70,15 @@ if($_SESSION['type'] == 1){
         $CS     .=  json_encode($row);
     }
     $CS         .= ']}';
-
+    
     return $CS;
 
 
- }
+}
 
 
-  function CityStates(){
-    
+function CityStates(){
+      
     $SQL = "CALL read_CS()";
 
     list($affected_rows, $result) = opendb("", $SQL);
@@ -98,11 +98,11 @@ if($_SESSION['type'] == 1){
     }
     $CS         .= ']}';
 
-  return $CS;
+    return $CS;
 
- }
+}
 
- function Companies(){
+function Companies(){
 
     $SQL     = "CALL read_CompanyUsernames()";
     list($affected_rows, $result) = opendb("", $SQL);
@@ -112,7 +112,7 @@ if($_SESSION['type'] == 1){
         return '{"status": "Error"}';
     }
 
-      $company = '{"status": "OK", "company": [';
+    $company = '{"status": "OK", "company": [';
     for ($i = 0; $i < $affected_rows; ++$i){
         $row = $result->fetch_array(MYSQLI_ASSOC);
         if ($i > 0){
@@ -122,12 +122,12 @@ if($_SESSION['type'] == 1){
     }
     $company         .= ']}';
 
-  return $company;
+    return $company;
 
- }
+}
 
-  //Gets all the categories and puts it on a JSON object array
- function Categories(){
+//Gets all the categories and puts it on a JSON object array
+function Categories(){
     
     $SQL = "CALL read_categories()";
 
@@ -138,7 +138,7 @@ if($_SESSION['type'] == 1){
     	return '{"status": "Error"}';
     }
 
-      $Category = '{"status": "OK", "Category": [';
+    $Category = '{"status": "OK", "Category": [';
     for ($i = 0; $i < $affected_rows; ++$i){
         $row = $result->fetch_array(MYSQLI_ASSOC);
         if ($i > 0){
@@ -148,8 +148,8 @@ if($_SESSION['type'] == 1){
     }
     $Category         .= ']}';
 
-  return $Category;
- }
+    return $Category;
+}
 
 ?>
 
