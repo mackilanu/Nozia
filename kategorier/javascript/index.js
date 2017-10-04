@@ -2,19 +2,16 @@ var pageNum = 1;
 var stop = false;
 var OnlyFavs = "No";
 var exclude = new Array();
+var display_favs = false;
 
 $(window).on('load', function() { 
 
-    //Puts all avaliable categories in the select country element.
-    
-    var str = "";
-    
-    str += '<button class="btn btn-success" onclick="display_favorites()">Prioritera favoritföretag</button>';
-    document.getElementById("main_con").innerHTML += str;
+    //Puts all avaliable categories in the select country element. 
+   
     var s = "";
 
     s += '<li class="nav-item">';
-    s += '<a data-toggle="modal" data-target="#myModal" onclick="read_favourites()"><span class="glyphicon glyphicon-star-empty"></span></a>';
+    s += '<a id="display_favs" onclick="display_favorites()"><span id="glyph_star" class="glyphicon glyphicon-star-empty"></span></a>';
     s += '</li>';
     s += '<li class="nav-item" style="top: 10px; width: 100px;">';
     s += '<select class="form-control selectpicker" multiple data-live-search="true" id="pick_CS" style="width: 50px;" style=  onchange="fetch_categories(this.value)"></select>';
@@ -97,8 +94,7 @@ function init(){
 
 }
 
-function display_favorites() {
-   
+function display_favorites() {   
     var instring = '{"user_id" : "' + user_id + '" }';
 
     var object  = JSON.parse(instring);
@@ -115,6 +111,9 @@ function display_favorites() {
 }
 
 function display_favorites_success(response) {
+
+    display_favs = true;
+    document.getElementById("display_favs").style.color = "yellow";
     if(response.status == "Error") {
 	alert("Ett fel inträffade");
     return;
@@ -282,8 +281,9 @@ function fetch_offer_success(response){
 		s += "<input type='hidden' id='CompanyID"+ response.offer[i].ID +"' value='"+ response.offer[i].CompanyID +"'>";
 		s += "<input type='hidden' id='OfferID"+ response.offer[i].ID +"' value='"+ response.offer[i].ID +"'>";
 
-	    }  
-	    document.getElementById("main_con").innerHTML += s;
+	    }
+	   
+		document.getElementById("main_con").innerHTML += s;
 
 	}
 	init_read_favs();
@@ -414,6 +414,8 @@ function read_favourites_success(response){
 	}
 
         document.getElementById("modal_favs").innerHTML = s;
+        if(response.company.length == 1)
+	   init();
     }
     if(response.status == "NoSubs"){
 	var s = "";
