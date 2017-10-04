@@ -9,7 +9,7 @@ $Page     = $_GET['pageNum'];
 $OnlyFavs = $_GET['OnlyFavs'];
 
 if($Page == 1)
-    $numRows = 2;
+    $numRows = 4;
 else
     $numRows = 1;
 
@@ -39,10 +39,8 @@ if($OnlyFavs == "No")
 function fetch_offers($Page, $numRows, $favs, $OnlyFavs)
 {
  
-    $startPos = $Page * $numRows;
-
-
-    
+    $startPos = $Page + $numRows;
+    $startPos++;
     if($Page == 1)
         $startPos = 0;
 
