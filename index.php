@@ -11,6 +11,7 @@ if (isset($_SESSION['id'])) {
 	}
 }
 
+
 require_once ("includes/config.php");
 
 require_once ("MySQL/DBconnect.php");
