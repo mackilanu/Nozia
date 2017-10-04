@@ -41,9 +41,9 @@ define("CLOSE_HEAD", "</head><body>");
 
 
 define("BODY", '
-                 <div class="container">
-	            <div class="row">		
-                <div id="container">
+               <div class="container">
+	           <div class="row">		
+               <div id="container">
     ');
 
 define("END", '
@@ -67,8 +67,6 @@ define("NAV",'
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        
-    
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
 
@@ -76,21 +74,18 @@ define("NAV",'
            
          <li class="nav-item">
           <div class="dropdown" style="top: 10px;">
-           		<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">'. $_SESSION['firstname'] .'
-  				<span class="caret"></span></button>
+           		<a class="dropdown-toggle" data-toggle="dropdown" style="color: #FFF; font-size: 11pt; cursor: pointer;">'. $_SESSION['firstname'] .'
+  				<span class="caret"></span></a>
   				<ul class="dropdown-menu">
     				<li><a href="../mittkonto">Min profil</a></li>
     				<li><a href="../includes/logout.php">Logga ut</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myModal" onclick="read_favourites()"> Favoritföretag</a></li>
   				</ul>
 			</div>
       </li>
-  
         </ul>
 	</div>
-
   </div>
-
-
 </nav>');
 
 define("COMPANYNAV",'
@@ -108,9 +103,7 @@ define("COMPANYNAV",'
     </div>
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-           
-          
+        <ul class="nav navbar-nav">        
             <li class="dropdown">
               
             </li>
@@ -151,14 +144,11 @@ define("STARTNAV", '
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-        </button>
-        
+        </button>       
     </div>
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-           
-          
+        <ul class="nav navbar-nav">          
             <li class="dropdown">
               
             </li>
