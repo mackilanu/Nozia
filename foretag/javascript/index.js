@@ -26,6 +26,12 @@ $( document ).ready(function() {
  }
 });
 
+function runScript(e) {
+    if (e.keyCode == 13) {
+        login();
+        return false;
+    }
+}
 
 
 $(window).on('load', function() { 

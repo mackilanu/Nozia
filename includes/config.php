@@ -157,8 +157,8 @@ define("STARTNAV", '
 
             <div class="form-group" style="margin-top: 10px;">
 	
-                <input type="text"  placeholder="Användarnamn" class="form-control login" id="username" style="width: 200px; margin-top: 10px;">
-                <input type="password" name="password" id="password" placeholder="Lösenord" class="form-control login" style="width: 200px; margin-top: 10px;">
+                <input type="text"  placeholder="Användarnamn" class="form-control login" id="username" style="width: 200px; margin-top: 10px;"  onkeypress="return runScript(event)">
+                <input type="password" name="password" id="password" placeholder="Lösenord" class="form-control login" style="width: 200px; margin-top: 10px;"  onkeypress="return runScript(event)">
                 <button  type="button" class="btn btn-info" style="margin-top: 10px;" onclick="login()">Logga in</button>
                 <p>Har du glömt ditt lösenord? <a data-toggle="modal" href="#myModal" data-target="#myModal">klicka här.</a></p>
             </div>

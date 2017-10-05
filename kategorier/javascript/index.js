@@ -7,7 +7,7 @@ var display_favs = false;
 $(window).on('load', function() { 
 
     //Puts all avaliable categories in the select country element. 
-   
+    
     var s = "";
 
     s += '<li class="nav-item">';
@@ -53,8 +53,8 @@ $(window).on('load', function() {
 $(window).bind('scroll', function() {
     if($(window).scrollTop() >= $('#main_con').offset().top + $('#main_con').outerHeight() - window.innerHeight) {
 
-    if(stop == true)
-    	return;
+	if(stop == true)
+    	    return;
 	
 	var instring = '{"pageNum": "' + pageNum + '", "User": "'+ user_id +'", "OnlyFavs": "'+ OnlyFavs +'"}';
 
@@ -90,15 +90,24 @@ function init(){
         })
         .always(function() {
             
-        });
-
+        });    
 }
 
-function display_favorites() {   
+function display_favorites() {
+    console.log(display_favs);
+    //If the user has activated the "show favorite companies" function, the if statement below does the opposit, which is showing the normal news feed.
+    if(display_favs == true){
+	document.getElementById("glyph_star").style.color = "grey";
+	init();
+	display_favs = false;
+	return;
+    }else{
+	document.getElementById("glyph_star").style.color = "yellow";
+    }
     var instring = '{"user_id" : "' + user_id + '" }';
-
+    
     var object  = JSON.parse(instring);
-
+    
     $.getJSON("ajax/display_favs.php", object)
         .done(function(data) {
             display_favorites_success(data);
@@ -111,59 +120,60 @@ function display_favorites() {
 }
 
 function display_favorites_success(response) {
-
+    pageNum = 1;
     display_favs = true;
+    
     document.getElementById("display_favs").style.color = "yellow";
     if(response.status == "Error") {
 	alert("Ett fel inträffade");
-    return;
+	return;
     }
-
+    
     if(response.status == "no_favs"){
 	alert("Du har inga favoritföretag!");
-    return;
+	return;
     }
-   //Om allt i ajax-anropet gick bra körs detta
+    //Om allt i ajax-anropet gick bra körs detta
     pageNum = 1;
     stop = false;
     var name;
     var Icon;
     var check = true;
     var likebtn;
-
+    
     if(likes.status == "Error"){
-    var check = false;
+	var check = false;
     }
     
     var s = "";
     for(var i = 0; i < response.favs.length; i++) {
-     exclude[exclude.length] = response.favs[i].ID;
-     var likebtn = '<a id="btn_'+ response.favs[i].ID +'" onclick="Like('+ response.favs[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
-   
+	exclude[exclude.length] = response.favs[i].ID;
+	var likebtn = '<a id="btn_'+ response.favs[i].ID +'" onclick="Like('+ response.favs[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
+	
         for(var y = 0; y < Companies.company.length; y++){
-        
-        if(response.favs[i].CompanyID == Companies.company[y].ID){
+            
+            if(response.favs[i].CompanyID == Companies.company[y].ID){
                 name = Companies.company[y].Name;
                 Icon = Companies.company[y].Icon;
-        }
-    }
+            }
+	}
 
         if(check == true){
-        for(var y = 0; y < likes.like.length; y++){
+            for(var y = 0; y < likes.like.length; y++){
                 
-            if(response.favs[i].ID == likes.like[y].PostID){
-            likebtn = '<button class="btn btn-default" id="btn_'+ response.favs[i].ID +'" onclick="Like('+ response.favs[i].ID +')" style="color: green;"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</button>';
-        }
-    }
-}
+		if(response.favs[i].ID == likes.like[y].PostID){
+		    likebtn = '<button class="btn btn-default" id="btn_'+ response.favs[i].ID +'" onclick="Like('+ response.favs[i].ID +')" style="color: green;"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</button>';
+		}
+	    }
+	}
 
-var split = response.likes[i];
+	var split = response.likes[i];
         
-   
+	
 
 	s += '<div class="panel panel-default">';
 	s += '<div class="panel-heading">';
-    s += '<a href="/Company/?id='+ response.favs[i].CompanyID +'" target="_blank"><img src="/images/'+ Icon +'" style="width: 40px; height: 40px;">';
+	s += '<a href="/Company/?id='+ response.favs[i].CompanyID +'" target="_blank"><img src="/images/'+ Icon +'" style="width: 40px; height: 40px;">';
 	s += '<a href="/Company/?id='+ response.favs[i].CompanyID +'" target="_blank">';
  	s += '<p style="display: inline; font-size: 12pt;">'+ name +'</p></a>';
 	s += '<p style=" float:right;">'+ response.favs[i].Uploaded +'</p>'; 
@@ -175,7 +185,7 @@ var split = response.likes[i];
 	s += '</div>';
 	s += '<div class="panel-footer">';
 	s += likebtn
-    s += '<p style="display: inline;">'+ split +' likes</p>';
+	s += '<p style="display: inline;">'+ split +' likes</p>';
 	s += '<a class="btn btn-default btn_fav'+ response.favs[i].CompanyID+'"  value="'+ response.favs[i].CompanyID +'" onclick="Favorise('+ response.favs[i].ID +')"><span class="glyphicon glyphicon-star-empty"></span>Favorisera</a>';
 	s += '<a href="/UseOffer/?Offer='+ response.favs[i].ID +'"><button class="btn btn-success" style="margin-left: 5px;" >Gå till erbjudande</button>';
 	s += '</div>';
@@ -183,16 +193,19 @@ var split = response.likes[i];
 	
 	s += "<input type='hidden' id='CompanyID"+ response.favs[i].ID +"' value='"+ response.favs[i].CompanyID +"'>";
 	s += "<input type='hidden' id='OfferID"+ response.favs[i].ID +"' value='"+ response.favs[i].ID +"'>";
-    
-    
-     
-    pageNum = 1;
-    document.getElementById("main_con").innerHTML = s;
+	
+	
+	
+	pageNum = 1;
 
+	
+	document.getElementById("main_con").innerHTML += s;
+	
+	
 
-    console.log(response);
-}
-console.log(exclude);
+	console.log(response);
+    }
+    console.log(exclude);
 }
 
 function display_favorites_error() {
@@ -207,6 +220,8 @@ function fetch_favs_offers(){
 function fetch_favs_offers_success(response){
 
 }
+
+
 
 function fetch_offer_success(response){
     if(response.status == "Error")
@@ -282,9 +297,10 @@ function fetch_offer_success(response){
 		s += "<input type='hidden' id='OfferID"+ response.offer[i].ID +"' value='"+ response.offer[i].ID +"'>";
 
 	    }
-	   
-		document.getElementById("main_con").innerHTML += s;
 
+	
+	    document.getElementById("main_con").innerHTML += s;
+	    
 	}
 	init_read_favs();
     }
@@ -415,7 +431,7 @@ function read_favourites_success(response){
 
         document.getElementById("modal_favs").innerHTML = s;
         if(response.company.length == 1)
-	   init();
+	    init();
     }
     if(response.status == "NoSubs"){
 	var s = "";

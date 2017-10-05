@@ -35,6 +35,15 @@ function initialize(){
 
 }
 
+function runScript(e) {
+    if (e.keyCode == 13) {
+        login();
+        return false;
+    }
+}
+
+
+
 function fetchCS(){
      $.getJSON("register/ajax/fetchCS.php")
         .done(function(data) {
