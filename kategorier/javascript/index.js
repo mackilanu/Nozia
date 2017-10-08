@@ -21,9 +21,9 @@ $(window).on('load', function() {
     
     var s = "";
     var instring = '{"pageNum": "' + pageNum + '", "OnlyFavs": "'+ OnlyFavs+'"}';
-
+    
     var objekt = JSON.parse(instring);
-
+    
     $.getJSON("ajax/fetch_offers.php", objekt)
         .done(function(data) {
             fetch_offer_success(data);
@@ -75,6 +75,108 @@ $(window).bind('scroll', function() {
     return;
 });
 
+function start(){
+    pageNum = 1;
+    var instring = '{"pageNum": "' + pageNum + '", "OnlyFavs": "'+ OnlyFavs+'"}';
+
+    var objekt = JSON.parse(instring);
+
+    $.getJSON("ajax/fetch_offers.php", objekt)
+        .done(function(data) {
+            start_success(data);
+        })
+        .fail(function() {
+            start_error();
+        })
+        .always(function() {
+            
+        });
+}
+
+function start_success(response){
+
+    if(response.status == "Error")
+	alert("Ett fel inträffade.");
+
+    if(response.status == "NoSubs"){
+	document.getElementById("main_con").innerHTML = "<h1>Det finns inga inlägg att visa. Ändra dina filtreringar och försök igen.</h1>";
+    }
+
+    if(response.status == "Done")
+	stop = true;
+
+    if(response.status == "OK"){
+	if(pageNum == parseInt(response.page)){
+	    return;
+	}
+
+	pageNum = response.page;
+
+	var name;
+	var Icon;
+	var check = true;
+
+	
+
+	if(likes.status == "Error"){
+  	    var check = false;
+	}
+	
+	for(var i = 0; i < response.offer.length; i++){
+	    var likebtn = '<a id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
+	    if(check == true){
+    		for(var y = 0; y < likes.like.length; y++){
+    		    
+      		    if(response.offer[i].ID == likes.like[y].PostID){
+      			likebtn = '<button class="btn btn-default" id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')" style="color: green;"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</button>';
+      		    }
+		}
+	    }
+	    
+	    var split = response.likes[0].split(",");
+	    
+	    for(var y = 0; y < Companies.company.length; y++){
+		
+		if(response.offer[i].CompanyID == Companies.company[y].ID){
+      		    name = Companies.company[y].Name;
+      		    Icon = Companies.company[y].Icon
+		}
+		
+		var s = "";
+		
+		s += '<div class="panel panel-default">';
+		s += '<div class="panel-heading">';
+		s += '<a href="/Company/?id='+ response.offer[i].CompanyID +'" target="_blank"><img src="/images/'+ Icon +'" style="width: 40px; height: 40px;">';
+		s += '<p style="display: inline; font-size: 12pt;">'+ name +'</p></a>';
+		s += '<p style=" float:right;">'+ response.offer[i].Uploaded +'</p>'; 
+		s += '</div>';
+		s += '<div class="panel-body">';
+		s += '<p style="font-size: 12pt;">'+ response.offer[i].Caption +'</p>';
+		s += '<img src="/images/'+ response.offer[i].Image +'" style="width: 100%;">';
+		s += '<p style="font-size: 12pt; text-align: center;">'+ response.offer[i].ShortDes +'</p>';
+		s += '</div>';
+		s += '<div class="panel-footer">';
+
+		s += likebtn
+		s += '<p style="display: inline;">'+ split[i] +' likes</p>';
+		s += '<a class="btn btn-default btn_fav'+ response.offer[i].CompanyID+'"  value="'+ response.offer[i].CompanyID +'" onclick="Favorise('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-star-empty"></span>Favorisera</a>';
+		s += '<a href="/UseOffer/?Offer='+ response.offer[i].ID +'"><button class="btn btn-success" style="margin-left: 5px;" >Gå till erbjudande</button>';
+		s += '</div>';
+		s += '</div>';
+
+		s += "<input type='hidden' id='CompanyID"+ response.offer[i].ID +"' value='"+ response.offer[i].CompanyID +"'>";
+		s += "<input type='hidden' id='OfferID"+ response.offer[i].ID +"' value='"+ response.offer[i].ID +"'>";
+
+	    }
+
+	    document.getElementById("main_con").innerHTML = s;
+	
+	}
+	init_read_favs();
+    }
+}
+
+
 function init(){
 
     var instring = '{"pageNum": "' + pageNum + '", "OnlyFavs": "'+ OnlyFavs+'"}';
@@ -98,7 +200,7 @@ function display_favorites() {
     //If the user has activated the "show favorite companies" function, the if statement below does the opposit, which is showing the normal news feed.
     if(display_favs == true){
 	document.getElementById("glyph_star").style.color = "grey";
-	init();
+	start();
 	display_favs = false;
 	return;
     }else{
@@ -193,13 +295,14 @@ function display_favorites_success(response) {
 	
 	s += "<input type='hidden' id='CompanyID"+ response.favs[i].ID +"' value='"+ response.favs[i].CompanyID +"'>";
 	s += "<input type='hidden' id='OfferID"+ response.favs[i].ID +"' value='"+ response.favs[i].ID +"'>";
-	
-	
-	
+		
 	pageNum = 1;
 
+	document.getElementById("main_con").innerHTML = s;
 	
-	document.getElementById("main_con").innerHTML += s;
+        if(response.favs.length == 1){
+            init();    
+	}
 	
 	
 
@@ -298,9 +401,8 @@ function fetch_offer_success(response){
 
 	    }
 
-	
 	    document.getElementById("main_con").innerHTML += s;
-	    
+	
 	}
 	init_read_favs();
     }
