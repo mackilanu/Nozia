@@ -2,8 +2,6 @@
 
 require_once "/usr/share/php/Mail.php";
 
-
-
 function send_epost($mottagare,$subject,$body){
 
 $message_data = "ERROR vid My/epostsender.php function send_epost($mottagare,$subject,$body)";
@@ -48,3 +46,5 @@ echo("<p>" . $mail->getMessage() . "</p>");
 
 return TRUE;
 }
+
+?>

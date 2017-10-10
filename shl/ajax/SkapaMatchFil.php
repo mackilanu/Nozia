@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 header("Content-type: text/html; charset=utf-8");
 
@@ -21,8 +21,8 @@ $Season      = $_SESSION['Season'];
 $usernames   = get_names();
 
 if($usernames == "Error"){
-	echo'{"status": "Error"}';
-	return;
+    echo'{"status": "Error"}';
+    return;
 }
 
 echo hamta_matcher($Season, $FromDate, $ToDate, $usernames);
@@ -38,42 +38,42 @@ function hamta_matcher($Season, $FromDate, $ToDate, $usernames){
         return '{"status": "Error"}';
     
     if($num_rows == 0)
-    	return '{"status": "NoGames"}';
+        return '{"status": "NoGames"}';
 
     $s = "Datum,Lag, HD, HD, LD, LD, Domarcoach;\n";
 
-	while($row = $result->fetch_row()){
+    while($row = $result->fetch_row()){
 
-		if(!$row[10] || $row[10] < 0)
-        $HD1 = "Ingen";
+        if(!$row[10] || $row[10] < 0)
+        $HD1 = "";
     else{
-       	$HD1 = display_name($row[10], $usernames);
+        $HD1 = display_name($row[10], $usernames);
     }
 
 
     if(!$row[11] || $row[11] < 0)
-        $HD2 = "Ingen";
+        $HD2 = "";
     else  {
-    	$HD2 = display_name($row[11], $usernames);
+        $HD2 = display_name($row[11], $usernames);
     }  
         
     if(!$row[12] || $row[12] < 0)
-        $LD1 = "Ingen";
+        $LD1 = "";
     else{
-    	$LD1 = display_name($row[12], $usernames);
+        $LD1 = display_name($row[12], $usernames);
     }
 
 
     if(!$row[13] || $row[13] < 0)
-        $LD2 = "Ingen";
+        $LD2 = "";
     else{
-       	$LD2 = display_name($row[13], $usernames);
+        $LD2 = display_name($row[13], $usernames);
     }
 
     if(!$row[14] || $row[14] < 0)
-        $coach = "Ingen";
+        $coach = "";
     else{
-      	 $coach = display_name($row[14], $usernames);	
+         $coach = display_name($row[14], $usernames);   
     }
  
     $s .= $row[7]  . ",";
@@ -86,31 +86,31 @@ function hamta_matcher($Season, $FromDate, $ToDate, $usernames){
      
 }
 
-	//Tömmer filen innan den fylls på igen.
-	$handle = fopen (TILLSATTNINGSFIL, "w+");
-	//Kontrollerar om det gick bra
-	if($handle == false){
-		fclose($handle);
-    	return '{"status": "Error"}';
-	}
+    //Tömmer filen innan den fylls på igen.
+    $handle = fopen (TILLSATTNINGSFIL, "w+");
+    //Kontrollerar om det gick bra
+    if($handle == false){
+        fclose($handle);
+        return '{"status": "Error"}';
+    }
 
-	fclose($handle);
+    fclose($handle);
 
-	//Öppnar vederbörande fil
-	$tillsattningsfil = fopen(TILLSATTNINGSFIL, "a");
+    //Öppnar vederbörande fil
+    $tillsattningsfil = fopen(TILLSATTNINGSFIL, "a");
 
-	//Skriver hämtad information i filen
-	$skriv = fwrite($tillsattningsfil, $s);
+    //Skriver hämtad information i filen
+    $skriv = fwrite($tillsattningsfil, $s);
 
-	//Kontrollerar om det gick bra att skriva till filen
-	if($skriv == ""){
-		fclose($tillsattningsfil);
-    	return '{"status": "Error"}';
-	}
+    //Kontrollerar om det gick bra att skriva till filen
+    if($skriv == ""){
+        fclose($tillsattningsfil);
+        return '{"status": "Error"}';
+    }
 
-	fclose($tillsattningsfil);
+    fclose($tillsattningsfil);
 
-	return '{"status": "OK"}';
+    return '{"status": "OK"}';
 
 }
 
@@ -128,7 +128,7 @@ function get_names(){
     $arr = array();
     while($row = $result->fetch_assoc()){
 
-    	$arr[] = $row;
+        $arr[] = $row;
     }
 
     return $arr;
@@ -137,7 +137,7 @@ function get_names(){
 //Letar rätt på rätt för -och efternamn och returnerar namnet.
 function display_name($JerseyNo, $usernames){
     
-	$len = count($usernames);
+    $len = count($usernames);
 
     for($i = 0; $i < $len; $i++){
         if($usernames[$i]['JerseyNo'] == $JerseyNo){

@@ -32,6 +32,7 @@ echo "var MyOffer = '';";
 echo " MyOffer = JSON.parse('" . MyOffer() . "');";
 echo "var User = '';";
 echo "User = JSON.parse('" . User() . "');";
+echo "var OfferID = '". $_GET['Offer'] ."';";
 echo '</script>';
 echo CLOSEBODY;
 echo END;

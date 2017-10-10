@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  document.getElementById("welcome-message").innerHTML = "Använd erbjudande";
+  document.getElementById("btn-container").innerHTML = "Använd erbjudande";
   var s = "";
   if (MyOffer.offer[0].Used == 1) {
     s += '<button class="btn btn-lg btn-default pagination-centered" style="text-align: center;" id="btn_Used">Du har redan använt erbjudandet.</button>';
@@ -28,7 +28,7 @@ function UseOffer() {
   s += "<p style='text-align: center;'>Startdatum: " + Offers.offer[0].StartDate + "</p>";
   s += "<p style='text-align: center;'>Slutdatum: " + Offers.offer[0].DueDate + "</p>";
   s += "<div class='col-md-5 col-xs-5'></div>";
-  s += "<button class='btn btn-lg btn-success' style='margin-top: 20px;' onclick='Update_MyOffer()'>Använd</button>";
+  s += "<div id='btn_use'><button class='btn btn-lg btn-success' style='margin-top: 20px;' onclick='Update_MyOffer()'>Använd</button></div>";
   document.getElementById("UseOffer_con").innerHTML = s;
 }
 $(document).ready(function() {
@@ -61,8 +61,10 @@ function Update_MyOffer() {
 }
 
 function Update_MyOffer_success(response) {
-  if (response.status == "OK") {
-    alert("Erbjudandet är nu använt.");
+  if(response.status == "OK") {
+     document.getElementById("btn-container").innerHTML = '<button class="btn btn-lg btn-default pagination-centered" style="text-align: center;" id="btn_Used">Du har redan använt erbjudandet.</button>';
+     document.getElementById("p_Used").innerHTML = "Använd: Ja";
+     document.getElementById("btn_use").innerHTML = "<button class='btn btn-lg btn-danger' style='margin-top: 20px;'>Erbjudande använt</button>"
   }
   if (response.status == "Error") {
     alert("Ett fel har inträffat. Om problemet kvarstår vänligen kontakta support");

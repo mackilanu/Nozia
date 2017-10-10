@@ -533,7 +533,8 @@ function hamta_matcher() {
 }
 
 function SkapaMatchFil_success(response){
-
+ console.log(response);
+ return;
 	if(response.status == "OK"){
 		document.getElementById('download').click();
 	}

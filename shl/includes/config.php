@@ -12,7 +12,7 @@ define("DB_HOST",        "localhost");
 if (KORNING == "TEST"){
 
     define("DB_PW"  , "Silop1337");   // Lokala databasen
-    define("DB_USER", "root");
+    define("DB_USER", "marcus");
 
 } else {
 
