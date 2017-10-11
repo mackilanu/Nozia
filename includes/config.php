@@ -154,7 +154,7 @@ define("STARTNAV", '
         </ul>
         <form role="search" class="navbar-form navbar-left" >
 
-            <div class="form-group" style="margin-top: 10px;">
+            <div class="form-group">
 	
                 <input type="text"  placeholder="Användarnamn" class="form-control login" id="username" style="width: 200px; margin-top: 10px;"  onkeypress="return runScript(event)">
                 <input type="password" name="password" id="password" placeholder="Lösenord" class="form-control login" style="width: 200px; margin-top: 10px;"  onkeypress="return runScript(event)">
@@ -162,9 +162,9 @@ define("STARTNAV", '
                 <p>Har du glömt ditt lösenord? <a data-toggle="modal" href="#myModal" data-target="#myModal">klicka här.</a></p>
             </div>
         </form>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" style="text-align:center; display: inline;">
      
-          <img src="../img/whiteLogo.png" width="100" height="100" align="rigth">
+          <img src="../img/whiteLogo.png" width="100" height="100">
            
         </ul>
     </div>

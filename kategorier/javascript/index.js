@@ -13,6 +13,9 @@ $(window).on('load', function() {
     s += '<li class="nav-item">';
     s += '<a id="display_favs" onclick="display_favorites()"><span id="glyph_star" class="glyphicon glyphicon-star-empty"></span></a>';
     s += '</li>';
+    s += '<li class="nav-item">';
+    s += '<a id="show_categories"><span id="glyph_star" class="glyphicon glyphicon-list-alt"></span></a>';
+    s += '</li>';
     s += '<li class="nav-item" style="top: 10px; width: 100px;">';
     s += '<select class="form-control selectpicker" multiple data-live-search="true" id="pick_CS" style="width: 50px;" style=  onchange="fetch_categories(this.value)"></select>';
     s += '</li>';
