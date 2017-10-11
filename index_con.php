@@ -73,8 +73,9 @@
 			<input type="password" name="re-password" id="re-password" onchange="checkRePass(this.value)" class="col-sm-12 col-xs-12 inputField" placeholder="Upprepa Lösenord">
 		</div>
 	</div>
+    
 	<button type="button" id="register" class="btn btn-lg" onclick="register()">Registrera</button>
-	<p>Genom att registrea dig, så godkänner du våra <a href="../anvandarvillkor">användarvillkor</a> och användandet av cookies</p>
+	                    <input type="checkbox" style="form-control" id="check" onclick="checkchecked()"> <p style="font-size: 12pt; color: black; display: inline;">Godkänn <a data-toggle="modal" data-target="#terms" style="cursor: pointer;">användarvillkoren</a></p>
 </div>
 <div class="col-md-2"></div>
 <div class="col-md-4">
@@ -96,7 +97,7 @@
 		<!---Kolla in vår video! -->
 	</p>
 	<h2>Våra framsteg är vår framtid</h2>
-	<ul>
+	<ul style="color: black; list-style-type: circle; ">
 		<li>Mindre Pappersreklam</li>
 		<li>Renare Miljö</li>
 		<li>Reklam när, var och hur <b><u>DU</u></b> vill</li>
@@ -124,3 +125,32 @@
 		</div>
 	</div>
 </div>
+</div>                        
+                        
+
+<div id="terms" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Användarvillkor</h4>
+      </div>
+      <div class="modal-body">
+        <p>När DU registrerar dig på Nozia så är all personlig information skyddat av dataskyddslagen.
+Ny dataskyddslag, SOU 2017:39 (pdf 2 MB)
+Nozia får inte under några omständigheter annat än om lagen kräver det lämna ut några uppgifter som DU lämnar till Nozia.
+Företag får inte kontakt DIG annat än genom Nozia om inget annat av DIG anges.</p>
+
+<p>Emailen som DU anger vid registrering får inte användas i kommersiellt syfte av Nozia eller något annat företag utan ditt godkännande.</p>
+
+<p>Om DU lämnar uppgifter som telefonummer och adress så faller det under personligt ansvar.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>                        

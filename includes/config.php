@@ -47,7 +47,7 @@ define("BODY", '
 
 define("END", '
 
-		<p style="text-align: center;">Copyright &copy; Team Nozia</p>
+		<p style="text-align: center;">Copyright &copy; Nozia Group 2017</p>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	    </body>
 		
