@@ -414,10 +414,12 @@ function checkchecked() {
 	checked = true;
 	checkIfDone();
     }
-    else
+    else{
 	checked = false;
         checkIfDone();
     }
+}
+
 
 
 function checkIfDone(){

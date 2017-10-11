@@ -10,7 +10,7 @@ var checkEmail    = false,
     checkCategory = false,
     checkPw       = false;
     checkRePw     = false;
-
+    checked       = false;
 
 $( document ).ready(function() {
     document.getElementById("register").disabled = true;
@@ -350,6 +350,20 @@ function checkCompanyUsername_error(){
   alert("Ett allvarligt fel har uppstått. Om problemet kvarstår vänligen kontakta en administratör.");
 }
 
+function checkchecked() {
+   
+    var check = document.getElementById("check");
+ 
+    if(check.checked){
+	checked = true;
+	checkForm();
+    }
+    else{
+	checked = false;
+	checkForm();
+    }
+}
+
 
 function checkForm(){
 
@@ -386,7 +400,10 @@ function checkForm(){
     check = false;
 
   if(!checkRePw)
-    check = false;
+      check = false;
+
+    if(!checked)
+	check = false;
 
 	if(check == true)
 		document.getElementById("register").disabled = false;

@@ -69,7 +69,7 @@
 						
 					</div>
                    <button type="button" id="register" class="btn btn-lg" onclick="register()">Registrera ditt företag</button>
-					<p class="center">Genom att registrea dig, så godkänner du våra <a data-toggle="modal" data-target="#terms" style="cursor: pointer;">användarvillkor</a><br>och användandet av cookies</p>
+		    <input type="checkbox" style="form-control" id="check" onclick="checkchecked()"> <p style="font-size: 12pt; color: black; display: inline;">Godkänn <a data-toggle="modal" data-target="#terms" style="cursor: pointer;">användarvillkoren</a></p>
 				</div>
 <div class="col-md-2"></div>
 				<div class="col-md-4">

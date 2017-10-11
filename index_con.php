@@ -139,7 +139,7 @@
       </div>
       <div class="modal-body">
         <p>När DU registrerar dig på Nozia så är all personlig information skyddat av dataskyddslagen.
-Ny dataskyddslag, SOU 2017:39 (pdf 2 MB)
+Ny dataskyddslag, SOU 2017:39 <a href="http://www.regeringen.se/49a184/contentassets/e98119b4c08d4d60a0a2d0878990d5ec/ny-dataskyddslag-sou-201739" target="_blank">pdf.</a>
 Nozia får inte under några omständigheter annat än om lagen kräver det lämna ut några uppgifter som DU lämnar till Nozia.
 Företag får inte kontakt DIG annat än genom Nozia om inget annat av DIG anges.</p>
 
