@@ -6,9 +6,8 @@
  define("DB_HOST", "");
  define("DB_USER", "");
  define("DB_PW", "");
- define("DB_NAME", "");
- 
-  // define("SMTP_MAIL", "mackilanu@gmail.com");
+ define("DB_NAME", ""); 
+// define("SMTP_MAIL", "mackilanu@gmail.com");
  // define("SMTP_HOST", "smtp.gmail.com");
  // define("SMTP_PORT", "587");
  // define("SMTP_PW",   "Silop1337");
