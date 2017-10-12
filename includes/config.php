@@ -3,8 +3,15 @@
 //Database configuration
  @session_start();
 
-require_once("/var/www/html/dev_info/db.php");
-require_once("/var/www/html/dev_info/smtp.php");
+ define("DB_HOST", "");
+ define("DB_USER", "");
+ define("DB_PW", "");
+ define("DB_NAME", "");
+ 
+  // define("SMTP_MAIL", "mackilanu@gmail.com");
+ // define("SMTP_HOST", "smtp.gmail.com");
+ // define("SMTP_PORT", "587");
+ // define("SMTP_PW",   "Silop1337");
 
 define("FILETARGET", "/var/www/html/images/");
 
