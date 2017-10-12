@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/format.css" rel="stylesheet">
+   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <title>Välj Företag -<?php echo $_GET['category'];?></title>
+</head>
+
+<body>
+  <?php
+  require_once("../includes/navbar.php");
+  require_once("../MySQL/DBconnect.php");
+
+      $CS = $_GET['CS'];
+                    $res_CS    = opendb("", "CALL read_CSWithParam('".$CS."')");
+                   
+             $rowCS = $res_CS[1]->fetch_assoc();
+                 
+  ?>
+
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+            <?php
+      
+            ?>
+                <h2 class="page-header">Välj erbjudande <?php echo "(".$_GET['category'].", ".$rowCS['CityState'].")";?></h2>
+            </div>
+<?php
+function DisplayCompanies($ikon, $namn, $CompanyID, $beskrivning){
+
+    echo <<<CATEGORY
+
+     
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 text-center">
+                <div class="square circle-format">
+                    <a href="#"><img src="../Company/$ikon" class="img-responsive" alt="Company Profile Picture"></a>
+                 
+                </div>
+            </div>
+            <div style="text-align:center;" class="col-lg-4 col-sm-4 col-md-4 col-xs-4 text-left">
+                <h3 class="company-name">$namn</h3>
+                
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            
+               <a href="../Company/?id=$CompanyID&company=$namn" target="_blank"rel="noopener norefferer"> <input type="submit" value="visa" class="btn btn-custom" id="button"></a>
+               </div>
+
+               <div style="margin: auto; text-align:center;" class="col-lg-12 col-sm-12 col-xs-12"><small  margin-top: 10px;><b>$beskrivning<b></small><hr></div>
+CATEGORY;
+}
+
+
+function checkOffer($Company){
+
+  list($num_rows, $result)  = opendb("", "CALL read_Offer_CS('".$_GET['CS']."')");
+   list($num_rowsOffer, $resultOffer) = opendb("", "CALL read_AllOffers()");
+   
+   while($rows = $result->fetch_assoc()){
+
+    if($rows['CS'] == $_GET['CS'] && $Company = $_GET['CS']){
+
+      return true;
+    }else{
+      return false;
+    }
+   }
+}
+
+
+
+
+//Ansluter till databasen
+
+
+if(isset($_GET['id'])){
+    $res_companies    = opendb("", "CALL read_Companies()");
+    $res_Offer_CS    = opendb("", "CALL read_Offer_CS('". $_GET['CS'] ."')");
+   $rows_Offer_CS    = $res_Offer_CS[1]->fetch_assoc();
+
+    
+    while($rows = $res_companies[1]->fetch_assoc())
+    {
+
+     
+       
+ 
+     if($rows['CityState'] == $_GET['CS']){   
+        if($rows['Category'] == $_GET['id'] ){
+
+
+          $res_foretagssida = opendb("", "CALL  read_Foretagssida('$rows[ID]')");
+      while($rows_foretag = $res_foretagssida[1]->fetch_assoc()){
+
+        DisplayCompanies($rows_foretag['Icon'], $rows['Name'], $rows['ID'], $rows['Description']);
+}
+}
+
+
+
+}
+
+    }
+
+if($_GET['category'] == "Online-erbjudanden"){
+
+
+$res = opendb("","CALL read_OnlineOffers()");
+
+
+
+
+if(!$res){
+    echo "Ett allvarligt fel har inträffat med databasen. Kontakta Webmaster.";
+}
+   if($res != 0)
+   {
+
+     //$_POST[category]
+     //För varje rad i tabellen skrivsa den ut på sidan
+     while($rows = $res[1]->fetch_assoc()){
+      echo <<<CATEGORY
+
+
+ 
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 text-center">
+                <div class="square circle-format">
+                    <a href="#"><img src="../AdminPanel/$rows[Image]" class="img-responsive" alt="Company Profile Picture"></a>
+                 
+                </div>
+            </div>
+            <div style="text-align:center;" class="col-lg-4 col-sm-4 col-md-4 col-xs-4 text-left">
+                <h3 class="company-name">$rows[Caption]</h3>
+                
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            
+               <a href="$rows[TrackUrl]" target="_blank"rel="noopener norefferer"> <input type="submit" value="visa" class="btn btn-custom"></a>
+               </div>
+
+               <div style="margin: auto; text-align:center;" class="col-lg-12 col-sm-12 col-xs-12"><small  margin-top: 10px;><b>$rows[Description]<b></small><hr></div>
+        
+
+            
+
+CATEGORY;
+
+}
+
+
+
+}
+paginationOnlineOffers($res[0], 15);
+}
+
+
+
+if($_GET['category'] == "Tävlingar"){
+
+  $res = opendb("","CALL read_tavlingar()");
+
+  $pages  = $res[0] / 10;
+
+
+if(!$res){
+    echo "Ett allvarligt fel har inträffat med databasen. Kontakta Webmaster.";
+}
+   if($res != 0)
+   {
+
+     //$_POST[category]
+     //För varje rad i tabellen skrivsa den ut på sidan
+     while($rows = $res[1]->fetch_assoc()){
+     
+      echo <<<CATEGORY
+      
+
+                <div class="col-lg-4 col-sm-4 col-md-4 col-xs-4 text-center">
+                <div class="square circle-format">
+                    <a href="#"><img src="../AdminPanel/$rows[Image]" class="img-responsive" alt="Company Profile Picture"></a>
+                 
+                </div>
+            </div>
+            <div style="text-align:center;" class="col-lg-4 col-sm-4 col-md-4 col-xs-4 text-left">
+                <h3 class="company-name">$rows[Caption]</h3>
+                
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            
+               <a href="$rows[TrackUrl]" target="_blank"rel="noopener norefferer"> <input type="submit" value="Tävla!" class="btn btn-custom"></a>
+               </div>
+
+               <div style="margin: auto; text-align:center;" class="col-lg-12 col-sm-12 col-xs-12"><small  margin-top: 10px;><b>$rows[Description]<b></small><hr></div>
+        
+
+            
+
+CATEGORY;
+
+
+
+}
+//Ifall man inte har valt kategori så skickas man tillbaka till kategorisidan
+
+}
+}
+}else{
+  header("Location: ../kategorier");
+}
+echo "</div>";
+if($res[0] != 0){
+  echo "Totalt ". $res[0]." ". $_GET['category'];
+}
+
+
+ //END FUNCTION
+?>
+
+
+
+
+
+<div id="companies"></div>
+
+ 
+    
+   
+ 
+  <div class="row">
+     
+    </div>
+
+    <script src="js/jquery.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</body>
+</html>

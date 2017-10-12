@@ -1,0 +1,20 @@
+
+<div class="jumbotron img-responsive"  id="main_jumb">
+
+     <div class="col-md-4"></div>
+
+     <div class="col-"
+
+
+</div>
+
+ <div class="col-md-4"> <p id="p_StartDate"  style="text-align: center; font-size: 12pt;">Startdatum: </p> </div>
+
+ <div class="col-md-4"> <p id="p_DueDate" style="text-align: center; font-size: 12pt;">Slutdatum: </p> </div>
+
+ <p id="p_Used" style="text-align: center; font-size: 12pt;">Använd: </p>
+
+  <div class="col-md-5 col-xs-3 col-sm-4"> </div>
+     <div id="btn-container"></div>
+
+     

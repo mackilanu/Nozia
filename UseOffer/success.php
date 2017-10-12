@@ -1,0 +1,156 @@
+<?php
+
+@session_start();
+
+if(!isset($_SESSION['id'])){
+
+    header("Location: ../");
+}
+ require_once("../includes/config.php");
+ require_once("../MySQL/DBconnect.php");
+
+ echo HEAD . "<title>NOZIA - Registrera dig!</title>". CLOSE_HEAD;
+
+if($_SESSION['type'] == 0){
+ echo NAV;
+
+}
+
+if($_SESSION['type'] == 1){
+
+    echo COMPANYNAV;
+}
+
+ echo BODY;
+ require_once("index_consuccess.php");
+
+
+        echo '<link rel="stylesheet" href="../css/lab.css">';
+        echo '<script type="text/javascript" src="javascript/index.js"></script>';
+
+ echo '<script type="text/javascript">';
+
+ echo "var Offers = '';";
+ echo "Offers = JSON.parse('".  Offer() ."');";
+
+ echo 'var Dagens = "'. date('Y-m-d') .'";';
+
+ echo "var MyOffer = '';";     
+ echo " MyOffer = JSON.parse('".  MyOffer() ."');";
+
+  echo "var User = '';";     
+ echo "User = JSON.parse('".  User() ."');";
+ echo '</script>';
+ 
+
+ echo CLOSEBODY;
+
+ echo END;
+
+
+ function User(){
+
+    $SQL     = "CALL read_user('". $_SESSION['id'] ."')";
+
+    //$SQL = "CALL read_Companies()";
+    $message = "SQL ERROR AT Company/index.php FUNCTION User('". $_SESSION['id'] ."')";
+
+     list($affected_rows, $result) = opendb($message, $SQL);
+
+     if($affected_rows == 0){
+         return '{"status": "NoOffers"}';
+    }
+
+      if(!$result){
+
+        return '{"status": "Error"}';
+    }
+
+       $Company = '{"status": "OK", "user": [';
+    for ($i = 0; $i < $affected_rows; ++$i){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        if ($i > 0){
+            $Company .=  ',';
+        }
+        $Company     .=  json_encode($row);
+    }
+    $Company         .= ']}';
+
+  return $Company;
+
+
+
+ }
+
+ function Offer(){
+
+  $SQL     = "CALL read_offer('". $_GET['Offer'] ."')";
+
+    //$SQL = "CALL read_Companies()";
+    $message = "SQL ERROR AT Company/index.php FUNCTION Offer('". $_GET['Offer'] ."')";
+
+     list($affected_rows, $result) = opendb($message, $SQL);
+
+     if($affected_rows == 0){
+         return '{"status": "NoOffers"}';
+    }
+
+      if(!$result){
+
+        return '{"status": "Error"}';
+    }
+
+       $Company = '{"status": "OK", "offer": [';
+    for ($i = 0; $i < $affected_rows; ++$i){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        if ($i > 0){
+            $Company .=  ',';
+        }
+        $Company     .=  json_encode($row);
+    }
+    $Company         .= ']}';
+
+  return $Company;
+
+ }
+
+
+function MyOffer(){
+
+   $SQL     = "CALL read_MyOffer('". $_SESSION['id'] ."', '". $_GET['Offer']  ."')";
+
+    //$SQL = "CALL read_Companies()";
+    $message = "SQL ERROR AT Company/index.php FUNCTION Offer('". $_SESSION['id'] ."','". $_GET['Offer'] ."')";
+
+     list($affected_rows, $result) = opendb($message, $SQL);
+
+     if($affected_rows == 0){
+         return '{"status": "NoOffers"}';
+    }
+
+      if(!$result){
+
+        return '{"status": "Error"}';
+    }
+
+       $Company = '{"status": "OK", "offer": [';
+    for ($i = 0; $i < $affected_rows; ++$i){
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        if ($i > 0){
+            $Company .=  ',';
+        }
+        $Company     .=  json_encode($row);
+    }
+    $Company         .= ']}';
+
+  return $Company;
+
+}
+
+
+
+
+  
+?>
+
+  

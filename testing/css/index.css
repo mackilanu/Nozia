@@ -1,0 +1,12 @@
+.circle-format
+{
+	border-radius: 50%;
+	margin: 0 auto;
+}
+
+.square
+{
+	width: 150px;
+	height: 150px;
+	background-color: black;
+}
