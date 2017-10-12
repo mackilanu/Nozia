@@ -4,20 +4,10 @@
  @session_start();
 
 
- define("DB_HOST", "");
- define("DB_USER", "marcus");
- define("DB_PW", "Silop1337");
- define("DB_NAME", "nozia");
+require_once("/var/www/html/dev_info/db.php");
+require_once("/var/www/html/dev_info/smtp.php");
 
 define("FILETARGET", "/var/www/html/images/");
-
-//SMTP configuration
- define("SMTP_MAIL", "mackilanu@gmail.com");
- define("SMTP_HOST", "smtp.gmail.com");
- define("SMTP_PORT", "587");
- define("SMTP_PW",   "Silop1337");
-
-
 
 //Page structure
 
