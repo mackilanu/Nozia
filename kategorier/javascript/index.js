@@ -3,6 +3,7 @@ var stop = false;
 var OnlyFavs = "No";
 var exclude = new Array();
 var display_favs = false;
+var allowedOffers = [];
 
 $(window).on('load', function() { 
 
@@ -13,15 +14,15 @@ $(window).on('load', function() {
     s += '<li class="nav-item">';
     s += '<a id="display_favs" onclick="display_favorites()"><span id="glyph_star" class="glyphicon glyphicon-star-empty"></span></a>';
     s += '</li>';
-    s += '<li class="nav-item">';
-    s += '<a id="show_categories"><span id="glyph_star" class="glyphicon glyphicon-list-alt"></span></a>';
+    s += '<li class="nav-item" style="top: 10px; width: 100px;">';
+    s += '<select class="form-control selectpicker" data-live-search="true" id="pick_Category" style="width: 50px;"  onchange="get_offers(this.value)"></select>';
     s += '</li>';
     s += '<li class="nav-item" style="top: 10px; width: 100px;">';
-    s += '<select class="form-control selectpicker" multiple data-live-search="true" id="pick_CS" style="width: 50px;" style=  onchange="fetch_categories(this.value)"></select>';
+    s += '<select class="form-control selectpicker" data-live-search="true" id="pick_CS" style="width: 50px;" style=  onchange="fetch_categories(this.value)"></select>';
     s += '</li>';
     
     document.getElementById("userNavCon").innerHTML += s;
-    
+
     var s = "";
     var instring = '{"pageNum": "' + pageNum + '", "OnlyFavs": "'+ OnlyFavs+'"}';
     
@@ -51,6 +52,16 @@ $(window).on('load', function() {
 
     document.getElementById("pick_CS").innerHTML = s;
 
+    var s = "";
+
+   s += "<option value='-1'>Visa alla</option>";
+
+   for(var i = 0; i < Categories.Category.length; i++){
+
+   		s += "<option value='"+ Categories.Category[i].CatgoryID +"'>"+ Categories.Category[i].Caption +"</option>";
+   }
+   document.getElementById("pick_Category").innerHTML = s;
+
 });
 
 $(window).bind('scroll', function() {
@@ -78,9 +89,61 @@ $(window).bind('scroll', function() {
     return;
 });
 
-function start(){
-    pageNum = 1;
-    var instring = '{"pageNum": "' + pageNum + '", "OnlyFavs": "'+ OnlyFavs+'"}';
+function get_offers(val) {
+  
+	var instring = '{"Category": "'+ val +'"}';
+
+	var objekt = JSON.parse(instring);
+
+	$.getJSON("ajax/get_offers.php", objekt)
+            .done(function(data) {
+		get_offers_success(data);
+            })
+            .fail(function() {
+		get_offers_error();
+            })
+            .always(function() {
+		
+            });		
+
+}
+
+function get_offers_success(response){
+
+    var s = "";
+	if(response.status == "NoOffers"){
+		s += "<h1>Det finns inga erbjudanden enligt valda kriterier</h1>";
+	}
+	if(response.status == "NoCompanies"){
+		s += "<h1>Det finns inga företag enligt valda kriterier</h1>"; 
+	}
+	if(response.status == "Error"){
+		s += "<h1>Ett fel har inträffat. vänligen kontakta support om problemet kvarstår.</h1>";
+	}
+
+	if(response.status == "OK"){
+		if(allowedOffers.length > 0)
+			allowedOffers.length = 0;
+
+		for(var i = 0; i < response.offers.length; i++){
+
+			allowedOffers[allowedOffers.length] = response.offers[i].ID;
+		}
+		start();
+	  
+	}
+	document.getElementById("main_con").innerHTML = s;
+}
+
+function start() {
+	pageNum = 1;
+    var instring = '{"pageNum": "' + pageNum + '", "OnlyFavs": "'+ OnlyFavs+'"';
+	if(allowedOffers.length > 0) {
+      instring += ', "AllowedOffers": ['+ allowedOffers +']';
+	}
+	instring += '}';
+    
+  
 
     var objekt = JSON.parse(instring);
 
@@ -98,6 +161,8 @@ function start(){
 
 function start_success(response){
 
+	console.log(response);
+return;
     if(response.status == "Error")
 	alert("Ett fel inträffade.");
 

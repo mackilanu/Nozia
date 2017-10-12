@@ -102,6 +102,7 @@ function CityStates(){
 
 }
 
+
 function Companies(){
 
     $SQL     = "CALL read_CompanyUsernames()";
