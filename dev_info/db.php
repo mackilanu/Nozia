@@ -1,6 +1,6 @@
  <?php
  define("DB_HOST", "");
- define("DB_USER", "marcus");
- define("DB_PW", "Silop1337");
- define("DB_NAME", "nozia");
+ define("DB_USER", "");
+ define("DB_PW", "");
+ define("DB_NAME", "");
 ?>
