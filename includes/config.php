@@ -3,7 +3,6 @@
 //Database configuration
  @session_start();
 
-
 require_once("/var/www/html/dev_info/db.php");
 require_once("/var/www/html/dev_info/smtp.php");
 
