@@ -15,6 +15,7 @@ require_once ("includes/config.php");
 
 require_once ("MySQL/DBconnect.php");
 
+
 echo HEAD . "<title>NOZIA - Registrera dig!</title>" . CLOSE_HEAD;
 echo STARTNAV;
 echo BODY;
