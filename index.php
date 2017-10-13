@@ -12,7 +12,7 @@ if (isset($_SESSION['id'])) {
 }
 
 require_once ("includes/config.php");
-//This is my branch
+
 require_once ("MySQL/DBconnect.php");
 
 echo HEAD . "<title>NOZIA - Registrera dig!</title>" . CLOSE_HEAD;
