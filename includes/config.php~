@@ -3,22 +3,16 @@
 //Database configuration
  @session_start();
 
-
  define("DB_HOST", "");
- define("DB_USER", "marcus");
- define("DB_PW", "Silop1337");
- define("DB_NAME", "nozia");
+ define("DB_USER", "");
+ define("DB_PW", "");
+ define("DB_NAME", ""); 
+// define("SMTP_MAIL",  "");
+ // define("SMTP_HOST", "");
+ // define("SMTP_PORT", "");
+ // define("SMTP_PW",   "");
 
 define("FILETARGET", "/var/www/html/images/");
-
-//SMTP configuration
- define("SMTP_MAIL", "mackilanu@gmail.com");
- define("SMTP_HOST", "tls://smtp.gmail.com");
- define("SMTP_PORT", "587");
- define("SMTP_PW",   "Silop1337");
-
-
-
 
 //Page structure
 
@@ -41,24 +35,24 @@ define("CLOSE_HEAD", "</head><body>");
 
 
 define("BODY", '
-                 
-        <div class="container">
-	            <div class="row">		
-                <div id="container">
+               <div class="container">
+	           <div class="row">		
+               <div id="container">
     ');
 
 define("END", '
 
-		<p style="text-align: center;">Copyright &copy; Team Nozia</p>
+		<p style="text-align: center;">Copyright &copy; Nozia Group 2017</p>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 	    </body>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+		
 </html>
 	');
 
 
 define("NAV",'
 
-    <nav role="navigation" class="navbar navbar-default bar">
+    <nav role="navigation" class="navbar navbar-default bar" id="usernav">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -67,36 +61,25 @@ define("NAV",'
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
-        
-    </div>
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
+
+        <ul class="nav navbar-nav" id="userNavCon">
            
-          
-            <li class="dropdown">
-              
-            </li>
+         <li class="nav-item">
+          <div class="dropdown" style="top: 10px;">
+           		<a class="dropdown-toggle" data-toggle="dropdown" style="color: #FFF; font-size: 11pt; cursor: pointer;">'. $_SESSION['firstname'] .'
+  				<span class="caret"></span></a>
+  				<ul class="dropdown-menu">
+    				<li><a href="../mittkonto">Min profil</a></li>
+    				<li><a href="../includes/logout.php">Logga ut</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#myModal" onclick="read_favourites()"> Favoritföretag</a></li>
+  				</ul>
+			</div>
+      </li>
         </ul>
-        <form role="search" class="navbar-form navbar-left" >
-
-            <div class="form-group">
-    
-              <h1 id="welcome-message">Välkommen till Nozia, '. $_SESSION["firstname"].'</h1>
-
-              <a href="../includes/logout.php" style="color: #FFF;">Logga ut</a>
-              <a href="/mittkonto" style="color: #FFF;">Min profil</a>
-
-            </div>
-        </form>
-
-
-        <ul class="nav navbar-nav navbar-right">
-     
-          <p style="font-size: 16pt; color: #FFF;">NOZIA <img src="../img/whiteLogo.png" width="64" height="64" align="rigth"></p>
-           
-        </ul>
-    </div>
+	</div>
+  </div>
 </nav>');
 
 define("COMPANYNAV",'
@@ -114,9 +97,7 @@ define("COMPANYNAV",'
     </div>
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-           
-          
+        <ul class="nav navbar-nav">        
             <li class="dropdown">
               
             </li>
@@ -125,7 +106,7 @@ define("COMPANYNAV",'
 
             <div class="form-group">
     
-              <h1>Välkommen till Nozia, '. $_SESSION["Name"].'</h1>
+              <h1>NOZIA</h1>
 
               <a href="../includes/logout.php" style="color: #FFF;">Logga ut</a>
               <a href="../controlpanel" style="color: #FFF;">Kontrollpanel</a>
@@ -157,14 +138,11 @@ define("STARTNAV", '
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
-        </button>
-        
+        </button>       
     </div>
     <!-- Collection of nav links, forms, and other content for toggling -->
     <div id="navbarCollapse" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-           
-          
+        <ul class="nav navbar-nav">          
             <li class="dropdown">
               
             </li>
@@ -173,15 +151,15 @@ define("STARTNAV", '
 
             <div class="form-group">
 	
-                <input type="text" placeholder="Användarnamn" class="form-control login" id="username" style="width: 200px; margin-top: 10px;">
-                <input type="password" name="password" id="password" placeholder="Lösenord" class="form-control login" style="width: 200px; margin-top: 10px;">
+                <input type="text"  placeholder="Användarnamn" class="form-control login" id="username" style="width: 200px; margin-top: 10px;"  onkeypress="return runScript(event)">
+                <input type="password" name="password" id="password" placeholder="Lösenord" class="form-control login" style="width: 200px; margin-top: 10px;"  onkeypress="return runScript(event)">
                 <button  type="button" class="btn btn-info" style="margin-top: 10px;" onclick="login()">Logga in</button>
                 <p>Har du glömt ditt lösenord? <a data-toggle="modal" href="#myModal" data-target="#myModal">klicka här.</a></p>
             </div>
         </form>
-        <ul class="nav navbar-nav navbar-right">
+        <ul class="nav navbar-nav navbar-right" style="text-align:center; display: inline;">
      
-          <p style="font-size: 16pt; color: #FFF;">NOZIA <img src="../img/whiteLogo.png" width="64" height="64" align="rigth"></p>
+          <img src="../img/whiteLogo.png" width="100" height="100">
            
         </ul>
     </div>
