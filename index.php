@@ -10,7 +10,7 @@ if (isset($_SESSION['id'])) {
 		header("Location: Compay/?id=" + $_SESSION['id']);
 	}
 }
-
+//filter_categories branch
 require_once ("includes/config.php");
 
 require_once ("MySQL/DBconnect.php");
