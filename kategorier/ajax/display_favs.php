@@ -4,12 +4,18 @@ date_default_timezone_set("Europe/Stockholm");
 require_once("../../includes/config.php");
 require_once("../../MySQL/DBconnect.php");
 $user_id = $_GET['user_id'];
+$all_offers = read_all_offers();
 echo get_favorites($user_id);
 function get_favorites($user_id)
 {
     $offers = get_offers($user_id);
     $arr = array();
     $alloffers = read_all_offers();
+    $testarr = array();
+    for($y = 0; $y < count($offers); $y++){
+        $testarr[] = $offers[$y];
+    }
+
     $otheroffers = array();
     if($offers == "Error") {
         return '{"status" : "Error"}';
@@ -20,10 +26,6 @@ function get_favorites($user_id)
         $arr[] = read_likes_length($offers[$i]['ID']);
         if($i > 0)
             $s .= ",";
-        for($y = 0; $y < count($alloffers); $y++){
-            if($alloffers[$y]['ID'] != $offers[$i]['ID'])
-                $otheroffers[] = $alloffers[$y];
-        }
         $s .= json_encode($offers[$i]);
     }
     $s .= '],';
@@ -35,16 +37,17 @@ function get_favorites($user_id)
     }
    $s .= '],"OtherOffers": [';
 
-   for($i = 0; $i < count($otheroffers); $i++){
+   for($i = 0; $i < count($testarr); $i++){
        if($i > 0)
            $s .= ",";
-       $s .= json_encode($otheroffers[$i]);
+       $s .= json_encode($testarr[$i]);
    }
 
    $s .= "]}";
     
     return $s;
 }
+
 
 function read_all_offers()
 {
