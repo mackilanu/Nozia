@@ -265,7 +265,7 @@ function display_favorites() {
 }
 
 function display_favorites_success(response) {
-    pageNum = 1;
+    console.log(response.OtherOffers);
     display_favs = true;
     
     document.getElementById("display_favs").style.color = "yellow";
@@ -355,7 +355,7 @@ function display_favorites_success(response) {
 }
 
 function display_favorites_error() {
-    alert("Ett fel inträffade.");
+    alert("Ett allvarligt fel inträffade.");
 }
 
 
