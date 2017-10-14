@@ -64,30 +64,6 @@ $(window).on('load', function() {
 
 });
 
-$(window).bind('scroll', function() {
-    if($(window).scrollTop() >= $('#main_con').offset().top + $('#main_con').outerHeight() - window.innerHeight) {
-
-	if(stop == true)
-    	    return;
-	
-	var instring = '{"pageNum": "' + pageNum + '", "User": "'+ user_id +'", "OnlyFavs": "'+ OnlyFavs +'"}';
-
-	var objekt = JSON.parse(instring);
-
-	$.getJSON("ajax/fetch_offers.php", objekt)
-            .done(function(data) {
-		fetch_offer_success(data);
-            })
-            .fail(function() {
-		fetch_offer_error();
-            })
-            .always(function() {
-		
-            });
-
-    }
-    return;
-});
 
 function get_offers(val) {
   
@@ -129,7 +105,6 @@ function get_offers_success(response){
 
 			allowedOffers[allowedOffers.length] = response.offers[i].ID;
 		}
-		start();
 	  
 	}
 	document.getElementById("main_con").innerHTML = s;
@@ -264,7 +239,7 @@ function init(){
 }
 
 function display_favorites() {
-    console.log(display_favs);
+    
     //If the user has activated the "show favorite companies" function, the if statement below does the opposit, which is showing the normal news feed.
     if(display_favs == true){
 	document.getElementById("glyph_star").style.color = "grey";

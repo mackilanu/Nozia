@@ -14,7 +14,7 @@ function get_favorites($user_id)
 
     $offers = get_offers($user_id);
     $arr = array();
-
+    $alloffers = read_all_offers();
 
     if($offers == "Error") {
         return '{"status" : "Error"}';
@@ -22,10 +22,17 @@ function get_favorites($user_id)
      
     $s = '{"status": "OK", "favs": [';
     for($i = 0; $i < count($offers); $i++){
+        for($y = 0; $y < count($alloffers)){
         $arr[] = read_likes_length($offers[$i]['ID']);
         if($i > 0)
             $s .= ",";
         $s .= json_encode($offers[$i]);
+        if($Y > 0)
+            $S .= ";";
+        if($alloffers[$y]['ID'] != $offers[$i]['ID']){
+           $s .= json_encode($offers[$i]);
+        }
+        }
     }
     $s .= '],';
     $s .= '"likes": [';
@@ -38,6 +45,26 @@ function get_favorites($user_id)
    $s .= ']}';
     
     return $s;
+}
+
+function read_all_offers()
+{
+    $SQL = "CALL read_AllOffers()";
+    $message = "SQL-ERROR at /kategorier/ajax/fetch_offers.php";
+    list($num_rows, $result) = opendb($message, $SQL);
+    $arr = array();
+    
+    if($num_rows == 0)
+        return '{"status": "Done"}'; 
+    
+    if(!$result)
+        return '{"status": "Error"}';
+    while($row = $result->fetch_assoc()){
+        $arr[] = $row;
+    }
+
+    return $arr;
+
 }
 
 function _get_favorites($user_id)
