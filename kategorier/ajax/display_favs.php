@@ -12,21 +12,29 @@ function get_favorites($user_id)
     $arr = array();
     $alloffers = read_all_offers();
     $testarr = array();
+    $testarr2 = array();
     for($y = 0; $y < count($offers); $y++){
         $testarr[] = $offers[$y];
     }
+    for($i = 0; $i < count($alloffers); $i++){
+        $testarr[] = $alloffers[$i];
+    }
 
-    $otheroffers = array();
+
+    $testarr = array_unique($testarr, SORT_REGULAR);
+    $testarr = array_values($testarr);    
+    
     if($offers == "Error") {
         return '{"status" : "Error"}';
     }
      
     $s = '{"status": "OK", "favs": [';
-    for($i = 0; $i < count($offers); $i++){
-        $arr[] = read_likes_length($offers[$i]['ID']);
+   
+    for($i = 0; $i < count($testarr); $i++){
         if($i > 0)
             $s .= ",";
-        $s .= json_encode($offers[$i]);
+        $s .= json_encode($testarr[$i]);
+        $arr[] = read_likes_length($testarr[$i]['ID']);
     }
     $s .= '],';
     $s .= '"likes": [';
@@ -35,19 +43,12 @@ function get_favorites($user_id)
             $s .= ",";
         $s .= json_encode($arr[$i]);
     }
-   $s .= '],"OtherOffers": [';
+  
 
-   for($i = 0; $i < count($testarr); $i++){
-       if($i > 0)
-           $s .= ",";
-       $s .= json_encode($testarr[$i]);
-   }
-
-   $s .= "]}";
+    $s .= "]}";
     
     return $s;
 }
-
 
 function read_all_offers()
 {

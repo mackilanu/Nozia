@@ -265,7 +265,7 @@ function display_favorites() {
 }
 
 function display_favorites_success(response) {
-    console.log(response.OtherOffers);
+ 
     display_favs = true;
     
     document.getElementById("display_favs").style.color = "yellow";
@@ -385,6 +385,8 @@ function fetch_offer_success(response){
 	    return;
 	}
 
+		document.getElementById("main_con").innerHTML = "";
+
 	pageNum = response.page;
 
 	var name;
@@ -443,10 +445,10 @@ function fetch_offer_success(response){
 		s += "<input type='hidden' id='OfferID"+ response.offer[i].ID +"' value='"+ response.offer[i].ID +"'>";
 
 	    }
-
-	    document.getElementById("main_con").innerHTML += s;
 	
+	    document.getElementById("main_con").innerHTML += s;
 	}
+	
 	init_read_favs();
     }
 }
