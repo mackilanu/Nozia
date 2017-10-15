@@ -1,9 +1,6 @@
-var pageNum = 1;
-var stop = false;
-var OnlyFavs = "No";
-var exclude = new Array();
+
 var display_favs = false;
-var allowedOffers = [];
+var OnlyFavs = "No";
 
 $(window).on('load', function() { 
 
@@ -24,7 +21,7 @@ $(window).on('load', function() {
     document.getElementById("userNavCon").innerHTML += s;
 
     var s = "";
-    var instring = '{"pageNum": "' + pageNum + '", "OnlyFavs": "'+ OnlyFavs+'"}';
+    var instring = '{"OnlyFavs": "'+ OnlyFavs+'"}';
     
     var objekt = JSON.parse(instring);
     
@@ -65,159 +62,6 @@ $(window).on('load', function() {
 });
 
 
-function get_offers(val) {
-  
-	var instring = '{"Category": "'+ val +'"}';
-
-	var objekt = JSON.parse(instring);
-
-	$.getJSON("ajax/get_offers.php", objekt)
-            .done(function(data) {
-		get_offers_success(data);
-            })
-            .fail(function() {
-		get_offers_error();
-            })
-            .always(function() {
-		
-            });		
-
-}
-
-function get_offers_success(response){
-
-    var s = "";
-	if(response.status == "NoOffers"){
-		s += "<h1>Det finns inga erbjudanden enligt valda kriterier</h1>";
-	}
-	if(response.status == "NoCompanies"){
-		s += "<h1>Det finns inga företag enligt valda kriterier</h1>"; 
-	}
-	if(response.status == "Error"){
-		s += "<h1>Ett fel har inträffat. vänligen kontakta support om problemet kvarstår.</h1>";
-	}
-
-	if(response.status == "OK"){
-		if(allowedOffers.length > 0)
-			allowedOffers.length = 0;
-
-		for(var i = 0; i < response.offers.length; i++){
-
-			allowedOffers[allowedOffers.length] = response.offers[i].ID;
-		}
-	  
-	}
-	document.getElementById("main_con").innerHTML = s;
-}
-
-function start() {
-	pageNum = 1;
-    var instring = '{"pageNum": "' + pageNum + '", "OnlyFavs": "'+ OnlyFavs+'"';
-	if(allowedOffers.length > 0) {
-      instring += ', "AllowedOffers": ['+ allowedOffers +']';
-	}
-	instring += '}';
-    
-  
-
-    var objekt = JSON.parse(instring);
-
-    $.getJSON("ajax/fetch_offers.php", objekt)
-        .done(function(data) {
-            start_success(data);
-        })
-        .fail(function() {
-            start_error();
-        })
-        .always(function() {
-            
-        });
-}
-
-function start_success(response){
-
-	console.log(response);
-return;
-    if(response.status == "Error")
-	alert("Ett fel inträffade.");
-
-    if(response.status == "NoSubs"){
-	document.getElementById("main_con").innerHTML = "<h1>Det finns inga inlägg att visa. Ändra dina filtreringar och försök igen.</h1>";
-    }
-
-    if(response.status == "Done")
-	stop = true;
-
-    if(response.status == "OK"){
-	if(pageNum == parseInt(response.page)){
-	    return;
-	}
-
-	pageNum = response.page;
-
-	var name;
-	var Icon;
-	var check = true;
-
-	
-
-	if(likes.status == "Error"){
-  	    var check = false;
-	}
-	
-	for(var i = 0; i < response.offer.length; i++){
-	    var likebtn = '<a id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
-	    if(check == true){
-    		for(var y = 0; y < likes.like.length; y++){
-    		    
-      		    if(response.offer[i].ID == likes.like[y].PostID){
-      			likebtn = '<button class="btn btn-default" id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')" style="color: green;"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</button>';
-      		    }
-		}
-	    }
-	    
-	    var split = response.likes[0].split(",");
-	    
-	    for(var y = 0; y < Companies.company.length; y++){
-		
-		if(response.offer[i].CompanyID == Companies.company[y].ID){
-      		    name = Companies.company[y].Name;
-      		    Icon = Companies.company[y].Icon
-		}
-		
-		var s = "";
-		
-		s += '<div class="panel panel-default">';
-		s += '<div class="panel-heading">';
-		s += '<a href="/Company/?id='+ response.offer[i].CompanyID +'" target="_blank"><img src="/images/'+ Icon +'" style="width: 40px; height: 40px;">';
-		s += '<p style="display: inline; font-size: 12pt;">'+ name +'</p></a>';
-		s += '<p style=" float:right;">'+ response.offer[i].Uploaded +'</p>'; 
-		s += '</div>';
-		s += '<div class="panel-body">';
-		s += '<p style="font-size: 12pt;">'+ response.offer[i].Caption +'</p>';
-		s += '<img src="/images/'+ response.offer[i].Image +'" style="width: 100%;">';
-		s += '<p style="font-size: 12pt; text-align: center;">'+ response.offer[i].ShortDes +'</p>';
-		s += '</div>';
-		s += '<div class="panel-footer">';
-
-		s += likebtn
-		s += '<p style="display: inline;">'+ split[i] +' likes</p>';
-		s += '<a class="btn btn-default btn_fav'+ response.offer[i].CompanyID+'"  value="'+ response.offer[i].CompanyID +'" onclick="Favorise('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-star-empty"></span>Favorisera</a>';
-		s += '<a href="/UseOffer/?Offer='+ response.offer[i].ID +'"><button class="btn btn-success" style="margin-left: 5px;" >Gå till erbjudande</button>';
-		s += '</div>';
-		s += '</div>';
-
-		s += "<input type='hidden' id='CompanyID"+ response.offer[i].ID +"' value='"+ response.offer[i].CompanyID +"'>";
-		s += "<input type='hidden' id='OfferID"+ response.offer[i].ID +"' value='"+ response.offer[i].ID +"'>";
-
-	    }
-
-	    document.getElementById("main_con").innerHTML = s;
-	
-	}
-	init_read_favs();
-    }
-}
 
 
 function init(){
@@ -292,7 +136,6 @@ function display_favorites_success(response) {
     
     var s = "";
     for(var i = 0; i < response.favs.length; i++) {
-	exclude[exclude.length] = response.favs[i].ID;
 	var likebtn = '<a id="btn_'+ response.favs[i].ID +'" onclick="Like('+ response.favs[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
 	
         for(var y = 0; y < Companies.company.length; y++){
@@ -359,13 +202,6 @@ function display_favorites_error() {
 }
 
 
-function fetch_favs_offers(){
-    OnlyFavs = "Yes";
-}
-
-function fetch_favs_offers_success(response){
-
-}
 
 
 
@@ -381,9 +217,7 @@ function fetch_offer_success(response){
 	stop = true;
 
     if(response.status == "OK"){
-	if(pageNum == parseInt(response.page)){
-	    return;
-	}
+
 
 		document.getElementById("main_con").innerHTML = "";
 
