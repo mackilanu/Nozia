@@ -3,37 +3,14 @@
 date_default_timezone_set("Europe/Stockholm");
 require_once("../../includes/config.php");
 require_once("../../MySQL/DBconnect.php");
-$user_id = $_GET['user_id'];
-$all_offers = read_all_offers();
-echo get_favorites($user_id);
-function get_favorites($user_id)
+
+$Category = $_GET['Category'];
+
+echo get_category_offers($Category);
+
+function get_category_offers($Category)
 {
-    $offers = get_offers($user_id);
     
-    if($offers == 'no_favs')
-        return '{"status": "no_favs"}';
-    
-    
-    $arr = array();
-    $alloffers = read_all_offers();
-    $testarr = array();
-    $testarr2 = array();
-    for($y = 0; $y < count($offers); $y++){
-        $testarr[] = $offers[$y];
-    }
-    for($i = 0; $i < count($alloffers); $i++){
-        $testarr[] = $alloffers[$i];
-    }
-
-
-    $testarr = array_unique($testarr, SORT_REGULAR);
-    $testarr = array_values($testarr);
-
-  
-    if($offers == "Error") {
-        return '{"status" : "Error"}';
-    }
-
      
     $s = '{"status": "OK", "favs": [';
    
