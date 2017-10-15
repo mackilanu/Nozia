@@ -131,7 +131,7 @@ function display_favorites_success(response) {
     if(likes.status == "Error"){
 	var check = false;
     }
-
+    	document.getElementById("pick_Category").selectedIndex = 0;        
     var s = "";
     for(var i = 0; i < response.favs.length; i++) {
 	var likebtn = '<a id="btn_'+ response.favs[i].ID +'" onclick="Like('+ response.favs[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
@@ -193,10 +193,7 @@ function fetch_offer_success(response){
     if(response.status == "NoSubs"){
 	document.getElementById("main_con").innerHTML = "<h1>Det finns inga inlägg att visa. Ändra dina filtreringar och försök igen.</h1>";
     }
-
-    if(response.status == "Done")
-	stop = true;
-
+    
     if(response.status == "OK"){
 
 	document.getElementById("main_con").innerHTML = "";
@@ -534,10 +531,76 @@ function get_category_offers_success(response) {
     }
 
     if(response.status == "no_offers") {
-	alert("Det fanns inga erbjudandet enligt den valda kategorin.");
+
+	document.getElementById("main_con").innerHTML = "<h1>Det finns inga erbjudandet enligt den valda kategorin.</h1>";
     }
 
     if(response.status == "OK") {
+	console.log(response);
 	document.getElementById("main_con").innerHTML = "";
+
+	var name;
+	var Icon;
+	var check = true;
+
+	if(likes.status == "Error"){
+  	    var check = false;
+	}
+
+	for(var i = 0; i < response.offer.length; i++){
+	    var likebtn = '<a id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
+	    if(check == true){
+    		for(var y = 0; y < likes.like.length; y++){
+
+      		    if(response.offer[i].ID == likes.like[y].PostID){
+      			likebtn = '<button class="btn btn-default" id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')" style="color: green;"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</button>';
+      		    }
+		}
+	    }
+
+	    var split = response.likes;
+
+	    for(var y = 0; y < Companies.company.length; y++){
+
+		if(response.offer[i].CompanyID == Companies.company[y].ID){
+      		    name = Companies.company[y].Name;
+      		    Icon = Companies.company[y].Icon
+		}
+
+		var s = "";
+
+		s += '<div class="panel panel-default">';
+		s += '<div class="panel-heading">';
+		s += '<a href="/Company/?id='+ response.offer[i].CompanyID +'" target="_blank"><img src="/images/'+ Icon +'" style="width: 40px; height: 40px;">';
+		s += '<p style="display: inline; font-size: 12pt;">'+ name +'</p></a>';
+		s += '<p style=" float:right;">'+ response.offer[i].Uploaded +'</p>';
+		s += '</div>';
+		s += '<div class="panel-body">';
+		s += '<p style="font-size: 12pt;">'+ response.offer[i].Caption +'</p>';
+		s += '<img src="/images/'+ response.offer[i].Image +'" style="width: 100%;">';
+		s += '<p style="font-size: 12pt; text-align: center;">'+ response.offer[i].ShortDes +'</p>';
+		s += '</div>';
+		s += '<div class="panel-footer">';
+
+		s += likebtn
+		s += '<p style="display: inline;">'+ split[i] +' likes</p>';
+		s += '<a class="btn btn-default btn_fav'+ response.offer[i].CompanyID+'"  value="'+ response.offer[i].CompanyID +'" onclick="Favorise('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-star-empty"></span>Favorisera</a>';
+		s += '<a href="/UseOffer/?Offer='+ response.offer[i].ID +'"><button class="btn btn-success" style="margin-left: 5px;" >Gå till erbjudande</button>';
+		s += '</div>';
+		s += '</div>';
+
+		s += "<input type='hidden' id='CompanyID"+ response.offer[i].ID +"' value='"+ response.offer[i].CompanyID +"'>";
+		s += "<input type='hidden' id='OfferID"+ response.offer[i].ID +"' value='"+ response.offer[i].ID +"'>";
+
+	    }
+
+	    document.getElementById("main_con").innerHTML += s;
+	}
+
+	init_read_favs();
     }
+}
+
+function get_category_offers_error() {
+ alert("Ett allvarligt fel har inträffat, vänligen kontakta support om problemet kvarstår.");
 }

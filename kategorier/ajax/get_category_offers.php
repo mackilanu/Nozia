@@ -10,15 +10,21 @@ echo get_category_offers($Category);
 
 function get_category_offers($Category)
 {
-    
+    $companies  = companies($Category);
+    $all_offers = read_offers(); 
+
+    $offers = get_offers($companies, $all_offers);
+
+    if(count($offers) == 0)
+        return '{"status": "no_offers"}';
      
-    $s = '{"status": "OK", "favs": [';
+    $s = '{"status": "OK", "offer": [';
    
-    for($i = 0; $i < count($testarr); $i++){
+    for($i = 0; $i < count($offers); $i++){
         if($i > 0)
             $s .= ",";
-        $s .= json_encode($testarr[$i]);
-        $arr[] = read_likes_length($testarr[$i]['ID']);
+        $s .= json_encode($offers[$i]);
+        $arr[] = read_likes_length($offers[$i]['ID']);
     }
     $s .= '],';
     $s .= '"likes": [';
@@ -34,10 +40,10 @@ function get_category_offers($Category)
     return $s;
 }
 
-function read_all_offers()
+function companies($Category)
 {
-    $SQL = "CALL read_AllOffers()";
-    $message = "SQL-ERROR at /kategorier/ajax/fetch_offers.php";
+    $SQL = "CALL read_category_companies('". $Category ."')";
+    $message = "SQL-ERROR at /kategorier/ajax/get_category_offers.php";
     list($num_rows, $result) = opendb($message, $SQL);
     $arr = array();
     
@@ -51,53 +57,36 @@ function read_all_offers()
     }
     return $arr;
 }
-function _get_favorites($user_id)
+function read_offers()
 {
-    $SQL = "CALL read_favs('" . $user_id . "')";
+    $SQL = "CALL read_AllOffers()";
     $message = "SQL ERROR";
     $arr = array();
     list($num_rows, $res) = opendb($message, $SQL);
-    if(!$res) {
+    if(!$res or $num_rows == 0) {
         return "Error";
     }
-
-    if($num_rows == 0)
-        return 'no_favs';
     
     while($row = $res->fetch_assoc()) {
         $arr[] = $row;
     }
     return $arr;
 }
-function get_offers($user_id)
+function get_offers($companies, $offers)
 {
-    $message = "SQL ERROR";
     $arr = array();
-    $user_favs = _get_favorites($user_id);
+    for($i = 0; $i < count($companies); $i++){
 
-    if($user_favs == 'no_favs')
-        return 'no_favs';
-        
-    for($i = 0; $i < count($user_favs); $i++){
-         
-        $SQL = "CALL read_offers('". $user_favs[$i]['CompanyID'] ."')";
-        list($num_rows, $result) = opendb($message, $SQL);
-        
-        if($num_rows == 0){
-            return 'no_favs';
+        for($y = 0; $y < count($offers); $y++){
+
+            if($companies[$i]['ID'] == $offers[$y]['CompanyID']){
+                $arr[] = $offers[$y];
+            }
+            
         }
-         
-        if(!$result) {
-            return "Error";
-        }
-       
-          
-        $row = $result->fetch_assoc();
-        $likes = read_likes_length($row['ID']);
-        $arr[] = $row;
-     
     }
-    return $arr;
+
+        return $arr;
 }
 function read_likes_length($Offer)
 {
