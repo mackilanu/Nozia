@@ -25,7 +25,7 @@ $(window).on('load', function() {
 
     var s = "";
   
-    s += "<option value='cs-1' id='cs-1'>Visa alla</option>";
+    s += "<option value='-1' id='cs-1'>Visa alla</option>";
     for (var i = 0; i < kommun.CS.length; i++) {
 
 	s += "<option value='"+ kommun.CS[i].ID +"'";
@@ -421,7 +421,7 @@ $( document ).ready(function() {
 
 function get_category_offers(value) {
     var city_state = document.getElementById("pick_CS").value;
-    
+    alert(city_state);
     var instring = '{"Category": "' + value + '", "city_state": "'+ city_state +'"}';
 
     var objekt = JSON.parse(instring);
@@ -450,7 +450,6 @@ function get_category_offers_success(response) {
     }
 
     if(response.status == "OK") {
-	console.log(response);
 	document.getElementById("main_con").innerHTML = "";
 
 	var name;
@@ -539,7 +538,6 @@ function fetch_city_state(value) {
 }
 
 function fetch_city_state_offers_success(response) {
-    console.log(response);
     if(response.status == "no_offers")
 	document.getElementById("main_con").innerHTML = "<h1>Hittade inga erbjudanden enligt valda kriterier.</h1>";
 
@@ -547,8 +545,7 @@ function fetch_city_state_offers_success(response) {
 	alert("Ett fel har inträffat, vänligen kontakta support om problemet kvarstår.");
 
     if(response.status == "OK") {
-
-	console.log(response);
+	
 	document.getElementById("main_con").innerHTML = "";
 
 	var name;

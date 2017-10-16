@@ -89,15 +89,29 @@ function get_offers($companies, $offers, $city_state, $Category)
             
         }
     }
-    if($city_state == "-1"){
+
+     if($city_state == "-1"){
         for($i = 0; $i < count($companies); $i++){
 
-            if($companies[$i]['CityState'] == $city_state){
+            if($companies[$i]['Category'] == $Category){
                 $arr[] = $companies[$i]['ID'];
             }
         }
+    }
 
-    }else{
+     if($Category == "-1"){
+        
+        for($i = 0; $i < count($companies); $i++){
+            
+            if($companies[$i]['Category'] == $Category){
+                $arr[] = $companies[$i]['ID'];
+            }
+            
+        }
+        
+   
+
+     }else{
         for($i = 0; $i < count($companies); $i++){
              
             if($companies[$i]['CityState'] == $city_state && $companies[$i]['Category'] == $Category){
