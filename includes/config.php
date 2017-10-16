@@ -3,7 +3,7 @@
 //Database configuration
  @session_start();
 
- define("DB_HOST", "138.68.97.100");
+ define("DB_HOST", "");
  define("DB_USER", "marcus");
  define("DB_PW", "Silop1337");
  define("DB_NAME", "nozia"); 

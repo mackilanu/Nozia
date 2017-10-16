@@ -15,7 +15,7 @@ $(window).on('load', function() {
     s += '<select class="form-control selectpicker" data-live-search="true" id="pick_Category" style="width: 50px;"  onchange="get_category_offers(this.value)"></select>';
     s += '</li>';
     s += '<li class="nav-item" style="top: 10px; width: 100px;">';
-    s += '<select class="form-control selectpicker" data-live-search="true" id="pick_CS" style="width: 50px;" style=  onchange="fetch_categories(this.value)"></select>';
+    s += '<select class="form-control selectpicker" data-live-search="true" id="pick_CS" style="width: 50px;" onchange="fetch_city_state(this.value)"></select>';
     s += '</li>';
 
     document.getElementById("userNavCon").innerHTML += s;
@@ -35,7 +35,7 @@ $(window).on('load', function() {
         .always(function() {
 
         });
-
+    s += "<option value='-1'>Visa alla</option>";
     for (var i = 0; i < kommun.CS.length; i++) {
 
 	s += "<option value='"+ kommun.CS[i].ID +"'";
@@ -66,11 +66,14 @@ $(window).on('load', function() {
 
 function init(){
 
-    var instring = '{ "OnlyFavs": "'+ OnlyFavs+'"}';
+    var city_state = document.getElementById("pick_CS").value;
+    var category   = document.getElementById("pick_Category").value;
+    
+    var instring = '{"city_state": "'+ city_state +'", "Category": "'+ category +'"}';
 
     var objekt = JSON.parse(instring);
 
-    $.getJSON("ajax/fetch_offers.php", objekt)
+    $.getJSON("ajax/get_citystate_offers.php", objekt)
         .done(function(data) {
             fetch_offer_success(data);
         })
@@ -131,7 +134,7 @@ function display_favorites_success(response) {
     if(likes.status == "Error"){
 	var check = false;
     }
-    	document.getElementById("pick_Category").selectedIndex = 0;        
+    document.getElementById("pick_Category").selectedIndex = 0;        
     var s = "";
     for(var i = 0; i < response.favs.length; i++) {
 	var likebtn = '<a id="btn_'+ response.favs[i].ID +'" onclick="Like('+ response.favs[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
@@ -507,8 +510,9 @@ $( document ).ready(function() {
 });
 
 function get_category_offers(value) {
+    var city_state = document.getElementById("pick_CS").value;
     
-    var instring = '{"Category": "' + value + '"}';
+    var instring = '{"Category": "' + value + '", "city_state": "'+ city_state +'"}';
 
     var objekt = JSON.parse(instring);
 
@@ -602,5 +606,105 @@ function get_category_offers_success(response) {
 }
 
 function get_category_offers_error() {
- alert("Ett allvarligt fel har inträffat, vänligen kontakta support om problemet kvarstår.");
+    alert("Ett allvarligt fel har inträffat, vänligen kontakta support om problemet kvarstår.");
+}
+
+function fetch_city_state(value) {
+    
+    var category = document.getElementById("pick_Category").value;
+    var instring = '{"city_state": "' + value + '", "Category": "'+ category +'"}';
+    
+    var objekt = JSON.parse(instring);
+    
+    $.getJSON("ajax/get_citystate_offers.php", objekt)
+        .done(function(data) {
+            fetch_city_state_offers_success(data);
+        })
+        .fail(function() {
+            fetch_city_state_offers_error();
+        })
+        .always(function() {
+	    
+        });      
+}
+
+function fetch_city_state_offers_success(response) {
+    console.log(response);
+    if(response.status == "no_offers")
+	document.getElementById("main_con").innerHTML = "<h1>Hittade inga erbjudanden enligt valda kriterier.</h1>";
+
+    if(response.status == "Error")
+	alert("Ett fel har inträffat, vänligen kontakta support om problemet kvarstår.");
+
+    if(response.status == "OK") {
+
+	console.log(response);
+	document.getElementById("main_con").innerHTML = "";
+
+	var name;
+	var Icon;
+	var check = true;
+
+	if(likes.status == "Error"){
+  	    var check = false;
+	}
+
+	for(var i = 0; i < response.offer.length; i++){
+	    var likebtn = '<a id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
+	    if(check == true){
+    		for(var y = 0; y < likes.like.length; y++){
+
+      		    if(response.offer[i].ID == likes.like[y].PostID){
+      			likebtn = '<button class="btn btn-default" id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')" style="color: green;"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</button>';
+      		    }
+		}
+	    }
+
+	    var split = response.likes;
+
+	    for(var y = 0; y < Companies.company.length; y++){
+
+		if(response.offer[i].CompanyID == Companies.company[y].ID){
+      		    name = Companies.company[y].Name;
+      		    Icon = Companies.company[y].Icon
+		}
+
+		var s = "";
+
+		s += '<div class="panel panel-default">';
+		s += '<div class="panel-heading">';
+		s += '<a href="/Company/?id='+ response.offer[i].CompanyID +'" target="_blank"><img src="/images/'+ Icon +'" style="width: 40px; height: 40px;">';
+		s += '<p style="display: inline; font-size: 12pt;">'+ name +'</p></a>';
+		s += '<p style=" float:right;">'+ response.offer[i].Uploaded +'</p>';
+		s += '</div>';
+		s += '<div class="panel-body">';
+		s += '<p style="font-size: 12pt;">'+ response.offer[i].Caption +'</p>';
+		s += '<img src="/images/'+ response.offer[i].Image +'" style="width: 100%;">';
+		s += '<p style="font-size: 12pt; text-align: center;">'+ response.offer[i].ShortDes +'</p>';
+		s += '</div>';
+		s += '<div class="panel-footer">';
+
+		s += likebtn
+		s += '<p style="display: inline;">'+ split[i] +' likes</p>';
+		s += '<a class="btn btn-default btn_fav'+ response.offer[i].CompanyID+'"  value="'+ response.offer[i].CompanyID +'" onclick="Favorise('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-star-empty"></span>Favorisera</a>';
+		s += '<a href="/UseOffer/?Offer='+ response.offer[i].ID +'"><button class="btn btn-success" style="margin-left: 5px;" >Gå till erbjudande</button>';
+		s += '</div>';
+		s += '</div>';
+
+		s += "<input type='hidden' id='CompanyID"+ response.offer[i].ID +"' value='"+ response.offer[i].CompanyID +"'>";
+		s += "<input type='hidden' id='OfferID"+ response.offer[i].ID +"' value='"+ response.offer[i].ID +"'>";
+
+	    }
+
+	    document.getElementById("main_con").innerHTML += s;
+	}
+
+	init_read_favs();
+    }
+}
+
+
+function fetch_city_state_offers_error() {
+    alert("Ett allvarligt fel har inträffat, vänligen kontakta support om problemet kvarstår.");
+
 }
