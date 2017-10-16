@@ -421,7 +421,7 @@ $( document ).ready(function() {
 
 function get_category_offers(value) {
     var city_state = document.getElementById("pick_CS").value;
-    alert(city_state);
+   
     var instring = '{"Category": "' + value + '", "city_state": "'+ city_state +'"}';
 
     var objekt = JSON.parse(instring);
