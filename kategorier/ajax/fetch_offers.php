@@ -5,13 +5,8 @@ date_default_timezone_set("Europe/Stockholm");
 require_once("../../includes/config.php");
 require_once("../../MySQL/DBconnect.php");
 
-$Page     = $_GET['pageNum'];
-$OnlyFavs = $_GET['OnlyFavs'];
 
-if($Page == 1)
-    $numRows = 4;
-else
-    $numRows = 1;
+$OnlyFavs = $_GET['OnlyFavs'];
 
 if($OnlyFavs == "Yes"){
 $favs =  read_favs();
@@ -25,7 +20,7 @@ if($favs == "NoSubs"){
     echo '{"status": "NoSubs"}';
     return;
 }
-echo fetch_offers($Page, $numRows, $favs, $OnlyFavs);
+echo fetch_offers($favs, $OnlyFavs);
 
 
 //&$companies = read_companies();
@@ -34,17 +29,12 @@ echo fetch_offers($Page, $numRows, $favs, $OnlyFavs);
 //How many rows per page that should be fetched from the databse
 
 if($OnlyFavs == "No")
- echo fetch_offers($Page, $numRows, "", $OnlyFavs);
+ echo fetch_offers( "", $OnlyFavs);
 
-function fetch_offers($Page, $numRows, $favs, $OnlyFavs)
+function fetch_offers($favs, $OnlyFavs)
 {
  
-    $startPos = $Page + $numRows;
-    $startPos++;
-    if($Page == 1)
-        $startPos = 0;
-
-    $SQL = "CALL fetch_offers('". $startPos ."', '". $numRows ."')";
+    $SQL = "CALL read_AllOffers()";
     $message = "SQL-ERROR at /kategorier/ajax/fetch_offers.php";
     list($num_rows, $result) = opendb($message, $SQL);
       
@@ -65,28 +55,27 @@ function fetch_offers($Page, $numRows, $favs, $OnlyFavs)
         $arr[] = $rows;
     }
         
-    $Page++;
-    $likes;
-
-   
-    $Offers = '{"status": "OK", "page": "'. $Page .'", "rows": "'. $num_rows .'",  "offer": [';
+    
+    
+    $Offers = '{"status": "OK",  "offer": [';
     for ($i = 0; $i < $num_rows; ++$i) {
         $row = $result->fetch_array(MYSQLI_ASSOC);
-       // $likes = read_likes_length($row[0]);
+        
         if ($i > 0) {
             $Offers .= ',';
         }
-             if ($i > 0) {
-            $likes.= ',';
-        }
-           $likes .= read_likes_length($row['ID']);
-
+        if ($i > 0) {
+                 $likes.= ',';
+             }
+             $likes .= read_likes_length($row['ID']);
+           
            if($OnlyFavs == "Yes"){
-           for($y = 0; $y < count($favs); $y++){
-
-            if($favs[$y]['CompanyID'] == $row['CompanyID'])
-            $Offers .= json_encode($row);
-}
+               for($y = 0; $y < count($favs); $y++){
+               
+               if($favs[$y]['CompanyID'] != $row['CompanyID'])
+                   $Offers .= json_encode($row);
+           
+               }
 }else{
     $Offers .= json_encode($row);
 }
