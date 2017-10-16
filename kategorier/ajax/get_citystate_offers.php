@@ -7,21 +7,22 @@ require_once("../../MySQL/DBconnect.php");
 $Category   = $_GET['Category'];
 $city_state = $_GET['city_state']; 
 
-echo get_category_offers($Category, $city_state);
+echo get_citystate_offers($Category, $city_state);
 
-function get_category_offers($Category, $city_state)
+function get_citystate_offers($Category, $city_state)
 {
     $companies  = companies();
     $all_offers = read_offers();
 
-    if($companies == 'Error' or $all_offers == 'Error')
+    if($companies == 'Error' or $all_offers == 'Error'){
         return '{"status": "Error"}';
+    }
 
     $offers = get_offers($companies, $all_offers, $city_state, $Category);
 
-    if(count($offers) == 0)
-        return '{"status": "no_offers"}';
-     
+    if(count($offers) == 0){
+      return '{"status": "no_offers"}';
+    }
     $s = '{"status": "OK", "offer": [';
    
     for($i = 0; $i < count($offers); $i++){
@@ -50,12 +51,9 @@ function companies()
     $message = "SQL-ERROR at /kategorier/ajax/get_category_offers.php";
     list($num_rows, $result) = opendb($message, $SQL);
     $arr = array();
-    
-    if($num_rows == 0)
-        return '{"status": "Done"}'; 
-    
+  
     if(!$result)
-        return '{"status": "Error"}';
+        return 'Error';
     while($row = $result->fetch_assoc()){
         $arr[] = $row;
     }
@@ -89,13 +87,14 @@ function get_offers($companies, $offers, $city_state, $Category)
             
         }
     }
-    if($city_state == "-1"){
-        for($i = 0; $i < count($companies); $i++){
+    
+    if($Category == "-1"){
+    for($i = 0; $i < count($companies); $i++){
 
-            if($companies[$i]['CityState'] == $city_state){
-                $arr[] = $companies[$i]['ID'];
-            }
-        }
+        if($companies[$i]['CityState'] == $city_state){
+            $arr[] = $companies[$i]['ID'];
+                }
+    }
 
     }else{
         for($i = 0; $i < count($companies); $i++){
