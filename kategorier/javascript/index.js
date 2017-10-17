@@ -426,7 +426,7 @@ function get_category_offers(value) {
 
     var objekt = JSON.parse(instring);
 
-    $.getJSON("ajax/get_category_offers.php", objekt)
+    $.getJSON("ajax/get_citystate_offers.php", objekt)
         .done(function(data) {
             get_category_offers_success(data);
         })
@@ -545,7 +545,7 @@ function fetch_city_state_offers_success(response) {
 	alert("Ett fel har inträffat, vänligen kontakta support om problemet kvarstår.");
 
     if(response.status == "OK") {
-	
+	console.log(response);
 	document.getElementById("main_con").innerHTML = "";
 
 	var name;
