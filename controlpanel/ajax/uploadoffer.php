@@ -15,12 +15,12 @@ $ToAge       = $_POST['txt_MaxAge'];
 $Gender      = $_POST['txt_Gender'];
 $latest      = '1';
 $CS          = $_POST['selectCS'];
+$Category    = $_SESSION['Category'];
 
-print_r($CS);
+    
+echo uploadBanner($Caption, $Description, $StartDate, $DueDate, $FromAge, $ToAge, $latest, $Gender, $CS, $Category);
 
-echo uploadBanner($Caption, $Description, $StartDate, $DueDate, $FromAge, $ToAge, $latest, $Gender, $CS);
-
-function uploadBanner($Caption, $Description, $StartDate, $DueDate, $FromAge, $ToAge, $latest, $Gender, $CS)
+function uploadBanner($Caption, $Description, $StartDate, $DueDate, $FromAge, $ToAge, $latest, $Gender, $CS, $Category)
 {
     
     
@@ -68,7 +68,7 @@ function uploadBanner($Caption, $Description, $StartDate, $DueDate, $FromAge, $T
     
     
     for ($i = 0; $i < $length; $i++) {    
-        $SQL = "CALL insertOfferCS('" . $CS[$i] . "', '" . $row['ID'] . "')";
+        $SQL = "CALL insertOfferCS('" . $CS[$i] . "', '" . $row['ID'] . "', '". $Category ."')";
         
         list($affected_rows, $result) = opendb($message_data, $SQL);      
     }
