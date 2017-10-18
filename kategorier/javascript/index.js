@@ -444,6 +444,9 @@ function get_category_offers_success(response) {
 	alert("Ett fel inträffade. Vänligen kontakta support om problemet kvarstår.");
     }
 
+    if(response.status == "NoOffers")
+	document.getElementById("main_con").innerHTML = "<h1>Det finns inga erbjudandet enligt den valda kategorin.</h1>";
+
     if(response.status == "no_offers") {
 
 	document.getElementById("main_con").innerHTML = "<h1>Det finns inga erbjudandet enligt den valda kategorin.</h1>";
@@ -541,6 +544,10 @@ function fetch_city_state_offers_success(response) {
     if(response.status == "no_offers")
 	document.getElementById("main_con").innerHTML = "<h1>Hittade inga erbjudanden enligt valda kriterier.</h1>";
 
+
+    if(response.status == "NoOffers")
+	    document.getElementById("main_con").innerHTML = "<h1>Det finns inga erbjudandet enligt den valda kategorin.</h1>";
+    
     if(response.status == "Error")
 	alert("Ett fel har inträffat, vänligen kontakta support om problemet kvarstår.");
 
