@@ -73,7 +73,7 @@ function display_favorites() {
     //If the user has activated the "show favorite companies" function, the if statement below does the opposit, which is showing the normal news feed.
     if(display_favs == true){
 	document.getElementById("glyph_star").style.color = "grey";
-	init();
+	get_category_offers();
 	display_favs = false;
 	return;
     }else{
