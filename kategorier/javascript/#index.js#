@@ -15,7 +15,7 @@ $(window).on('load', function() {
     s += '<select class="form-control"  style="width: 100px;"  id="pick_Category" style="width: 50px;"  onchange="get_category_offers(this.value)"></select>';
     s += '</li>';
     s += '<li class="nav-item" style="top: 10px; width: 100px;">';
-    s += '<select class="form-control" style="width: 100px;"  id="pick_CS" style="width: 50px;" onchange="fetch_city_state(this.value)"></select>';
+    s += '<select class="form-control" style="width: 100px;"  id="pick_CS" style="width: 50px;" onchange="get_category_offers(this.value)"></select>';
     s += '</li>';
     s += '<li class="nav-item" style="top: 10px; width: 100px;">';
     s += '<button class="btn btn-info" onclick="reset_settings()">Återställ val</button>';
@@ -419,9 +419,9 @@ $( document ).ready(function() {
 
 });
 
-function get_category_offers() {
+function get_category_offers(value) {
     var city_state = document.getElementById("pick_CS").value;
-    var value      = document.getElementById("pick_Category").value;
+   
     var instring = '{"Category": "' + value + '", "city_state": "'+ city_state +'"}';
 
     var objekt = JSON.parse(instring);

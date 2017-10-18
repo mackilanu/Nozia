@@ -11,7 +11,7 @@ echo get_citystate_offers($Category, $city_state);
 
 function get_citystate_offers($Category, $city_state)
 {
-    $companies  = companies();
+    $companies  = companies($Category);
     $all_offers = read_offers();
 
     if($companies == 'Error' or $all_offers == 'Error'){
@@ -49,9 +49,15 @@ function get_citystate_offers($Category, $city_state)
     return $s;
 }
 
-function companies()
+function companies($Category)
 {
+    $SQL = "";
+
+    if($Category == "-1"){
     $SQL = "CALL read_Companies()";
+    }else{
+        $SQL = "CALL read_category_companies('". $Category ."')";
+    }
     $message = "SQL-ERROR at /kategorier/ajax/get_category_offers.php";
     list($num_rows, $result) = opendb($message, $SQL);
     $arr = array();
@@ -68,6 +74,7 @@ function read_offers()
     $SQL = "CALL read_AllOffers()";
     $message = "SQL ERROR";
     $arr = array();
+    $Companies = array();
     list($num_rows, $res) = opendb($message, $SQL);
     if(!$res or $num_rows == 0) {
         return "Error";
@@ -89,7 +96,7 @@ function get_offers($companies, $offers, $city_state, $Category)
 
          for($i = 0; $i < count($companies); $i++){
 
-             $arr[] = $companies[$i]['ID'];
+             $arr[] = $companies[$i];
             
         }
     }
@@ -99,22 +106,23 @@ function get_offers($companies, $offers, $city_state, $Category)
         for($i = 0; $i < count($companies); $i++){
             
             if($companies[$i]['Category'] == $Category){
-                $arr[] = $companies[$i]['ID'];
+                $arr[] = $companies[$i];
             }
             
         }
     }else{
-        $rest_offers = get_rest_offers($city_state);
+        $rest_offers = get_rest_offers($city_state, $Category, $offers, $companies);
+
+    }
 
         if($rest_offers == "Error")
             return 'Error';
-    }
         
     if($Category == "-1"){
     for($i = 0; $i < count($companies); $i++){
 
         if($companies[$i]['CityState'] == $city_state){
-            $arr[] = $companies[$i]['ID'];
+            $arr[] = $companies[$i];
                 }
     }
 
@@ -131,7 +139,7 @@ function get_offers($companies, $offers, $city_state, $Category)
     for($i = 0; $i < count($offers); $i++){
 
         for($y = 0; $y < count($arr); $y++){
-            if($offers[$i]['CompanyID'] == $arr[$y]){
+            if($offers[$i]['CompanyID'] == $arr[$y]['ID']){
                 $Offers[] = $offers[$i];
             }
         }
@@ -139,14 +147,12 @@ function get_offers($companies, $offers, $city_state, $Category)
 
     if(count($rest_offers) > 0){
 
-        for($i = 0; $i < count($rest_offers); $i++){ 
-            for($y = 0; $y < count($offers); $y++){
-
+        for($i = 0; $i < count($rest_offers); $i++){
+            for($y = 0; $y < count($offers); $y++)
                 if($rest_offers[$i]['Offer'] == $offers[$y]['ID'])
                     $Offerss[] = $offers[$y];
-                
-            }
         }
+                
         
          for($i = 0; $i < count($Offerss); $i++){
              $Offers[] = $Offerss[$i];
@@ -169,9 +175,13 @@ function read_likes_length($Offer)
     return $num_rows;
 }
 
-function get_rest_offers($city_state){
+function get_rest_offers($city_state, $Category, $offers, $companies){
     
-    $SQL = "CALL read_Offer_CS('". $city_state ."')";
+    if($Category == '-1')
+        $SQL = "CALL read_Offer_CS('". $city_state ."')";
+    else
+        $SQL = "CALL read_Offer_CSParam('". $city_state ."', '". $Category ."')";
+        
     $message = "SQL-ERROR at /kategorier/ajax/get_Categoy_offers.php";
     list($num_rows, $result) = opendb($message, $SQL);
 
@@ -179,11 +189,15 @@ function get_rest_offers($city_state){
         return 'Error';
 
     $arr = array();
-
+  
     while($row = $result->fetch_assoc()){
         $arr[] = $row;
     }
 
-    return $arr;
+    if($Category == '-1')
+        return $arr;
 
+
+    return $arr;
 }
+    

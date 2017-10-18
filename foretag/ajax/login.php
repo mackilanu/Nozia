@@ -34,6 +34,7 @@ function login($Username, $Password){
     $orgnr    = $row['Orgnr'];
     $Email    = $row['Email'];
     $verify   = $row['Verify'];
+    $Category = $row['Category'];
 
     if(isset($_SESSION['id'])){
         session_destroy();
@@ -48,6 +49,6 @@ function login($Username, $Password){
     $_SESSION['Email']    = $Email;
     $_SESSION['verify']   = $verify;
     $_SESSION['type']     = 1;
-
+    $_SESSION['Category'] = $Category;
     return '{"status": "Auth", "ID": "'. $ID .'"}'; 
 }

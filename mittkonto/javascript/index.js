@@ -1,5 +1,4 @@
 $(document).ready(function() {
-    document.getElementById("welcome-message").innerHTML = "Mitt konto";
     document.getElementById("txt_Username").value  = User.info[0].Username;
     document.getElementById("txt_Firstname").value = User.info[0].Fname;
     document.getElementById("txt_Email").value     = User.info[0].Email;
