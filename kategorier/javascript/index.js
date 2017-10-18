@@ -121,7 +121,7 @@ function display_favorites_success(response) {
     document.getElementById("category-1").selected = true;
     var s = "";
     for(var i = 0; i < response.favs.length; i++) {
-	var likebtn = '<a id="btn_'+ response.favs[i].ID +'" onclick="Like('+ response.favs[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
+	var likebtn = '<button class="btn btn-default" id="btn_'+ response.favs[i].ID +'" onclick="Like('+ response.favs[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</button>';
 
         for(var y = 0; y < Companies.company.length; y++){
 
@@ -464,7 +464,8 @@ function get_category_offers_success(response) {
 	}
 
 	for(var i = 0; i < response.offer.length; i++){
-	    var likebtn = '<a id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
+	 	var likebtn = '<button class="btn btn-default" id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</button>';
+
 	    if(check == true){
     		for(var y = 0; y < likes.like.length; y++){
 
