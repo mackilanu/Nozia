@@ -565,7 +565,7 @@ function fetch_city_state_offers_success(response) {
 	}
 
 	for(var i = 0; i < response.offer.length; i++){
-	    var likebtn = '<a id="btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</a>';
+	    var likebtn = '<button class="btn btn-default" "btn_'+ response.offer[i].ID +'" onclick="Like('+ response.offer[i].ID +')"><span class="glyphicon glyphicon-thumbs-up"></span>Gilla</button>';
 	    if(check == true){
     		for(var y = 0; y < likes.like.length; y++){
 
