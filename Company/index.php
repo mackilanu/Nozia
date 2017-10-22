@@ -42,7 +42,7 @@ if($_SESSION['type'] == 1){
  echo "Offers = JSON.parse('". Offer() ."');";
 
  echo "var Post = '';";
- 0echo "Post = JSON.parse('". CompanyPost() ."');";
+ echo "Post = JSON.parse('". CompanyPost() ."');";
  echo "var fav = '';";
  echo "fav = JSON.parse('". read_fav() ."');";
  echo '</script>';
