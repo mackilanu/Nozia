@@ -25,8 +25,8 @@ if($_SESSION['type'] == 1){
  require_once("index_con.php");
 
 
-        echo '<link rel="stylesheet" href="../css/lab.css">';
-        echo '<script type="text/javascript" src="javascript/index.js"></script>';
+ echo '<link rel="stylesheet" href="../css/lab.css">';
+ echo '<script type="text/javascript" src="javascript/index.js"></script>';
 
  echo '<script type="text/javascript">';
  echo "var CS = '". $_SESSION['citystate']."';";
@@ -41,9 +41,10 @@ if($_SESSION['type'] == 1){
  echo "var Offers = '';";
  echo "Offers = JSON.parse('". Offer() ."');";
 
-  echo "var Post = '';";
- echo "Post = JSON.parse('". CompanyPost() ."');";
-
+ echo "var Post = '';";
+ 0echo "Post = JSON.parse('". CompanyPost() ."');";
+ echo "var fav = '';";
+ echo "fav = JSON.parse('". read_fav() ."');";
  echo '</script>';
 
 
@@ -70,7 +71,7 @@ if($_SESSION['type'] == 1){
     }
 
     
-    
+      $likes = array();
 
        $Company = '{"status": "OK", "Company": [';
     for ($i = 0; $i < $affected_rows; ++$i){
@@ -82,15 +83,65 @@ if($_SESSION['type'] == 1){
     }
     $Company         .= ']}';
 
+    
+
   return $Company;
 
 
  }
 
+function read_likes($Offer){
+    
+    $SQL     = "CALL read_likes_length('". $Offer ."')";
+     
+    $message = "SQL ERROR AT Company/index.php FUNCTION read_fav('". $_SESSION['id'] ."','". $_GET['id'] ."')";
+
+    list($num_rows, $result) = opendb($message, $SQL);
+
+        if(!$result)
+            return 'Error';
+
+    return $num_rows;
+    
+    
+}
+
+function read_fav(){
+
+    $SQL     = "CALL read_fav('". $_SESSION['id'] ."','". $_GET['id'] ."')";
+     
+    $message = "SQL ERROR AT Company/index.php FUNCTION read_fav('". $_SESSION['id'] ."','". $_GET['id'] ."')";
+
+     list($affected_rows, $result) = opendb($message, $SQL);
+
+     if($affected_rows == 0){
+         return '{"status": "not_fav"}';
+    }
+
+      if(!$result){
+
+        return '{"status": "Error"}';
+    }
+
+       $fav = '{"status": "OK", "fav": [';
+    for ($i = 0; $i < $affected_rows; ++$i){
+        $fav = $result->fetch_array(MYSQLI_ASSOC);
+        if ($i > 0){
+            $fav .=  ',';
+        }
+        $fav     .=  json_encode($row);
+    }
+    $fav         .= ']}';
+
+  return $fav;
+
+    
+}
+
  function Offer(){
 
-  $SQL     = "CALL read_offers('". $_GET['id'] ."')";
-
+     $SQL     = "CALL read_offers('". $_GET['id'] ."')";
+     
     //$SQL = "CALL read_Companies()";
     $message = "SQL ERROR AT Company/index.php FUNCTION Offer('". $_GET['id'] ."')";
 
@@ -105,16 +156,31 @@ if($_SESSION['type'] == 1){
         return '{"status": "Error"}';
     }
 
+      $likes = array();
+
        $Company = '{"status": "OK", "offer": [';
     for ($i = 0; $i < $affected_rows; ++$i){
         $row = $result->fetch_array(MYSQLI_ASSOC);
+         $likes[] = read_likes($row['ID']);
         if ($i > 0){
             $Company .=  ',';
         }
         $Company     .=  json_encode($row);
     }
-    $Company         .= ']}';
+    $Company         .= '],';
+    $Company .= '"likes": [';
+    for($i = 0; $i < count($likes); $i++){
+        
+        if($i > 0)
+            $Company .= ",";
+        
+        $Company .= $likes[$i];
+        
+    }
 
+    $Company .= "]}";
+
+  
   return $Company;
 
  }

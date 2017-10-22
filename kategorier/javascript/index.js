@@ -91,7 +91,7 @@ function display_favorites() {
             display_favorites_error();
         })
         .always(function() {
-        });
+        })
 }
 
 function display_favorites_success(response) {
