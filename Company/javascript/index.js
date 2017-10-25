@@ -6,14 +6,10 @@ $(window).on('load', function() {
     document.getElementById('Dis_phone').innerHTML  = '<span class="glyphicon glyphicon-earphone  style="margin-right: 5px;"></span>' +Foretagssida.foretag[0].Telefon;
     document.getElementById('Dis_adress').innerHTML =  '<span class="glyphicon glyphicon-map-marker  style="margin-right: 5px;"></span>' + Foretagssida.foretag[0].Adress;
     document.getElementById('Dis_email').innerHTML  = '<span class="glyphicon glyphicon-envelope" style="margin-right: 5px;"></span>' +Foretagssida.foretag[0].Postnr;
-    document.getElementById('iconName').innerHTML   = '<img src="../../images/'+ Companies.Company[0].Icon +'" style="height: auto; width: 200px;">';
+    //document.getElementById('iconName').innerHTML   = '<img src="../../images/'+ Companies.Company[0].Icon +'" style="height: auto; width: 200px;">';
     document.getElementById('iconName').innerHTML   += '<p style="text-align:center; font-size: 24pt;">'+ Companies.Company[0].Name +'</p>';
 
     document.getElementById('banner').style.backgroundImage = "url('../../images/"+Foretagssida.foretag[0].Banner+"')";
-
-    
-
-    //alert(Offers.offer[0].Image);
 
 });
 
