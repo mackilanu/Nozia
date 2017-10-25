@@ -27,6 +27,7 @@ if($_SESSION['type'] == 1){
 
  echo '<link rel="stylesheet" href="../css/lab.css">';
  echo '<script type="text/javascript" src="javascript/index.js"></script>';
+ echo '<script type="text/javascript" src="../includes/common.js"></script>';
 
  echo '<script type="text/javascript">';
  echo "var CS = '". $_SESSION['citystate']."';";
@@ -82,9 +83,8 @@ if($_SESSION['type'] == 1){
         $Company     .=  json_encode($row);
     }
     $Company         .= ']}';
-
     
-
+  $Company = str_replace('\r\n', "<br>", $Company);
   return $Company;
 
 
@@ -162,6 +162,7 @@ function read_fav(){
     for ($i = 0; $i < $affected_rows; ++$i){
         $row = $result->fetch_array(MYSQLI_ASSOC);
          $likes[] = read_likes($row['ID']);
+
         if ($i > 0){
             $Company .=  ',';
         }
@@ -180,7 +181,7 @@ function read_fav(){
 
     $Company .= "]}";
 
-  
+  $Company = str_replace('\r\n', "<br>", $Company);
   return $Company;
 
  }
@@ -212,7 +213,7 @@ function read_fav(){
         $Company     .=  json_encode($row);
     }
     $Company         .= ']}';
-
+    $Company = str_replace('\n\n', "<br>", $Company);
   return $Company;
 
  }
@@ -244,7 +245,7 @@ function read_fav(){
         $Company     .=  json_encode($row);
     }
     $Company         .= ']}';
-
+    $Company = str_replace('\r\n', "<br>", $Company);
   return $Company;
 
 

@@ -26,7 +26,7 @@ require_once("index_con.php");
 
 echo '<link rel="stylesheet" href="../css/foretagindex.css">';
 echo '<script type="text/javascript" src="javascript/index.js"></script>';
-
+echo '<script type="text/javascript" src="../includes/common.js"></script>';
 echo '<script type="text/javascript">';
 echo 'var ID = '. $_SESSION['id'] .';';
 echo "var Country  = '';";
@@ -109,7 +109,7 @@ function CityStates()
         $CS .= json_encode($row);
     }
     $CS .= ']}';
-    
+    $CS = str_replace('\r\n', "<br>", $CS);
     return $CS;  
 }
 
@@ -141,7 +141,7 @@ function CompanyPost()
         $Company .= json_encode($row);
     }
     $Company .= ']}';
-    
+    $Company = str_replace('\n\n', "", $Company);
     return $Company;
 }
 function Offer()
@@ -172,7 +172,9 @@ function Offer()
         $Company .= json_encode($row);
     }
     $Company .= ']}';
-    
+
+    $Company = str_replace('\r\n', "", $Company);
+    $Company = str_replace('\r\n', "<br>", $Company);
     return $Company; 
 }
 
@@ -204,7 +206,7 @@ function foretagssida()
         $Company .= json_encode($row);
     }
     $Company .= ']}';
-    
+    $Company = str_replace('\r\n', "<br>", $Company);
     return $Company; 
 }
 
@@ -236,7 +238,7 @@ function Companies()
         $Company .= json_encode($row);
     }
     $Company .= ']}';
-    
+    $Company = str_replace('\r\n', "<br>", $Company);
     return $Company;  
 }
 ?>
