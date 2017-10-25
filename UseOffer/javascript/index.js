@@ -39,9 +39,9 @@ $(document).ready(function() {
   } else {
     document.getElementById("p_Used").innerHTML += "Ja";
   }
-  document.getElementById("main_jumb").innerHTML += "<h2>" + Offers.offer[0].Caption + "</h2>";
-  document.getElementById("main_jumb").innerHTML += "<img style='text-align:center; max-width: 500px;' src='../images/" + Offers.offer[0].Image + "'>";
-  document.getElementById("main_jumb").innerHTML += "<p>" + Offers.offer[0].ShortDes + "</p>";
+  document.getElementById("main_jumb").innerHTML += "<h2 style='font-size: 14pt;'>" + Offers.offer[0].Caption + "</h2>";
+  document.getElementById("main_jumb").innerHTML += "<img style='max-width: 500px;max-heigth: 500px;' src='../images/" + Offers.offer[0].Image + "'>";
+  document.getElementById("main_jumb").innerHTML += "<p style='font-size: 12pt;'>" + Offers.offer[0].ShortDes + "</p>";
 });
 
 function Update_MyOffer() {
