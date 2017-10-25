@@ -1,14 +1,14 @@
 <div class="col-md-12" style="">
      
+     <div class="col-md-5 col-xs-4"></div>
      
+     <div id="iconName">
      
-     <div id="iconName" style="text-align: center;">
-     
-     <img src="../img/greenlogo.png" style="height: 200px; width: 200px;">
+     <img src="#" style="height: 200px; width: 200px;">
      
      </div>
      
-    <div class="jumbotron" id="banner" style="max-height: 230px; padding-top: 9%; padding-bottom: 9%; background-repeat: no-repeat; background-size: 100%;">
+    <div class="jumbotron" id="banner" style="height: 230px; background-repeat: no-repeat; background-size: 100%;">
      </div>
      <div id="fav_btn" style="text-align: center; margin-bottom: 20px;"></div>
      <div class="col-md-6">
