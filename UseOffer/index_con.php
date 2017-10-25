@@ -1,4 +1,4 @@
-<div class="jumbotron img-responsive"  id="main_jumb">
+<div style="text-align: center;" id="main_jumb">
 </div>
 <!-- Trigger the modal with a button -->
 <!-- Modal -->
@@ -26,5 +26,5 @@
   <p id="p_DueDate" style="text-align: center; font-size: 12pt;">Slutdatum: </p>
 </div>
 <p id="p_Used" style="text-align: center; font-size: 12pt;">Använd: </p>
-<div class="col-md-5 col-xs-3 col-sm-4"> </div>
-<div id="btn-container"></div>
+
+<div id="btn-container" style="text-align: center;"></div>
