@@ -595,8 +595,10 @@ function update_info() {
     }
 
     var instring = '{"Phone": "' + phone + '", "Email": "' + email + '", "Adress": "' + adress + '"}';
-
+    instring = escapeSpecialChars(instring);
     var objekt = JSON.parse(instring);
+
+
 
     $.getJSON("ajax/update_info.php", objekt)
         .done(function(data) {
@@ -710,9 +712,9 @@ function update_Post() {
 
 
     var instring = '{"Caption": "' + caption + '", "Text": "' + text + '"}';
-
+    instring = escapeSpecialChars(instring);
     var objekt = JSON.parse(instring);
-
+    
     $.getJSON("ajax/update_Post.php", objekt)
         .done(function(data) {
             update_Post_success(data);
