@@ -24,7 +24,7 @@ function get_background($ID)
     if($row[0] == null)
     return '{"status": "NoBg"}';
 
-    return '{"status": "OK", "Background": "'. $row[0] .'"}';  
+    return '{"status": "OK", "color": "'. $row[0] .'"}';  
 
 
 }

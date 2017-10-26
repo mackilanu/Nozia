@@ -1,0 +1,24 @@
+<?php
+@session_start();
+header('Content-Type: application/json');
+date_default_timezone_set("Europe/Stockholm");
+require_once("../../includes/config.php");
+require_once("../../MySQL/DBconnect.php");
+
+$Color   = $_GET['Color'];
+
+echo update_BackgroundColor($Color);
+//This function updates the company's miniblog
+function update_BackgroundColor($Color)
+{  
+    $SQL = "update_BackgroundColor('". $Color ."', '". $_SESSION['id'] ."')";
+    $message = "SQL ERROR AT controlpanel/update_BackgroundColor.php FUNCTION update_BackgroundColor($Color)";
+
+    list($num_rows, $result) = opendb($message, $SQL);
+
+    if($num_rows == 0; or !$result){
+        return '{"status": "Error"}';
+    }
+
+     return '{"status": "OK"}';
+}

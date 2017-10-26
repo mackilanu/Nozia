@@ -118,66 +118,66 @@ function change_background() {
         .always(function() {
 
         });
-
-
-
 }
 
 function get_background_success(response) {
     var s = "";
-    s += '<form enctype="multipart/form-data" method="post" action="ajax/upload_background.php" id="bgform">';
-    s += '<input type="file" name="bgfile">';
-    s += '<br>';
-    s += '<input type="submit" name="submitbg" class="btn btn-success" value="Ladda upp">';
-    s += '</form>';
-    if(response.status == "NoBg"){
+   
+    s += '<label for="example-color-input" class="col-2 col-form-label">Bakgrundsfärg</label>';
+    s += '<div class="col-10">';
+    s += '<input class="form-control" type="color" value="'+ response.color +'" id="BgColor"><br>';
+    s +='</div>';
+    s += '<div id="update_BgColor_msg" class="alert alert-success"><strong>Färgen är nu ändrad.</strong></div>';
 
-        s += "<h1>Ditt företag har inte laddat upp någon bakgrund.</h1>";
-    
-}
-    if(response.status == "OK"){
-        s += '<h4>Nuvarande bakgrund:</h4>';
-        s += '<img src="/images/'+ response.Background +'">';
-    }
-
+     s += '<button type="submit" id="Bg_btn" class="btn btn-success" onclick="update_BgColor()">Bekräfta</button>';
+ 
        if(response.status == "Error"){
         alert("Ett fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
         s += "Error";
     }
 
     document.getElementById("main").innerHTML = s;
-
-
-    $(function() {
-
-        $("#bgform").ajaxForm({
-
-            beforeSend: function() {
-
-           
-            },
-            uploadProgress: function(event, position, total, percentComplete) {
-
-
-            },
-            success: function() {
-
-            },
-            complete: function(response) {
-                    upload_background_success(response);
-                }
-
-            }
-
-        );
-
-
-
-    });
+    $("#update_BgColor_msg").hide();
 }
 function get_background_error() {
 
     alert("Ett allvarligt fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
+}
+
+function update_BgColor(){
+
+    var BgColor = document.getElementById("BgColor").value;
+    var id = ID;
+    
+    var instring = '{"Color": "' + BgColor + '", "ID": "'+ id +'"}';
+    var objekt = JSON.parse(instring);
+  
+    $.getJSON("ajax/update_BackgroundColor.php", objekt)
+        .done(function(data) {
+           update_BgColor_success(data);
+        })
+        .fail(function() {
+            update_BgColor_error();
+        })
+        .always(function() {
+	    
+        });
+}
+
+function update_BgColor_success(response) {
+
+    if(response.status == "OK"){
+	 $("#update_BgColor_msg").show();
+    }
+
+    if(response.status == "Error"){
+	alert("Ett fel inträffade, vänligen kontakta support om problemet kvarstår.");
+    }
+}
+
+function update_BgColor_error() {
+
+    alert("Ett allvarligt fel inträffade, vänligen kontakta support om problemet kvarstår.");
 }
 
 function upload_background_success(response) {

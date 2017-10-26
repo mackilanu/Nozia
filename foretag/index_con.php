@@ -68,8 +68,8 @@
 					
 						
 	 </div>
-     </div>
-     </div>
+    
+    
                    <button type="button" id="register" class="btn btn-lg" onclick="register()">Registrera ditt företag</button>
 		    <input type="checkbox" style="form-control" id="check" onclick="checkchecked()"> <p style="font-size: 12pt; color: black; display: inline;">Godkänn <a data-toggle="modal" data-target="#terms" style="cursor: pointer;">användarvillkoren</a></p>
 				</div>
