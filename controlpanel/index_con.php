@@ -25,7 +25,7 @@
                 <i class="fa fa-search"></i> Ändra logo
                 </a>
                 <a id="btn_bg" class="list-group-item pointer" onclick="change_background()">
-                <i class="fa fa-bar-chart-o"></i>Ändra bakgrund
+                <i class="fa fa-bar-chart-o"></i>Ändra bakgrundsfärg
                 </a>                  
                 <a id="btn_info" class="list-group-item pointer" onclick="change_info()">
                 <i class="fa fa-user "></i> Hantera uppgifter

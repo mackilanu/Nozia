@@ -1,5 +1,6 @@
 <div class='col-md-6 col-xs-12'>
 	<div class="formBackground">
+    
 		<div class="row content-row" id="username-row">
 			<input type="text" name="Username" id="Username" class="col-sm-12 col-xs-12 inputField leftElement" placeholder="Användarnamn" onchange="checkUsername(this.value)" >
 		</div>
@@ -69,16 +70,20 @@
 		<div class="row content-row">
 			<input type="password" name="password" id="pword" class="col-sm-12 col-xs-12 inputField" onchange="checkPass(this.value)" placeholder="Lösenord">
 		</div>
+                       
 		<div class="row form-group has-error">
 			<input type="password" name="re-password" id="re-password" onchange="checkRePass(this.value)" class="col-sm-12 col-xs-12 inputField" placeholder="Upprepa Lösenord">
 		</div>
 	</div>
+                   
     
 	<button type="button" id="register" class="btn btn-lg" onclick="register()">Registrera</button>
 	                    <input type="checkbox" style="form-control" id="check" onclick="checkchecked()"> <p style="font-size: 12pt; color: black; display: inline;">Godkänn <a data-toggle="modal" data-target="#terms" style="cursor: pointer;">användarvillkoren</a></p>
+
 </div>
 <div class="col-md-2"></div>
 <div class="col-md-4">
+                       
 	<img src="../img/newlogo.png" width="200" style="margin-left: 50px;" height="200">
 	<p style="font-size: 14pt;">
 		Framtiden är här, där du om du drar ditt strå till stacken, kan bidra och hjälpa till med att få bort pappersreklamen, inte bara i Sverige utan i Norden, Europa och Världen.
@@ -103,6 +108,8 @@
 		<li>Reklam när, var och hur <b><u>DU</u></b> vill</li>
 	</ul>
 </div>
+                        </div>
+                       
 <!-- 
 	<iframe width="560" height="315" src="https://www.youtube.com/embed/XHEo8RzPCdc">
 	</iframe> -->
@@ -124,7 +131,6 @@
 			<button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
 		</div>
 	</div>
-</div>
 </div>                        
                         
 
@@ -152,5 +158,4 @@ Företag får inte kontakt DIG annat än genom Nozia om inget annat av DIG anges
       </div>
     </div>
 
-  </div>
-</div>                        
+  </div>                        

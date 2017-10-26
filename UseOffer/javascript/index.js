@@ -40,8 +40,11 @@ $(document).ready(function() {
     document.getElementById("p_Used").innerHTML += "Ja";
   }
   document.getElementById("main_jumb").innerHTML += "<h2 style='font-size: 14pt;'>" + Offers.offer[0].Caption + "</h2>";
-  document.getElementById("main_jumb").innerHTML += "<img style='max-width: 300px; max-heigth: 500px;' src='../images/" + Offers.offer[0].Image + "'>";
-  document.getElementById("main_jumb").innerHTML += "<p style='font-size: 12pt;'>" + Offers.offer[0].ShortDes + "</p>";
+
+  document.getElementById("main_jumb").innerHTML += "<img style='max-width: 500px; width: auto;max-heigth: 500px;' src='../images/" + Offers.offer[0].Image + "'>";
+   document.getElementById("main_jumb").innerHTML += "<img style='max-width: 300px; max-heigth: 500px;' src='../images/" + Offers.offer[0].Image + "'>";
+document.getElementyId("main_jumb").innerHTML += "<p style='font-size: 12pt;'>" + Offers.offer[0].ShortDes + "</p>";  
+  
 });
 
 function Update_MyOffer() {
