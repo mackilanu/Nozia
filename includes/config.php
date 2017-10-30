@@ -52,7 +52,7 @@ define("END", '
 
 define("NAV",'
 
-    <nav role="navigation" class="navbar navbar-default bar" id="usernav">
+    <nav role="navigation" class="navbar navbar-default bar" id="CompanyNav">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">
@@ -84,7 +84,7 @@ define("NAV",'
 
 define("COMPANYNAV",'
 
-    <nav role="navigation" class="navbar navbar-default bar" style="background-color: red;">
+    <nav role="navigation" class="navbar navbar-default bar" id="CompanyNav" style="background-color: red;">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
         <button type="button" data-target="#navbarCollapse" data-toggle="collapse" class="navbar-toggle">

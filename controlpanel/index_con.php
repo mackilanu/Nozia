@@ -26,7 +26,10 @@
                 </a>
                 <a id="btn_bg" class="list-group-item pointer" onclick="change_background()">
                 <i class="fa fa-bar-chart-o"></i>Ändra bakgrundsfärg
-                </a>                  
+                </a>
+                <a id="btn_navbar" class="list-group-item pointer" onclick="change_navbar()">
+                <i class="fa fa-bar-chart-o"></i>Ändra Navbarfärg
+                </a>
                 <a id="btn_info" class="list-group-item pointer" onclick="change_info()">
                 <i class="fa fa-user "></i> Hantera uppgifter
                 </a>
