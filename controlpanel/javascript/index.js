@@ -1,3 +1,104 @@
+
+function change_navbar() {
+    document.getElementById("btn_navbar").style.backgroundColor = "#ff0000";
+    document.getElementById("btn_navbar").style.color = "#FFF";
+
+    document.getElementById("btn_icon").style.backgroundColor = "#FFF";
+    document.getElementById("btn_icon").style.color = "#2F4F4F";
+
+    document.getElementById("btn_offers").style.backgroundColor = "#FFF";
+    document.getElementById("btn_offers").style.color = "#2F4F4F";
+
+    document.getElementById("btn_info").style.backgroundColor = "#FFF";
+    document.getElementById("btn_info").style.color = "#2F4F4F";
+
+    document.getElementById("btn_blog").style.backgroundColor = "#FFF";
+    document.getElementById("btn_blog").style.color = "#2F4F4F";
+
+    document.getElementById("btn_bg").style.backgroundColor = "#FFF";
+    document.getElementById("btn_bg").style.color = "#2F4F4F";
+
+    document.getElementById("btn_files").style.backgroundColor = "#FFF";
+    document.getElementById("btn_files").style.color = "#2F4F4F";
+
+    document.getElementById("btn_banner").style.backgroundColor = "#FFF";
+    document.getElementById("btn_banner").style.color = "#2F4F4F";
+
+    
+    var instring = '{"CompanyID": "' + ID + '"}';
+    var objekt = JSON.parse(instring);
+
+    $.getJSON("ajax/get_navbar.php", objekt)
+        .done(function(data) {
+            get_navbar_success(data);
+        })
+        .fail(function() {
+            get_navbar_error();
+        })
+        .always(function() {
+
+        });
+}
+
+function get_navbar_success(response) {
+
+        var s = "";
+   
+    s += '<label for="example-color-input" class="col-2 col-form-label">Bakgrundsfärg</label>';
+    s += '<div class="col-10">';
+    s += '<input class="form-control" type="color" value="'+ response.color +'" id="NavbarColor"><br>';
+    s +='</div>';
+    s += '<div id="update_Navbar_msg" class="alert alert-success"><strong>Färgen är nu ändrad.</strong></div>';
+
+     s += '<button type="submit" id="Bg_btn" class="btn btn-success" onclick="update_NavbarColor()">Bekräfta</button>';
+ 
+       if(response.status == "Error"){
+        alert("Ett fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
+        s = "Error";
+    }
+
+    document.getElementById("main").innerHTML = s;
+    $("#update_Navbar_msg").hide();
+}
+
+function get_navbar_error() {
+
+    alert("Ett allvarligt fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
+}
+
+function update_NavbarColor() {
+    
+    var Color = document.getElementById("NavbarColor").value;
+    var instring = '{"Color": "' + Color + '", "ID": "'+ ID +'"}';
+    var objekt = JSON.parse(instring);
+
+    $.getJSON("ajax/update_navbar.php", objekt)
+        .done(function(data) {
+            update_navbar_success(data);
+        })
+        .fail(function() {
+            update_navbar_error();
+        })
+        .always(function() {
+	    
+        });
+}
+
+function update_navbar_success(response) {
+
+    if(response.status == "OK"){
+	 $("#update_Navbar_msg").show();
+    }
+
+    if(response.status == "Error"){
+	 alert("Ett fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
+    }
+}
+
+function update_navbar_error() {
+     alert("Ett allvarligt fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
+}
+
 function change_banner() {
 
 
@@ -21,6 +122,9 @@ function change_banner() {
 
     document.getElementById("btn_files").style.backgroundColor = "#FFF";
     document.getElementById("btn_files").style.color = "#2F4F4F";
+
+    document.getElementById("btn_navbar").style.backgroundColor = "#FFF";
+    document.getElementById("btn_navbar").style.color = "#2F4F4F";
 
     var s = "";
     s += '<form enctype="multipart/form-data" method="post" action="ajax/uploadbanner.php" id="bannerform">';
@@ -105,6 +209,9 @@ function change_background() {
     document.getElementById("btn_files").style.backgroundColor = "#FFF";
     document.getElementById("btn_files").style.color = "#2F4F4F";
 
+    document.getElementById("btn_navbar").style.backgroundColor = "#FFF";
+    document.getElementById("btn_navbar").style.color = "#2F4F4F";
+
     var instring = '{"CompanyID": "' + ID + '"}';
     var objekt = JSON.parse(instring);
 
@@ -133,7 +240,7 @@ function get_background_success(response) {
  
        if(response.status == "Error"){
         alert("Ett fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
-        s += "Error";
+        s = "Error";
     }
 
     document.getElementById("main").innerHTML = s;
@@ -213,6 +320,9 @@ function change_icon() {
 
     document.getElementById("btn_bg").style.backgroundColor = "#FFF";
     document.getElementById("btn_bg").style.color = "#2F4F4F";
+
+    document.getElementById("btn_navbar").style.backgroundColor = "#FFF";
+    document.getElementById("btn_navbar").style.color = "#2F4F4F";
 
     var s = "";
     s += '<form enctype="multipart/form-data" method="post" action="ajax/uploadicon.php" id="iconform">';
@@ -296,6 +406,9 @@ function change_offers() {
 
     document.getElementById("btn_bg").style.backgroundColor = "#FFF";
     document.getElementById("btn_bg").style.color = "#2F4F4F";
+
+    document.getElementById("btn_navbar").style.backgroundColor = "#FFF";
+    document.getElementById("btn_navbar").style.color = "#2F4F4F";
 
     var s = "";
 
@@ -535,6 +648,9 @@ function change_info() {
 
     document.getElementById("btn_bg").style.backgroundColor = "#FFF";
     document.getElementById("btn_bg").style.color = "#2F4F4F";
+    
+    document.getElementById("btn_navbar").style.backgroundColor = "#FFF";
+    document.getElementById("btn_navbar").style.color = "#2F4F4F";
 
     var s = "";
     s += '<div class="form-group">';
@@ -564,7 +680,7 @@ function change_info() {
     $("#update_info_msg").hide();
 
 
-
+   
 }
 
 function update_info() {
@@ -681,6 +797,9 @@ function change_Post() {
     document.getElementById("btn_bg").style.backgroundColor = "#FFF";
     document.getElementById("btn_bg").style.color = "#2F4F4F";
 
+    document.getElementById("btn_navbar").style.backgroundColor = "#FFF";
+    document.getElementById("btn_navbar").style.color = "#2F4F4F";
+
 
     var s = "";
 
@@ -771,7 +890,10 @@ function change_files() {
     document.getElementById("btn_blog").style.color = "#2F4F4F";
 
     document.getElementById("btn_bg").style.backgroundColor = "#FFF";
-    document.getElementById("btn_bg").style.color = "#2F4F4F";    
+    document.getElementById("btn_bg").style.color = "#2F4F4F";
+
+    document.getElementById("btn_navbar").style.backgroundColor = "#FFF";
+    document.getElementById("btn_navbar").style.color = "#2F4F4F";
 
     var instring = '{"ID": "' + ID + '"}';
 

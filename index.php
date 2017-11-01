@@ -18,7 +18,7 @@ require_once ("MySQL/DBconnect.php");
 echo HEAD . "<title>NOZIA - Registrera dig!</title>" . CLOSE_HEAD;
 echo STARTNAV;
 echo BODY;
-require_once ("index_con.php");
+require_once ("index_contest.php");
 
 echo '<link rel="stylesheet" href="css/lab.css">';
 echo '<script type="text/javascript" src="register/javascript/login.js"></script>';
