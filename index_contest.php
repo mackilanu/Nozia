@@ -1,5 +1,8 @@
-<<div class='col-md-6 col-xs-12'>
-	<div class="formBackground">
+<div class="row">
+
+     <div class="col-md-6">
+
+     	<div class="formBackground">
     
 		<div class="row content-row" id="username-row">
 			<input type="text" name="Username" id="Username" class="col-sm-12 col-xs-12 inputField leftElement" placeholder="Användarnamn" onchange="checkUsername(this.value)" >
@@ -81,10 +84,11 @@
 	                    <input type="checkbox" style="form-control" id="check" onclick="checkchecked()"> <p style="font-size: 12pt; color: black; display: inline;">Godkänn <a data-toggle="modal" data-target="#terms" style="cursor: pointer;">användarvillkoren</a></p>
 
 </div>
-<div class="col-md-2"></div>
-<div class="col-md-4">
-                       
-	<img src="../img/newlogo.png" width="200" style="margin-left: 50px;" height="200">
+    <div class="col-md-2"></div>
+
+     <div class="col-md-4">
+
+                        	<img src="../img/newlogo.png" width="200" style="margin-left: 50px;" height="200">
 	<p style="font-size: 14pt;">
 		Framtiden är här, där du om du drar ditt strå till stacken, kan bidra och hjälpa till med att få bort pappersreklamen, inte bara i Sverige utan i Norden, Europa och Världen.
 		<br>
@@ -109,53 +113,6 @@
 	</ul>
 </div>
                         </div>
-                       
-<!-- 
-	<iframe width="560" height="315" src="https://www.youtube.com/embed/XHEo8RzPCdc">
-	</iframe> -->
-<div id="myModal" class="modal fade" role="dialog">
-<div class="modal-dialog">
-	<div class="modal-content">
-		<div class="modal-header">
-			<button type="button" class="close" data-dismiss="modal">&times;</button>
-			<h3 class="modal-title">Återställ lösenord</h3>
-			<small>Om email-adressen finns i vårt system så skickas ett mail till den angivna adressen med en återställningslänk.</small>
-		</div>
-		<div class="modal-body">
-			<label for="txt_email">Email:</label>
-			<input type="text" id="txt_email" class="form-control">
-			<br>
-			<button type="button" class="btn btn-success" id="btn_resetPw" onclick="resetPw()">Återställ</button>
-		</div>
-		<div class="modal-footer">
-			<button type="button" class="btn btn-default" data-dismiss="modal">Stäng</button>
-		</div>
-	</div>
-</div>                        
-                        
 
-<div id="terms" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Användarvillkor</h4>
       </div>
-      <div class="modal-body">
-        <p>När DU registrerar dig på Nozia så är all personlig information skyddat av dataskyddslagen.
-  <a href="http://www.regeringen.se/49a184/contentassets/e98119b4c08d4d60a0a2d0878990d5ec/ny-dataskyddslag-sou-201739" target="_blank"> SOU 2017:39 pdf.</a><br><br>
-Nozia får inte under några omständigheter annat än om lagen kräver det lämna ut några uppgifter som DU lämnar till Nozia.
-Företag får inte kontakt DIG annat än genom Nozia om inget annat av DIG anges.</p>
-
-<p>Emailen som DU anger vid registrering får inte användas i kommersiellt syfte av Nozia eller något annat företag utan ditt godkännande.</p>
-
-<p>Om DU lämnar uppgifter som telefonummer och adress så faller det under personligt ansvar.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>                        
+</div>
