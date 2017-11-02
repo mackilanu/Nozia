@@ -116,30 +116,3 @@
 
       </div>
 </div>
-
-                        
-<div id="terms" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">&times;</button>
-        <h4 class="modal-title">Användarvillkor</h4>
-      </div>
-      <div class="modal-body">
-        <p>När DU registrerar dig på Nozia så är all personlig information skyddat av dataskyddslagen.
-  <a href="http://www.regeringen.se/49a184/contentassets/e98119b4c08d4d60a0a2d0878990d5ec/ny-dataskyddslag-sou-201739" target="_blank"> SOU 2017:39 pdf.</a><br><br>
-Nozia får inte under några omständigheter annat än om lagen kräver det lämna ut några uppgifter som DU lämnar till Nozia.
-Företag får inte kontakt DIG annat än genom Nozia om inget annat av DIG anges.</p>
-
-<p>Emailen som DU anger vid registrering får inte användas i kommersiellt syfte av Nozia eller något annat företag utan ditt godkännande.</p>
-
-<p>Om DU lämnar uppgifter som telefonummer och adress så faller det under personligt ansvar.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-
-  </div>
