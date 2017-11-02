@@ -11,7 +11,7 @@
 
  echo BODY;
 
- require_once("index_con.php");
+ require_once("index_contest.php");
 
  echo '<link rel="stylesheet" href="../css/foretagindex.css">';
  echo '<script type="text/javascript" src="javascript/index.js"></script>';

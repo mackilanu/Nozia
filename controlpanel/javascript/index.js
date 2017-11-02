@@ -42,17 +42,17 @@ function change_navbar() {
 
 function get_navbar_success(response) {
 
-        var s = "";
-   
+    var s = "";
+    
     s += '<label for="example-color-input" class="col-2 col-form-label">Bakgrundsfärg</label>';
     s += '<div class="col-10">';
     s += '<input class="form-control" type="color" value="'+ response.color +'" id="NavbarColor"><br>';
     s +='</div>';
     s += '<div id="update_Navbar_msg" class="alert alert-success"><strong>Färgen är nu ändrad.</strong></div>';
 
-     s += '<button type="submit" id="Bg_btn" class="btn btn-success" onclick="update_NavbarColor()">Bekräfta</button>';
- 
-       if(response.status == "Error"){
+    s += '<button type="submit" id="Bg_btn" class="btn btn-success" onclick="update_NavbarColor()">Bekräfta</button>';
+    
+    if(response.status == "Error"){
         alert("Ett fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
         s = "Error";
     }
@@ -87,16 +87,16 @@ function update_NavbarColor() {
 function update_navbar_success(response) {
 
     if(response.status == "OK"){
-	 $("#update_Navbar_msg").show();
+	$("#update_Navbar_msg").show();
     }
 
     if(response.status == "Error"){
-	 alert("Ett fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
+	alert("Ett fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
     }
 }
 
 function update_navbar_error() {
-     alert("Ett allvarligt fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
+    alert("Ett allvarligt fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
 }
 
 function change_banner() {
@@ -229,16 +229,16 @@ function change_background() {
 
 function get_background_success(response) {
     var s = "";
-   
+    
     s += '<label for="example-color-input" class="col-2 col-form-label">Bakgrundsfärg</label>';
     s += '<div class="col-10">';
     s += '<input class="form-control" type="color" value="'+ response.color +'" id="BgColor"><br>';
     s +='</div>';
     s += '<div id="update_BgColor_msg" class="alert alert-success"><strong>Färgen är nu ändrad.</strong></div>';
 
-     s += '<button type="submit" id="Bg_btn" class="btn btn-success" onclick="update_BgColor()">Bekräfta</button>';
- 
-       if(response.status == "Error"){
+    s += '<button type="submit" id="Bg_btn" class="btn btn-success" onclick="update_BgColor()">Bekräfta</button>';
+    
+    if(response.status == "Error"){
         alert("Ett fel har inträffat. Vänligen kontakta support om problemet kvarstår.");
         s = "Error";
     }
@@ -258,10 +258,10 @@ function update_BgColor(){
     
     var instring = '{"Color": "' + BgColor + '", "ID": "'+ id +'"}';
     var objekt = JSON.parse(instring);
-  
+    
     $.getJSON("ajax/update_BackgroundColor.php", objekt)
         .done(function(data) {
-           update_BgColor_success(data);
+            update_BgColor_success(data);
         })
         .fail(function() {
             update_BgColor_error();
@@ -274,7 +274,7 @@ function update_BgColor(){
 function update_BgColor_success(response) {
 
     if(response.status == "OK"){
-	 $("#update_BgColor_msg").show();
+	$("#update_BgColor_msg").show();
     }
 
     if(response.status == "Error"){
@@ -289,11 +289,11 @@ function update_BgColor_error() {
 
 function upload_background_success(response) {
 
-  if(response.responseText == "Error")
-    alert("Ett fel inträffade, vänligen kontakta support om problemet kvarstår.");
+    if(response.responseText == "Error")
+	alert("Ett fel inträffade, vänligen kontakta support om problemet kvarstår.");
 
-  if(response.responseText == "OK")
-    change_background();
+    if(response.responseText == "OK")
+	change_background();
 
 }
 
@@ -680,7 +680,7 @@ function change_info() {
     $("#update_info_msg").hide();
 
 
-   
+    
 }
 
 function update_info() {
@@ -912,54 +912,51 @@ function change_files() {
 }
 
 function change_files_success(response) {
-
-	if(response.status == "NoFiles"){
-		document.getElementById("main").innerHTML = '<h1>Företaget har inga filer för tillfället.</h1><br><br><button class="btn btn-success" onclick="add_file()">Ladda upp fil</button>';
-	}
-
+    
+    if(response.status == "NoFiles"){
+	document.getElementById("main").innerHTML = '<h1>Företaget har inga filer för tillfället.</h1><br><br><button class="btn btn-success" onclick="add_file()">Ladda upp fil</button>';
+    }
+    
     var s = "";
-
-
+    var y = "";
 
     document.getElementById("main").innerHTML = s;
-
+    
     if(response.status == "OK"){
-         s += '<table class="table table-bordered" id=files_table">';
-    s += '<thead>';
-    s += '<tr>';
-    s += '<th>Rubrik</th>';
-    s += '<th>Visa bild</th>';
-    s += '<th>Åtgärd</th>'
-    s += '</tr>';
-    s += '</thead>';
-    s += '<tbody id="files_tbody">';
-    s += '</tbody>';
-    s += '</table>';
-    s += '<button class="btn btn-success" onclick="add_file()">Ladda upp fil</button>';
+        s += '<table class="table table-bordered" id=files_table">';
+	s += '<thead>';
+	s += '<tr>';
+	s += '<th>Rubrik</th>';
+	s += '<th>Visa bild</th>';
+	s += '<th>Åtgärd</th>'
+	s += '</tr>';
+	s += '</thead>';
+	s += '<tbody id="files_tbody">';
+	s += '</tbody>';
+	s += '</table>';
+	s += '<button class="btn btn-success" onclick="add_file()">Ladda upp fil</button>';
+	
+	
+	y += '<tr>';
+	for(var i = 0; i < response.file.length; i++){
+            y += '<td>'+ response.file[i].Caption +'</td>';
+            y += '<td id="'+ response.file[i].ID +'"><button class="btn btn-default">Visa bild</button></td>';
+            y += '<td><button value="'+ response.file[i].ID +'" class="btn btn-danger" onclick="remove_file(this.value)">Ta bort</button></td>';
+	}
 
-
-       s += '<tr>';
-       for(var i = 0; i < response.file.length; i++){
-        s += '<td>'+ response.file[i].Caption +'</td>';
-        s += '<td id="'+ response.file[i].ID +'"><button class="btn btn-default">Visa bild</button></td>';
-        s += '<td><button value="'+ response.file[i].ID +'" class="btn btn-danger">Ta bort</button></td>';
-       }
-
-       s += '</tr>';
-       
-       document.getElementById("files_tbody").innerHTML = s;
+	y += '</tr>';
+	
+	document.getElementById("main").innerHTML = s;
+	document.getElementById("files_tbody").innerHTML = y;
     }
-
+    
     if(response.status == "Error"){
-      alert("Något gick snett!");
+	alert("Något gick snett!");
     }
-
+    
     if(response.status == "NoFiles"){
-      document.getElementById("main").innerHTML += '<p>Företaget har för närvarande inga filer.</p><button class="btn btn-success" onclick="add_file()">Lägg till fil</button>';
-    }
-
-
-
+	document.getElementById("main").innerHTML += '<p>Företaget har för närvarande inga filer.</p><button class="btn btn-success" onclick="add_file()">Lägg till fil</button>';
+    }    
 }
 
 function change_files_error() {
@@ -968,20 +965,20 @@ function change_files_error() {
 }
 function add_file(){
 
-     var s = "";
+    var s = "";
 
-     s += '<form enctype="multipart/form-data" method="post" action="ajax/upload_file.php" id="newfileform">';
-     s += '<label>Rubrik:</label>';
-     s += '<input type="text" class="form-control" name="Caption">';
-     s += '<label>Bild:</label>';
-     s += '<input type="file" name="fileimg"><br>';
-     s += '<label>PDF-fil:</label><br>';
-     s += '<input type="file" name="filepdf"><br>';
-     s += '<input type="submit" class="btn btn-success" name="submit" value="Ladda upp">';
-     s += '</form>';
-     document.getElementById("main").innerHTML += s;
+    s += '<form enctype="multipart/form-data" method="post" action="ajax/upload_file.php" id="newfileform">';
+    s += '<label>Rubrik:</label>';
+    s += '<input type="text" class="form-control" name="Caption">';
+    s += '<label>Bild:</label>';
+    s += '<input type="file" name="fileimg"><br>';
+    s += '<label>PDF-fil:</label><br>';
+    s += '<input type="file" name="filepdf"><br>';
+    s += '<input type="submit" class="btn btn-success" name="submit" value="Ladda upp">';
+    s += '</form>';
+    document.getElementById("main").innerHTML += s;
 
-         $(function() {
+    $(function() {
 
 
         $("#newfileform").ajaxForm({
@@ -1011,15 +1008,17 @@ function add_file(){
 
 function add_file_success(response){
 
-alert(response.responseText);
+    alert(response.responseText);
     if(response.responseText == "OK"){
-    
-    
-
-    //    change_files();
+	//    change_files();
     }
 
     if(response.responseText == 'Error')
         alert("Et fel inträffade. Vänligen kontakta support om problemet kvarstår.");
+}
+
+function remove_file(value) {
+    
+
 }
 
