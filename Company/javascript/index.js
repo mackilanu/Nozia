@@ -14,8 +14,15 @@ $(window).on('load', function() {
 });
 
 $(window).on('load', function() { 
+    var s = "";
+    s += "<ul>"
+    for(var i = 0; i < files.file.length; i++){
 
-    
+	s += "<li><a href='../images/"+ files.file[i].URL +"'>"+ files.file[i].Caption +"</a></li>";
+    }
+    s += "</ul>";
+
+    document.getElementById("Files").innerHTML += s;
     if(fav.status == "not_fav"){
 	var s = "";
 

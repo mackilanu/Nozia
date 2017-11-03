@@ -46,6 +46,8 @@ if($_SESSION['type'] == 1){
  echo "Post = JSON.parse('". CompanyPost() ."');";
  echo "var fav = '';";
  echo "fav = JSON.parse('". read_fav() ."');";
+ echo "var files = '';";
+ echo "files = JSON.parse('". read_files() ."');";
  echo '</script>';
 
 
@@ -104,6 +106,32 @@ function read_likes($Offer){
     return $num_rows;
     
     
+}
+
+function read_files(){
+    $SQL     = "CALL read_company_files('". $_GET['id'] ."')";
+    $message = "SQL-ERROR AT controlpanel/ajax/get_files.php";
+
+    list($num_rows, $result) = opendb($message, $SQL);
+
+    if(!$result)
+        return '{"status": "Error"}';
+
+    if($num_rows == 0)
+        return '{"status": "NoFiles"}';
+
+    $Files = '{"status": "OK", "file": [';
+    for ($i = 0; $i < $num_rows; ++$i) {
+        $row = $result->fetch_array(MYSQLI_ASSOC);
+        if ($i > 0) {
+            $Files .= ',';
+        }
+        $Files .= json_encode($row);
+    }
+    $Files .= ']}';
+    
+    return $Files;   
+
 }
 
 function read_fav(){

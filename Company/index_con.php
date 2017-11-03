@@ -17,14 +17,12 @@
      <h4 id="Dis_adress"></h4>
      <h4 id="Dis_email"></h4>
      </div>
-     <div class="jumbotron">
+     <div class="jumbotron" id="Files">
      Kataloger
      </div>
 
      <div class="jumbotron" id="CompanyPost">
-    
-     
-     
+         
      </div>
 
      </div>

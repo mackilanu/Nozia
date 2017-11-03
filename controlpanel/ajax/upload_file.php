@@ -1,61 +1,48 @@
 <?php
 @session_start();
 
+
 date_default_timezone_set("Europe/Stockholm");
 require_once("../../includes/config.php");
 require_once("../../MySQL/DBconnect.php");
 require_once("../../includes/fileupload.php");
 
-
 $caption = $_POST['Caption'];
 
-echo uploadFile($caption);
+echo upload($caption);
 
-function uploadFile($caption)
+function upload($caption)
 {
+    $read_length = read_length();
 
-     $fileimage = uploadImage();
-
-     if($fileimage == 'Error')
-         return 'Error';
-
-     $filepdf = uploadPdf();
-
+    if($read_length > 2)
+        return "Max";
+    
+    $filepdf = uploadPdf();
     if($filepdf == 'Error')
         return 'Error';
-
-    $result = add_file($filepdf, $caption, $fileimage);
+    
+    $result = add_file($filepdf, $caption);
 
     if($result == 'Error'){
-
-        unlink(FILETARGET . $fileimage);
         unlink(FILETARGET . $filepdf);
         return 'Error';
     }
 
-    return 'OK';
-  
+    return 'OK';  
 }
 
-function uploadImage()
-{
-   
-    $image = uploadfile(FILETARGET, "fileimg");
-     
-    if ($image == "Error") {    
-        return "Error";
-    }
-    
-    if ($image == "ToBig") {
-        return "Error";
-    }
-    
-    if ($image == "NoExists") {
-        return "Error";
-    }
+function read_length() {
 
-    return $image;
+    $SQL     = "CALL read_company_files('". $_SESSION['id']."')";
+    $message_data = "SQL-ERROR AT controlpanel/ajax/upload_background.php";
 
+    list($num_rows, $result) = opendb($message_data, $SQL);
+
+    if(!$result)
+        return 'Error';
+
+    return $num_rows; 
 }
 
 function uploadPdf()
@@ -77,9 +64,9 @@ function uploadPdf()
     return $image;
 }
 
-function add_file($filepdf, $caption, $fileimage)
+function add_file($filepdf, $caption)
 {
-    $SQL = "CALL insert_Company_file('". $_SESSION['id'] ."',  '". $filepdf ."', '". $fileimage ."', '". $caption ."')";
+    $SQL = "CALL insert_Company_file('". $_SESSION['id'] ."',  '". $filepdf ."', '". $caption ."')";
     $message_data = "SQL-ERROR AT controlpanel/ajax/upload_background.php";
 
     list($num_rows, $result) = opendb($message_data, $SQL);
