@@ -68,7 +68,7 @@ define("NAV",'
            
          <li class="nav-item">
           <div class="dropdown" style="top: 10px;">
-           		<a class="dropdown-toggle" data-toggle="dropdown" style="color: #FFF; font-size: 11pt; cursor: pointer;">'. $_SESSION['firstname'] .'
+           		<a class="dropdown-toggle" data-toggle="dropdown" style="color: #FFF; font-size: 11pt; cursor: pointer;">
   				<span class="caret"></span></a>
   				<ul class="dropdown-menu">
     				<li><a href="../mittkonto">Min profil</a></li>
