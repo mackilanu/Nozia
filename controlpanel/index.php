@@ -22,7 +22,10 @@ echo COMPANYNAV;
 
 echo BODY;
 
-require_once("index_con.php");
+if($_SESSION['Category'] == 25)
+    require_once("index_con_forening.php");
+else
+    require_once("index_con.php");    
 
 echo '<link rel="stylesheet" href="../css/foretagindex.css">';
 echo '<script type="text/javascript" src="javascript/index.js"></script>';

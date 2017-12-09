@@ -1,8 +1,6 @@
 <?php
 
-//require_once("../includes/config.php");
-
-//Funktio
+//Establishes a connection to the database
 function opendb($message_data, $SQL){
 
     $mysqli       = new mysqli(DB_HOST, DB_USER, DB_PW, DB_NAME);

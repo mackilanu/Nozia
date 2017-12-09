@@ -1056,3 +1056,160 @@ function remove_file_error(){
     alert("Ett allvarligt fel inträffade. Vänligen kontakta support om problemet kvarstår.");
 
 }
+
+function change_sponsors(){
+    fetch_sponsors();
+   0
+}
+
+function fetch_sponsors() {
+   
+    var instring = '{"ID": "' + ID + '"}';
+
+    var objekt = JSON.parse(instring);
+
+    $.getJSON("ajax/fetch_sponsors.php", objekt)
+        .done(function(data) {
+            fetch_sponsors_success(data);
+        })
+        .fail(function() {
+            fetch_sponsors_error();
+        })
+        .always(function() {
+
+        });
+}
+
+function fetch_sponsors_success(response) {
+
+    var s = "";
+    var y = "";
+    if(response.status == "OK"){
+	s += '<table class="table table-bordered" id=sponsors_table">';
+	s += '<thead>';
+	s += '<tr>';
+	s += '<th>Företagsnamn</th>';
+	s += '<th>Länk</th>';
+	s += '<th>Åtgärd</th>';
+	s += '</tr>';
+	s += '</thead>';
+	s += '<tbody id="sponsors_tbody">';
+	s += '</tbody>';
+	s += '</table>';
+	s += '<button class="btn btn-success" onclick="show_sponsor_form()">Lägg till sponsor</button>';
+	s += '<div class="col-md-12" id="newsponsor"></div>'
+	
+	for(var i = 0; i < response.sponsors.length; i++){
+	    y += '<tr>';
+	    y += '<td>'+ response.sponsors[i].Title +'</td>';
+	    y += '<td>'+ response.sponsors[i].URL +'</td>';
+	    y += '<td><button class="btn btn-danger" value="'+ response.sponsors[i].ID +'" onclick="remove_sponsor(this.value)">Ta bort</button>';
+	    y += '</tr>';
+	}
+
+    }
+
+    if(response.status == "NoSponsors"){
+	s += '<h3>Det finns inga registrerade spnsorer för tillfället.</h3>';
+	s += '<button class="btn btn-success" onclick="show_sponsor_form()">Lägg till sponsor</button>';
+	s += '<div class="col-md-12" id="newsponsor"></div>'
+
+    }
+    
+    if(response.status == "Error"){
+	
+	alert("Ett fel inträffade. Vänligen kontakta support om problemet kvarstår.");
+    }
+
+    document.getElementById("main").innerHTML = s;
+    document.getElementById("sponsors_tbody").innerHTML = y;
+}
+
+
+function show_sponsor_form() {
+
+    var s = "";
+    s += '<form enctype="multipart/form-data" method="post" action="ajax/add_sponsor.php" id="addsponsor_form">';
+    s += '<label>Företagsnamn:</label>';
+    s += '<input type="text" class="form-control" id="txt_Title" name="txt_Title">';
+
+    s += '<label>Länk till hemsida(Frivilligt):</label>';
+    s += '<input type="text" class="form-control" id="txt_URL" name="txt_URL">';
+
+    s += '<label>Logo:</label>';
+    s += '<input type="file" class="form-control" id="txt_Image" name="txt_Image">';
+    s += '<input type="submit" value="Ladda upp" name="submit_sponsor_img" class="btn btn-success">';
+    s += '</form>';
+
+    document.getElementById("newsponsor").innerHTML = s;
+
+    
+$(function() {
+
+
+        $("#addsponsor_form").ajaxForm({
+            beforeSend: function() {
+
+            },
+            uploadProgress: function(event, position, total, percentComplete) {
+            },
+            success: function() {
+             
+            },
+            complete: function(response) {
+                add_sponsor_success(response);
+            }
+        });
+    });
+}
+
+
+function add_sponsor_success(response) {
+
+    alert(response.responseText);
+    if(response.responseText == "OK"){
+	fetch_sponsors();
+    }
+
+     if(response.responseText == "Error"){
+	 
+	alert("Ett fel inträffade. Vänligen kontakta support om problemet kvarstår.");
+    }
+}
+
+function remove_sponsor(ID) {
+    var c = confirm("Vill du verkligen ta bort sponsoren? Tillhörande logo kommer raderas.");
+
+    if(c == false)
+	return;
+    
+    var instring = '{"ID": "' + ID + '"}';
+
+    var objekt = JSON.parse(instring);
+
+    $.getJSON("ajax/remove_sponsor.php", objekt)
+        .done(function(data) {
+            remove_sponsor_success(data);
+        })
+        .fail(function() {
+            remove_sponsor_error();
+        })
+        .always(function() {
+
+        });
+}
+
+function remove_sponsor_success(response) {
+
+    if(response.status == "OK") {
+	fetch_sponsors();
+    }
+    if(response.status == "Error") {
+	alert("Ett fel inträffade. Vänligen kontakta support om problemet kvarstår.");
+    }
+}
+
+function remove_sponsor_error() {
+
+    alert("Ett allvarligt fel inträffade. Vänligen kontakta support om problemet kvarstår.");
+}

@@ -6,13 +6,13 @@ if(!isset($_SESSION['id'])){
 
     header("Location: ../");
 }
- require_once("../includes/config.php");
- require_once("../MySQL/DBconnect.php");
+require_once("../includes/config.php");
+require_once("../MySQL/DBconnect.php");
 
- echo HEAD . "<title>NOZIA - Registrera dig!</title>". CLOSE_HEAD;
+echo HEAD . "<title>NOZIA - Registrera dig!</title>". CLOSE_HEAD;
 
 if($_SESSION['type'] == 0){
- echo NAV;
+    echo NAV;
 
 }
 
@@ -21,62 +21,95 @@ if($_SESSION['type'] == 1){
     echo COMPANYNAV;
 }
 
- echo BODY;
- require_once("index_con.php");
+echo BODY;
+
+if(CompanyCategory() == 25){
+    require_once("index_con_forening.php");
+}else{
+    require_once("index_con.php");
+}
 
 
- echo '<link rel="stylesheet" href="../css/lab.css">';
- echo '<script type="text/javascript" src="javascript/index.js"></script>';
- echo '<script type="text/javascript" src="../includes/common.js"></script>';
 
- echo '<script type="text/javascript">';
- echo "var CS = '". $_SESSION['citystate']."';";
+echo '<link rel="stylesheet" href="../css/lab.css">';
+echo '<script type="text/javascript" src="javascript/index.js"></script>';
+echo '<script type="text/javascript" src="../includes/common.js"></script>';
 
- echo "var Company = ". $_GET['id'] .";";
- echo "var Companies = '';";
- echo "Companies = JSON.parse('". Companies() ."');";
+echo '<script type="text/javascript">';
+echo "var CS = '". $_SESSION['citystate']."';";
 
- echo "var Foretagssida = '';";
- echo "Foretagssida = JSON.parse('". foretagssida() ."');";
+echo "var Company = ". $_GET['id'] .";";
+echo "var Companies = '';";
+echo "Companies = JSON.parse('". Companies() ."');";
 
- echo "var Offers = '';";
- echo "Offers = JSON.parse('". Offer() ."');";
+echo "var Foretagssida = '';";
+echo "Foretagssida = JSON.parse('". foretagssida() ."');";
 
- echo "var Post = '';";
- echo "Post = JSON.parse('". CompanyPost() ."');";
- echo "var fav = '';";
- echo "fav = JSON.parse('". read_fav() ."');";
- echo "var files = '';";
- echo "files = JSON.parse('". read_files() ."');";
- echo '</script>';
+echo "var Offers = '';";
+echo "Offers = JSON.parse('". Offer() ."');";
 
-
- echo CLOSEBODY;
-
- echo END;
+echo "var Post = '';";
+echo "Post = JSON.parse('". CompanyPost() ."');";
+echo "var fav = '';";
+echo "fav = JSON.parse('". read_fav() ."');";
+echo "var files = '';";
+echo "files = JSON.parse('". read_files() ."');";
+echo "var Category = '';";
+echo "Category = ".  CompanyCategory() .";";
+echo '</script>';
 
 
- function Companies(){
+echo CLOSEBODY;
+
+echo END;
+
+function CompanyCategory(){
+
+    $SQL     = "CALL read_companyCategory('". $_GET['id'] ."')";
+
+    //$SQL = "CALL read_Companies()";
+    $message = "SQL ERROR AT Company/index.php FUNCTION CompanyCategory($_GET[id])";
+
+    list($affected_rows, $result) = opendb($message, $SQL);
+
+    if($affected_rows == 0){
+        return '{"status": "NoCompany"}';
+    }
+
+    if(!$result){
+
+        return '{"status": "Error"}';
+    }
+
+    $row = $result->fetch_row();
+
+    return $row[0];
+
+
+} 
+
+
+    function Companies(){
     $SQL     = "CALL read_company('". $_GET['id'] ."')";
 
     //$SQL = "CALL read_Companies()";
     $message = "SQL ERROR AT Company/index.php FUNCTION Companies()";
 
-     list($affected_rows, $result) = opendb($message, $SQL);
+    list($affected_rows, $result) = opendb($message, $SQL);
 
-     if($affected_rows == 0){
-         return '{"status": "NoCompany"}';
+    if($affected_rows == 0){
+        return '{"status": "NoCompany"}';
     }
 
-      if(!$result){
+    if(!$result){
 
         return '{"status": "Error"}';
     }
 
     
-      $likes = array();
+    $likes = array();
 
-       $Company = '{"status": "OK", "Company": [';
+    $Company = '{"status": "OK", "Company": [';
     for ($i = 0; $i < $affected_rows; ++$i){
         $row = $result->fetch_array(MYSQLI_ASSOC);
         if ($i > 0){
@@ -86,11 +119,11 @@ if($_SESSION['type'] == 1){
     }
     $Company         .= ']}';
     
-  $Company = str_replace('\r\n', "<br>", $Company);
-  return $Company;
+    $Company = str_replace('\r\n', "<br>", $Company);
+    return $Company;
 
 
- }
+}
 
 function read_likes($Offer){
     
@@ -100,8 +133,8 @@ function read_likes($Offer){
 
     list($num_rows, $result) = opendb($message, $SQL);
 
-        if(!$result)
-            return 'Error';
+    if(!$result)
+        return 'Error';
 
     return $num_rows;
     
@@ -140,18 +173,18 @@ function read_fav(){
      
     $message = "SQL ERROR AT Company/index.php FUNCTION read_fav('". $_SESSION['id'] ."','". $_GET['id'] ."')";
 
-     list($affected_rows, $result) = opendb($message, $SQL);
+    list($affected_rows, $result) = opendb($message, $SQL);
 
-     if($affected_rows == 0){
-         return '{"status": "not_fav"}';
+    if($affected_rows == 0){
+        return '{"status": "not_fav"}';
     }
 
-      if(!$result){
+    if(!$result){
 
         return '{"status": "Error"}';
     }
 
-       $fav = '{"status": "OK", "fav": [';
+    $fav = '{"status": "OK", "fav": [';
     for ($i = 0; $i < $affected_rows; ++$i){
         $fav = $result->fetch_array(MYSQLI_ASSOC);
         if ($i > 0){
@@ -161,35 +194,35 @@ function read_fav(){
     }
     $fav         .= ']}';
 
-  return $fav;
+    return $fav;
 
     
 }
 
- function Offer(){
+function Offer(){
 
-     $SQL     = "CALL read_offers('". $_GET['id'] ."')";
+    $SQL     = "CALL read_offers('". $_GET['id'] ."')";
      
     //$SQL = "CALL read_Companies()";
     $message = "SQL ERROR AT Company/index.php FUNCTION Offer('". $_GET['id'] ."')";
 
-     list($affected_rows, $result) = opendb($message, $SQL);
+    list($affected_rows, $result) = opendb($message, $SQL);
 
-     if($affected_rows == 0){
-         return '{"status": "NoOffers"}';
+    if($affected_rows == 0){
+        return '{"status": "NoOffers"}';
     }
 
-      if(!$result){
+    if(!$result){
 
         return '{"status": "Error"}';
     }
 
-      $likes = array();
+    $likes = array();
 
-       $Company = '{"status": "OK", "offer": [';
+    $Company = '{"status": "OK", "offer": [';
     for ($i = 0; $i < $affected_rows; ++$i){
         $row = $result->fetch_array(MYSQLI_ASSOC);
-         $likes[] = read_likes($row['ID']);
+        $likes[] = read_likes($row['ID']);
 
         if ($i > 0){
             $Company .=  ',';
@@ -209,30 +242,30 @@ function read_fav(){
 
     $Company .= "]}";
 
-  $Company = str_replace('\r\n', "<br>", $Company);
-  return $Company;
+    $Company = str_replace('\r\n', "<br>", $Company);
+    return $Company;
 
- }
+}
 
- function CompanyPost(){
+function CompanyPost(){
      
-       $SQL     = "CALL read_company_posts('". $_GET['id'] ."')";
+    $SQL     = "CALL read_company_posts('". $_GET['id'] ."')";
 
     //$SQL = "CALL read_Companies()";
     $message = "SQL ERROR AT Company/index.php FUNCTION CompanyPost('". $_GET['id'] ."')";
 
-     list($affected_rows, $result) = opendb($message, $SQL);
+    list($affected_rows, $result) = opendb($message, $SQL);
 
-     if($affected_rows == 0){
-         return '{"status": "NoOffers"}';
+    if($affected_rows == 0){
+        return '{"status": "NoOffers"}';
     }
 
-      if(!$result){
+    if(!$result){
 
         return '{"status": "Error"}';
     }
 
-       $Company = '{"status": "OK", "post": [';
+    $Company = '{"status": "OK", "post": [';
     for ($i = 0; $i < $affected_rows; ++$i){
         $row = $result->fetch_array(MYSQLI_ASSOC);
         if ($i > 0){
@@ -242,29 +275,29 @@ function read_fav(){
     }
     $Company         .= ']}';
     $Company = str_replace('\n\n', "<br>", $Company);
-  return $Company;
+    return $Company;
 
- }
+}
 
- function foretagssida(){
+function foretagssida(){
 
-      $SQL     = "CALL read_Foretagssida('". $_GET['id'] ."')";
+    $SQL     = "CALL read_Foretagssida('". $_GET['id'] ."')";
 
     //$SQL = "CALL read_Companies()";
     $message = "SQL ERROR AT Company/index.php FUNCTION foretagssida('". $_GET['id'] ."')";
 
-     list($affected_rows, $result) = opendb($message, $SQL);
+    list($affected_rows, $result) = opendb($message, $SQL);
 
-     if($affected_rows == 0){
-         return '{"status": "NoCompany"}';
+    if($affected_rows == 0){
+        return '{"status": "NoCompany"}';
     }
 
-      if(!$result){
+    if(!$result){
 
         return '{"status": "Error"}';
     }
 
-       $Company = '{"status": "OK", "foretag": [';
+    $Company = '{"status": "OK", "foretag": [';
     for ($i = 0; $i < $affected_rows; ++$i){
         $row = $result->fetch_array(MYSQLI_ASSOC);
         if ($i > 0){
@@ -274,11 +307,11 @@ function read_fav(){
     }
     $Company         .= ']}';
     $Company = str_replace('\r\n', "<br>", $Company);
-  return $Company;
+    return $Company;
 
 
 
- }
+}
 
 
   
