@@ -1,4 +1,14 @@
-$(window).on('load', function() { 
+$(window).on('load', function() {
+    var sponsor = "";
+
+    for(var i = 0; i < Sponsors.sponsor.length; i++){
+	sponsor += '<div class="col-md-4 col-xs-6">';
+	sponsor += '<a href="'+ Sponsors.sponsor[i].URL +'"><img src="/images/'+ Sponsors.sponsor[i].Image +'" style="width: 100px; height: 100px; margin-top: 10px;">';
+	sponsor += '<h3>'+ Sponsors.sponsor[i].Title +'</h3>';
+	sponsor += ' </div>';
+
+	document.getElementById("sponsors_div").innerHTML = sponsor;
+    }
 
     //Läser in all  befinlig data och sätter dem på rätt plats. 
     //    document.getElementById("welcome-message").innerHTML = "Visar nu " +  Companies.Company[0].Name;
@@ -13,7 +23,9 @@ $(window).on('load', function() {
 
 });
 
-$(window).on('load', function() { 
+$(window).on('load', function() {
+
+    
     var s = "";
     s += "<ul>"
     for(var i = 0; i < files.file.length; i++){
@@ -49,6 +61,7 @@ $(window).on('load', function() {
 	return;
     }
 
+   
     	
     
     for(var i = 0; i < Offers.offer.length; i++){
@@ -86,11 +99,28 @@ $(window).on('load', function() {
 
 });
 
-$(window).on('load', function() { 
 
+$(window).on('load', function() { 
+    alert("hej");
+    var sponsor = "";
+
+    for(var i = 0; i < Sponsors.sponsor.length; i++){
+
+	console.log(Sponsors.sponsor[i].Title);
+	console.log(Sponsors.sponsor[i].URL);
+	sponsor += '<div class="col-md-4 col-xs-6">';
+	sponsor += '<a href="'+ Sponsors.sponsor[i].URL +'"><img src="/images/'+ Sponsors.sponsor[i].Image +'" style="width: 100px; height: 100px; margin-top: 10px;">';
+	sponsor += '<h3>'+ Sponsors.sponsor[i].Title +'</h3>';
+	sponsor += ' </div>';
+
+	document.getElementById("sponsors_div").innerHTML = sponsor;
+    }
+
+});
+$(window).on('load', function() { 
     var s = "";
 
-
+  
     if(Post.post != undefined){
         
         var y = "";

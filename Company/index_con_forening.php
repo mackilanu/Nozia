@@ -31,38 +31,10 @@
 
      </div>
 
-     <div class="col-md-6" style="text-align: center;">
+     <div class="col-md-6" id="sponsors_div" style="text-align: center;">
 
-     <h1>Sponsorer</h1>
+     <h1>Sponsorer</h1> 
 
-     <div class="col-md-4 col-xs-6">
-     <img src="/img/greenlogo.png" style="width: 100px; height: 100px; margin-top: 10px;">
-     </div>
-
-      <div class="col-md-4 col-xs-6">
-     <img src="/img/greenlogo.png" style="width: 100px; height: 100px; margin-top: 10px;">
-     </div>
-
-      <div class="col-md-4 col-xs-6">
-     <img src="/img/greenlogo.png" style="width: 100px; height: 100px; margin-top: 10px;">
-     </div>
-
-      <div class="col-md-4 col-xs-6">
-     <img src="/img/greenlogo.png" style="width: 100px; height: 100px; margin-top: 10px;">
-     </div>
-
-      <div class="col-md-4 col-xs-6">
-     <img src="/img/greenlogo.png" style="width: 100px; height: 100px; margin-top: 10px;">
-     </div>
-
-      <div class="col-md-4 col-xs-6">
-     <img src="/img/greenlogo.png" style="width: 100px; height: 100px; margin-top: 10px;">
-     </div>
-     
-
-     
-
-    
      </div>
 
     
