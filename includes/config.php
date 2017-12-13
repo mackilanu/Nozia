@@ -1,5 +1,4 @@
 <?php
-
 //Database configuration
  @session_start();
 
