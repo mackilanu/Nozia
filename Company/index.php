@@ -29,8 +29,6 @@ if(CompanyCategory() == 25){
     require_once("index_con.php");
 }
 
-
-
 echo '<link rel="stylesheet" href="../css/lab.css">';
 echo '<script type="text/javascript" src="javascript/index.js"></script>';
 echo '<script type="text/javascript" src="../includes/common.js"></script>';

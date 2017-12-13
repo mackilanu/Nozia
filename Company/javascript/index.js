@@ -1,13 +1,15 @@
 $(window).on('load', function() {
     var sponsor = "";
-
-    for(var i = 0; i < Sponsors.sponsor.length; i++){
+   
+    if(Sponsors.status == "OK"){
+	for(var i = 0; i < Sponsors.sponsor.length; i++){
 	sponsor += '<div class="col-md-4 col-xs-6">';
 	sponsor += '<a href="'+ Sponsors.sponsor[i].URL +'"><img src="/images/'+ Sponsors.sponsor[i].Image +'" style="width: 100px; height: 100px; margin-top: 10px;">';
 	sponsor += '<h3>'+ Sponsors.sponsor[i].Title +'</h3>';
 	sponsor += ' </div>';
-
+	
 	document.getElementById("sponsors_div").innerHTML = sponsor;
+	}
     }
 
     //Läser in all  befinlig data och sätter dem på rätt plats. 
@@ -19,18 +21,19 @@ $(window).on('load', function() {
     document.getElementById('iconName').innerHTML   = '<img src="../../images/'+ Companies.Company[0].Icon +'" style="height: auto; width: 200px;">';
     document.getElementById('iconName').innerHTML   += '<p style="text-align:center; font-size: 24pt;">'+ Companies.Company[0].Name +'</p>';
     document.getElementById("CompanyNav").style.backgroundColor = Foretagssida.foretag[0].NavbarColor;
-    document.getElementById('banner').style.backgroundImage = "url('../../images/"+Foretagssida.foretag[0].Banner+"')";
+//   document.getElementById('banner').style.backgroundImage = "url('../../images/"+Foretagssida.foretag[0].Banner+"')";
 
 });
 
 $(window).on('load', function() {
-
     
     var s = "";
-    s += "<ul>"
-    for(var i = 0; i < files.file.length; i++){
+    s += "<ul>";
+    if(files.status == "OK"){
+	for(var i = 0; i < files.file.length; i++){
 
-	s += "<li><a href='../images/"+ files.file[i].URL +"'>"+ files.file[i].Caption +"</a></li>";
+	    s += "<li><a href='../images/"+ files.file[i].URL +"'>"+ files.file[i].Caption +"</a></li>";
+    }
     }
     s += "</ul>";
 
@@ -63,8 +66,8 @@ $(window).on('load', function() {
 
    
     	
-    
-    for(var i = 0; i < Offers.offer.length; i++){
+    if(Offers.status == "OK"){
+	for(var i = 0; i < Offers.offer.length; i++){
 	var likebtn = '<button class="btn btn-default" onclick="Like('+ Offers.offer[i].ID +')"><span class="glyphicon glyphicon-thumbs-up" id="'+ Offers.offer[i].ID +'"></span>Gilla</button>';
 
 	s += '<div class="panel panel-default">';
@@ -91,36 +94,19 @@ $(window).on('load', function() {
 
 	
 	s += '</div>';
-    }
+	}
+    
 
     document.getElementById("Offers").innerHTML = s;
-
-
-
-});
-
-
-$(window).on('load', function() { 
-    alert("hej");
-    var sponsor = "";
-
-    for(var i = 0; i < Sponsors.sponsor.length; i++){
-
-	console.log(Sponsors.sponsor[i].Title);
-	console.log(Sponsors.sponsor[i].URL);
-	sponsor += '<div class="col-md-4 col-xs-6">';
-	sponsor += '<a href="'+ Sponsors.sponsor[i].URL +'"><img src="/images/'+ Sponsors.sponsor[i].Image +'" style="width: 100px; height: 100px; margin-top: 10px;">';
-	sponsor += '<h3>'+ Sponsors.sponsor[i].Title +'</h3>';
-	sponsor += ' </div>';
-
-	document.getElementById("sponsors_div").innerHTML = sponsor;
     }
 
+
 });
-$(window).on('load', function() { 
+
+$(window).on('load', function() {
     var s = "";
 
-  
+   
     if(Post.post != undefined){
         
         var y = "";

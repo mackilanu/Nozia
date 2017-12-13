@@ -19,7 +19,7 @@
       <div  style="overflow:scroll;overflow-x:hidden;overflow-y:scroll; height: 720px;" id="Offers">
      
      </div>
-     <div class="jumbotron">
+     <div class="jumbotron" id="Files">
      Kataloger
      </div>
 
