@@ -1,0 +1,54 @@
+function submit_contact() {
+
+    var name    = document.getElementById("name").value;
+    var email   = document.getElementById("email").value;
+    var subject = document.getElementById("subject").value;
+    var message = document.getElementById("message").value;
+
+    if(!check_string(32 ,name)) {
+	alert("Namnet är för långt. Vänligen ange ett kortare.");
+	return;
+    }
+
+     if(!check_string(64 ,email)) {
+	alert("Email-adressen är för lång. Vänligen ange ett kortare.");
+	return;
+     }
+
+     if(!check_string(32 ,subject)) {
+	alert("Ämnet är för långt. Vänligen ange ett kortare.");
+	return;
+     }
+
+    var instring = '{"name": "' + name + '", "email": "'+ email +'", "subject": "'+ subject +'", "message": "'+ message +'"}';
+    var objekt = JSON.parse(instring);
+
+    $.getJSON("ajax/submit_form.php", objekt)
+        .done(function(data) {
+            submit_contact_success(data);
+        })
+        .fail(function() {
+            submit_contact__error();
+        })
+        .always(function() {
+
+        });
+}
+
+function submit_contact_success(response) {
+
+    if(respons.status == "OK") {
+	alert("Ditt meddelande är nu skickat!");
+    }
+
+    if(response.status == "Error") {
+	alert("Ett fel inträffade. Om problemet kvarstår vänligen kontakta administratör.");
+    }
+}
+
+function check_string(len, val) {
+    
+    if(val.length > len)
+	return false;
+    return true;
+}

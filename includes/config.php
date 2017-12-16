@@ -67,10 +67,12 @@ define("NAV",'
            
          <li class="nav-item">
           <div class="dropdown" style="top: 10px;">
-           		<a class="dropdown-toggle" data-toggle="dropdown" style="color: #FFF; font-size: 11pt; cursor: pointer;">
+           		<a class="dropdown-toggle" data-toggle="dropdown" style="color: #FFF; font-size: 11pt; cursor: pointer;">'. $_SESSION['firstname'] .'
   				<span class="caret"></span></a>
   				<ul class="dropdown-menu">
+	                <li><a href="../kategorier">Start</a></li>
     				<li><a href="../mittkonto">Min profil</a></li>
+                    <li><a href="../contact/index.php">Kontakta oss</a></li>
     				<li><a href="../includes/logout.php">Logga ut</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#myModal" onclick="read_favourites()"> Favoritföretag</a></li>
   				</ul>
