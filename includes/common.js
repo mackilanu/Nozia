@@ -37,7 +37,7 @@ function unseen_offers_success(response){
     
     document.getElementById("notification_num").innerHTML = response.length;
     var s = "";
-    console.log(response);
+    
     for(var i = 0; i < response.length; i++){
 	for(var y = 0; y < Companies.company.length; y++){
 
@@ -56,9 +56,14 @@ function unseen_offers_success(response){
 		s += '</a>';
 	    }
 	    
-	    document.getElementById("notification_body").innerHTML = s;
+	    
 	}
     }
+    if(response.length == 0) {
+
+        s += "<h3>Du har inga notifikationer för tillfället.</h3>";   
+    }
+    document.getElementById("notification_body").innerHTML = s;
 }
 
 function fetch_notifications() {

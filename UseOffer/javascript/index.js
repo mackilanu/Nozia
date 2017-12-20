@@ -1,4 +1,15 @@
 $(document).ready(function() {
+  var instring = '{"user_id": "' + user_id + '", "offer_id": "'+ company_id +'"}';
+  var objekt = JSON.parse(instring);
+    $.getJSON("ajax/update_seen.php", objekt)
+	  .done(function(data) {
+      update_seen_success(data);
+	})
+	.fail(function() {
+	  update_seen_error();
+	})
+	.always(function() {
+	});  
     document.getElementById("btn-container").innerHTML = "Använd erbjudande";
     var s = "";
     if (MyOffer.offer[0].Used == 1) {
@@ -18,20 +29,12 @@ $(document).ready(function() {
     }
     s += '<button class="btn btn-lg btn-success pagination-centered" style="text-align: center;" id="btn_Use" onclick="UseOffer()"  data-toggle="modal" data-target="#myModal">Använd erbjudandet</button>';
     document.getElementById("btn-container").innerHTML = s;
-
-
-    var instring = '{"user_id": "' + user_id + '", "offer_id": "'+ company_id +'"}';
-    var objekt = JSON.parse(instring);
-    $.getJSON("ajax/update_seen.php", objekt)
-	.done(function(data) {
-	})
-	.fail(function() {
-	    update_seen_error();
-	})
-	.always(function() {
-	});
     
 });
+
+function update_seen_success(response) {
+
+}
 
 function update_seen_error(){
 
