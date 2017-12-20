@@ -1,6 +1,6 @@
 $(window).on('load', function() {
     var sponsor = "";
-   
+    if(Sponsors != undefined){
     if(Sponsors.status == "OK"){
 	for(var i = 0; i < Sponsors.sponsor.length; i++){
 	sponsor += '<div class="col-md-4 col-xs-6">';
@@ -10,6 +10,7 @@ $(window).on('load', function() {
 	
 	document.getElementById("sponsors_div").innerHTML = sponsor;
 	}
+    }
     }
 
     //Läser in all  befinlig data och sätter dem på rätt plats. 
@@ -29,10 +30,13 @@ $(window).on('load', function() {
     
     var s = "";
     s += "<ul>";
+
+    if(files != undefined){
     if(files.status == "OK"){
 	for(var i = 0; i < files.file.length; i++){
 
 	    s += "<li><a href='../images/"+ files.file[i].URL +"'>"+ files.file[i].Caption +"</a></li>";
+    }
     }
     }
     s += "</ul>";
@@ -148,7 +152,7 @@ function favorise_company(){
 }
 
 function favorise_company_success(response){
-
+    console.log(response);
     if(response.status == "OK"){
 	var s = "";
 

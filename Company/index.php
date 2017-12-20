@@ -38,6 +38,7 @@ echo "var CS = '". $_SESSION['citystate']."';";
 
 echo "var Company = ". $_GET['id'] .";";
 echo "var Companies = '';";
+echo "var user_id = '". $_SESSION['id'] ."';";
 echo "Companies = JSON.parse('". Companies() ."');";
 
 echo "var Foretagssida = '';";

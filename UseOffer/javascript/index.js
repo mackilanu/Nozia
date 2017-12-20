@@ -1,25 +1,43 @@
 $(document).ready(function() {
-  document.getElementById("btn-container").innerHTML = "Använd erbjudande";
-  var s = "";
-  if (MyOffer.offer[0].Used == 1) {
-    s += '<button class="btn btn-lg btn-default pagination-centered" style="text-align: center;" id="btn_Used">Du har redan använt erbjudandet.</button>';
-    document.getElementById("btn-container").innerHTML = s
-    return;
-  }
-  if (Dagens < Offers.offer[0].StartDate) {
-    s += '<button  class="btn btn-lg btn-danger pagination-centered" id="btn_NotStarted" style="text-align: center;">Erbjudandet har inte påbörjats</button>';
-    document.getElementById("btn-container").innerHTML = s
-    return;
-  }
-  if (Dagens > Offers.offer[0].DueDate) {
-    s += '<button  class="btn btn-lg btn-danger pagination-centered" style="text-align: center;" id="btn_Due" style="text-align: center;">Erbjudandet har gått ut</button>';
-    document.getElementById("btn-container").innerHTML = s
-    return;
-  }
-  s += '<button class="btn btn-lg btn-success pagination-centered" style="text-align: center;" id="btn_Use" onclick="UseOffer()"  data-toggle="modal" data-target="#myModal">Använd erbjudandet</button>';
-  document.getElementById("btn-container").innerHTML = s;
+    document.getElementById("btn-container").innerHTML = "Använd erbjudande";
+    var s = "";
+    if (MyOffer.offer[0].Used == 1) {
+	s += '<button class="btn btn-lg btn-default pagination-centered" style="text-align: center;" id="btn_Used">Du har redan använt erbjudandet.</button>';
+	document.getElementById("btn-container").innerHTML = s
+	return;
+    }
+    if (Dagens < Offers.offer[0].StartDate) {
+	s += '<button  class="btn btn-lg btn-danger pagination-centered" id="btn_NotStarted" style="text-align: center;">Erbjudandet har inte påbörjats</button>';
+	document.getElementById("btn-container").innerHTML = s
+	return;
+    }
+    if (Dagens > Offers.offer[0].DueDate) {
+	s += '<button  class="btn btn-lg btn-danger pagination-centered" style="text-align: center;" id="btn_Due" style="text-align: center;">Erbjudandet har gått ut</button>';
+	document.getElementById("btn-container").innerHTML = s
+	return;
+    }
+    s += '<button class="btn btn-lg btn-success pagination-centered" style="text-align: center;" id="btn_Use" onclick="UseOffer()"  data-toggle="modal" data-target="#myModal">Använd erbjudandet</button>';
+    document.getElementById("btn-container").innerHTML = s;
+
+
+    var instring = '{"user_id": "' + user_id + '", "offer_id": "'+ company_id +'"}';
+    var objekt = JSON.parse(instring);
+    $.getJSON("ajax/update_seen.php", objekt)
+	.done(function(data) {
+	})
+	.fail(function() {
+	    update_seen_error();
+	})
+	.always(function() {
+	});
+    
 });
 
+function update_seen_error(){
+
+    alert("Ett fel har inträffat. Om detta meddelande inte försvinner när du uppdaterar sidan igen, vänligen kontakta administratör.");
+    
+}
 function UseOffer() {
   var s = "";
   s += "<p style='text-align: center;'>Användare: " + User.user[0].Fname + "</p>";

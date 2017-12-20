@@ -25,6 +25,8 @@ require_once ("index_con.php");
 echo '<link rel="stylesheet" href="../css/lab.css">';
 echo '<script type="text/javascript" src="javascript/index.js"></script>';
 echo '<script type="text/javascript">';
+echo 'var user_id = "'. $_SESSION['id'] .'";';
+echo 'var company_id = "'. $_GET['Offer'] .'";';
 echo "var Offers = '';";
 echo "Offers = JSON.parse('" . Offer() . "');";
 echo 'var Dagens = "' . date('Y-m-d') . '";';

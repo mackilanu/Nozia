@@ -20,8 +20,23 @@ $(window).on('load', function() {
     s += '<li class="nav-item" style="top: 10px; width: 100px;">';
     s += '<button class="btn btn-info" onclick="reset_settings()">Återställ val</button>';
     s += '</li>';
-
     document.getElementById("userNavCon").innerHTML += s;
+
+    var s = "";
+    s += '<a href="#">';
+    s += '<div class="panel panel-default">';
+    s += '<div class="panel-body">';
+    s += '<div claSs="col-md-4">';
+    s += '<img src="../img/greenlogo.png" style="width: 50px; height: 50px;">';
+    s += '</div>';
+    s += '<div class="col-md-8">';
+    s += '<p style="margin-top: 15px;">Nozia har lagt upp ett nytt erbjudande!</p>';
+    s += '</div>';
+    s += '</div>';
+    s += '</div>';
+    s += '</a>';
+
+    document.getElementById("notification_body").innerHTML = s;
 
     var s = "";
   

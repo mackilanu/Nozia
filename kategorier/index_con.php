@@ -21,9 +21,7 @@
         <h4 class="modal-title">Mina favoritföretag</h4>
       </div>
       <div class="modal-body" id="modal_favs">
-      		<div id="example-company" style=" overflow-y: hidden;">
-
-           
+      		<div id="example-company" style=" overflow-y: hidden;">      
       		</div>
       </div>
       <div class="modal-footer">
@@ -33,3 +31,4 @@
 
   </div>
 </div>
+

@@ -34,6 +34,26 @@ define("CLOSE_HEAD", "</head><body>");
 
 
 define("BODY", '
+  <div class="modal" id="notification_modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title">Händelser</h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="notification_body">
+     
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
                <div class="container">
 	           <div class="row">		
                <div id="container">
@@ -47,7 +67,6 @@ define("END", '
 		
 </html>
 	');
-
 
 define("NAV",'
 
@@ -77,9 +96,12 @@ define("NAV",'
                     <li><a href="#" data-toggle="modal" data-target="#myModal" onclick="read_favourites()"> Favoritföretag</a></li>
   				</ul>
 			</div>
+
       </li>
+
         </ul>
 	</div>
+
   </div>
 </nav>');
 
