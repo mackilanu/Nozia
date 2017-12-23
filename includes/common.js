@@ -15,23 +15,36 @@ $(window).on('load', function() {
 
     document.getElementById("userNavCon").innerHTML += s;
 
-
-    
     var instring = '{"user_id" : "' + user_id + '" }';
 
     var object  = JSON.parse(instring);
-
     $.getJSON("../ajax/read_unseen_offers.php", object)
         .done(function(data) {
             unseen_offers_success(data);
         })
         .fail(function() {
-            alert("Nö könstigt hände");
+            alert("Ett fel med notifikationerna har inträffat. Vänligen kontakta administratör om problemet kvarstår.");
         })
         .always(function() {
         })
 
 });
+
+setInterval(function() { 
+    var instring = '{"user_id" : "' + user_id + '" }';
+
+    var object  = JSON.parse(instring);
+    $.getJSON("../ajax/read_unseen_offers.php", object)
+        .done(function(data) {
+            unseen_offers_success(data);
+        })
+        .fail(function() {
+            alert("Ett fel med notifikationerna har inträffat. Vänligen kontakta administratör om problemet kvarstår.");
+        })
+        .always(function() {
+        })
+}, 3000);
+
 
 function unseen_offers_success(response){
     
@@ -39,28 +52,26 @@ function unseen_offers_success(response){
     var s = "";
     
     for(var i = 0; i < response.length; i++){
-	for(var y = 0; y < Companies.company.length; y++){
+	    for(var y = 0; y < Companies.company.length; y++){
 
-	    if(Companies.company[y].ID == response[i].CompanyID){
-		s += '<a href="../UseOffer/?Offer='+ response[i].ID +'">';
-		s += '<div class="panel panel-default">';
-		s += '<div class="panel-body">';
-		s += '<div claSs="col-md-4">';
-		s += '<img src="../images/'+ Companies.company[y].Icon +'" style="width: 50px; height: 50px;">';
-		s += '</div>';
-		s += '<div class="col-md-8">';
-		s += '<p style="margin-top: 15px;">'+ Companies.company[y].Name +' har lagt upp ett nytt erbjudande!</p>';
-		s += '</div>';
-		s += '</div>';
-		s += '</div>';
-		s += '</a>';
-	    }
-	    
-	    
+	        if(Companies.company[y].ID == response[i].CompanyID){
+		    s += '<a href="../UseOffer/?Offer='+ response[i].ID +'">';
+		    s += '<div class="panel panel-default">';
+		    s += '<div class="panel-body">';
+		    s += '<div claSs="col-md-4">';
+		    s += '<img src="../images/'+ Companies.company[y].Icon +'" style="width: 50px; height: 50px;">';
+		    s += '</div>';
+		    s += '<div class="col-md-8">';
+		    s += '<p style="margin-top: 15px;">'+ Companies.company[y].Name +' har lagt upp ett nytt erbjudande!</p>';
+		    s += '</div>';
+		    s += '</div>';
+		    s += '</div>';
+		    s += '</a>';
+	    }	    
 	}
-    }
+}
+    
     if(response.length == 0) {
-
         s += "<h3>Du har inga notifikationer för tillfället.</h3>";   
     }
     document.getElementById("notification_body").innerHTML = s;

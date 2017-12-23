@@ -8,10 +8,7 @@ $user_id = $_SESSION['id'];
 echo read_unseen_offers($user_id);
 function read_unseen_offers($user_id)
 {
-    
-
     $favs = get_favs($user_id);
-
 
     $offers = get_offers();
 
@@ -25,7 +22,6 @@ function read_unseen_offers($user_id)
             }
         }
     }
-
 
     $myoffers = read_MyOffers($user_id);
     $unseen = array();
